@@ -25,24 +25,21 @@ Run 'just docs' to regenerate.
 
 The following requirements are needed by this module:
 
-- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.4)
+- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.9)
 
-- <a name="requirement_mongodbatlas"></a> [mongodbatlas](#requirement\_mongodbatlas) (>= 2.6.0)
+- <a name="requirement_mongodbatlas"></a> [mongodbatlas](#requirement\_mongodbatlas) (~> 2.6)
 
 ## Providers
 
 The following providers are used by this module:
 
-- <a name="provider_mongodbatlas"></a> [mongodbatlas](#provider\_mongodbatlas) (>= 2.6.0)
-
-- <a name="provider_terraform"></a> [terraform](#provider\_terraform)
+- <a name="provider_mongodbatlas"></a> [mongodbatlas](#provider\_mongodbatlas) (~> 2.6)
 
 ## Resources
 
 The following resources are used by this module:
 
 - [mongodbatlas_organization.this](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/resources/organization) (resource)
-- [terraform_data.validation](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) (resource)
 
 <!-- BEGIN_TF_INPUTS_RAW -->
 <!-- @generated
@@ -123,8 +120,7 @@ Default: `null`
 
 ### <a name="input_resource_policies"></a> [resource\_policies](#input\_resource\_policies)
 
-Description: Resource policy configuration. When set, the resource\_policy submodule is enabled.  
-Secure-by-default policies (block\_wildcard\_ip, require\_maintenance\_window) default to true.
+Description: Resource policy configuration. When set, the resource\_policy submodule is enabled. Secure-by-default policies (block\_wildcard\_ip, require\_maintenance\_window) default to true.
 
 Type:
 
