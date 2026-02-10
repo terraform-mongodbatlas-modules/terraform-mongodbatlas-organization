@@ -1,4 +1,4 @@
-# Organization Terraform Module
+# MongoDB Atlas Organization Terraform Module
 
 Description of the module
 
