@@ -1,9 +1,5 @@
 mock_provider "mongodbatlas" {}
 
-# =============================================================================
-# Positive: create new organization with all required fields
-# =============================================================================
-
 run "create_new_org" {
   command = plan
 
@@ -30,10 +26,6 @@ run "create_new_org" {
     error_message = "resource_policy_ids should be empty before submodule wiring."
   }
 }
-
-# =============================================================================
-# Positive: use existing organization (skip creation)
-# =============================================================================
 
 run "use_existing_org" {
   command = plan
@@ -73,10 +65,6 @@ run "use_existing_org" {
   }
 }
 
-# =============================================================================
-# Positive: create org with optional settings
-# =============================================================================
-
 run "create_org_with_settings" {
   command = plan
 
@@ -104,10 +92,7 @@ run "create_org_with_settings" {
   }
 }
 
-# =============================================================================
-# Validation: creation-only attrs must not be set when org_id is provided
-# =============================================================================
-
+# Validation: creation-only attrs rejected when org_id is set
 run "validation_creation_attrs_conflict_with_org_id" {
   command = plan
 
@@ -172,15 +157,9 @@ run "validation_federation_settings_id_conflicts_with_org_id" {
   expect_failures = [terraform_data.validation]
 }
 
-# =============================================================================
-# Validation: name is required when creating a new organization
-# =============================================================================
+# Required fields for creation
 
-# =============================================================================
-# Lifecycle: required fields for organization creation
-# =============================================================================
-
-run "lifecycle_org_owner_id_required" {
+run "org_owner_id_required" {
   command = plan
 
   providers = {
@@ -193,7 +172,6 @@ run "lifecycle_org_owner_id_required" {
     name        = "test-org"
     description = "test key"
     role_names  = ["ORG_OWNER"]
-    # org_owner_id intentionally omitted
   }
 
   expect_failures = [mongodbatlas_organization.this]
@@ -212,7 +190,6 @@ run "lifecycle_description_required" {
     name         = "test-org"
     org_owner_id = "6578a5f6c776211a7f4e41b2"
     role_names   = ["ORG_OWNER"]
-    # description intentionally omitted
   }
 
   expect_failures = [mongodbatlas_organization.this]
@@ -231,7 +208,6 @@ run "lifecycle_role_names_required" {
     name         = "test-org"
     org_owner_id = "6578a5f6c776211a7f4e41b2"
     description  = "test key"
-    # role_names intentionally omitted
   }
 
   expect_failures = [mongodbatlas_organization.this]
