@@ -1,4 +1,4 @@
-# {Module-Name} Terraform Module
+# Organization Terraform Module
 
 Description of the module
 
