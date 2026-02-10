@@ -177,7 +177,7 @@ run "org_owner_id_required" {
   expect_failures = [mongodbatlas_organization.this]
 }
 
-run "lifecycle_description_required" {
+run "description_required" {
   command = plan
 
   providers = {
@@ -195,7 +195,7 @@ run "lifecycle_description_required" {
   expect_failures = [mongodbatlas_organization.this]
 }
 
-run "lifecycle_role_names_required" {
+run "role_names_required" {
   command = plan
 
   providers = {
