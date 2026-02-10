@@ -13,6 +13,7 @@ run "create_new_org" {
   }
 
   variables {
+    org_id       = null
     name         = "test-org"
     org_owner_id = "6578a5f6c776211a7f4e41b2"
     description  = "programmatic API key for test-org"
@@ -85,6 +86,7 @@ run "create_org_with_settings" {
   }
 
   variables {
+    org_id                     = null
     name                       = "test-org-full"
     org_owner_id               = "6578a5f6c776211a7f4e41b2"
     description                = "programmatic API key"
@@ -187,6 +189,7 @@ run "lifecycle_org_owner_id_required" {
   }
 
   variables {
+    org_id      = null
     name        = "test-org"
     description = "test key"
     role_names  = ["ORG_OWNER"]
@@ -205,6 +208,7 @@ run "lifecycle_description_required" {
   }
 
   variables {
+    org_id       = null
     name         = "test-org"
     org_owner_id = "6578a5f6c776211a7f4e41b2"
     role_names   = ["ORG_OWNER"]
@@ -223,6 +227,7 @@ run "lifecycle_role_names_required" {
   }
 
   variables {
+    org_id       = null
     name         = "test-org"
     org_owner_id = "6578a5f6c776211a7f4e41b2"
     description  = "test key"
