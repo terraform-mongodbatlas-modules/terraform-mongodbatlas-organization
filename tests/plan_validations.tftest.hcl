@@ -106,7 +106,7 @@ run "validation_creation_attrs_conflict_with_org_id" {
     org_owner_id = "should-not-be-set"
   }
 
-  expect_failures = [terraform_data.validation]
+  expect_failures = [var.org_id]
 }
 
 run "validation_description_conflicts_with_org_id" {
@@ -122,7 +122,7 @@ run "validation_description_conflicts_with_org_id" {
     description = "should-not-be-set"
   }
 
-  expect_failures = [terraform_data.validation]
+  expect_failures = [var.org_id]
 }
 
 run "validation_role_names_conflict_with_org_id" {
@@ -138,7 +138,7 @@ run "validation_role_names_conflict_with_org_id" {
     role_names = ["ORG_OWNER"]
   }
 
-  expect_failures = [terraform_data.validation]
+  expect_failures = [var.org_id]
 }
 
 run "validation_federation_settings_id_conflicts_with_org_id" {
@@ -154,7 +154,7 @@ run "validation_federation_settings_id_conflicts_with_org_id" {
     federation_settings_id = "should-not-be-set"
   }
 
-  expect_failures = [terraform_data.validation]
+  expect_failures = [var.org_id]
 }
 
 # Required fields for creation

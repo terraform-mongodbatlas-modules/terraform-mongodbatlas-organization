@@ -5,13 +5,13 @@ output "org_id" {
 
 output "public_key" {
   description = "Public key of the programmatic API key created with the organization. Null when using an existing org."
-  value       = var.org_id == null ? mongodbatlas_organization.this[0].public_key : null
+  value       = local.create_org ? mongodbatlas_organization.this[0].public_key : null
   sensitive   = true
 }
 
 output "private_key" {
   description = "Private key of the programmatic API key created with the organization. Null when using an existing org."
-  value       = var.org_id == null ? mongodbatlas_organization.this[0].private_key : null
+  value       = local.create_org ? mongodbatlas_organization.this[0].private_key : null
   sensitive   = true
 }
 

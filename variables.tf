@@ -1,24 +1,32 @@
-# -----------------------------------------------------------------------------
-# Module-level variables
-# -----------------------------------------------------------------------------
-
 variable "name" {
   description = "Name of the organization. Required when creating a new organization (org_id is not set)."
   type        = string
   default     = null
+
+  validation {
+    condition     = var.org_id != null || var.name != null
+    error_message = "Variable name is required when creating a new organization (org_id is not set)."
+  }
 }
 
 variable "org_id" {
   description = "ID of an existing organization to manage. When set, the module skips creation and uses this org instead."
   type        = string
   default     = null
+
+  validation {
+    condition = var.org_id != null ? alltrue([
+      var.org_owner_id == null,
+      var.description == null,
+      var.role_names == null,
+      var.federation_settings_id == null,
+    ]) : true
+    error_message = "Variables org_owner_id, description, role_names, and federation_settings_id must not be set when using an existing organization (org_id is provided)."
+  }
 }
 
 variable "resource_policies" {
-  description = <<-EOT
-    Resource policy configuration. When set, the resource_policy submodule is enabled.
-    Secure-by-default policies (block_wildcard_ip, require_maintenance_window) default to true.
-  EOT
+  description = "Resource policy configuration. When set, the resource_policy submodule is enabled. Secure-by-default policies (block_wildcard_ip, require_maintenance_window) default to true."
   type = object({
     block_wildcard_ip              = optional(bool, true)
     require_maintenance_window     = optional(bool, true)
@@ -32,10 +40,6 @@ variable "resource_policies" {
   })
   default = null
 }
-
-# -----------------------------------------------------------------------------
-# Organization resource variables (creation-only unless noted)
-# -----------------------------------------------------------------------------
 
 variable "org_owner_id" {
   description = "Atlas user ID to assign as Organization Owner. Required on creation, cannot be updated."
@@ -60,10 +64,6 @@ variable "federation_settings_id" {
   type        = string
   default     = null
 }
-
-# -----------------------------------------------------------------------------
-# Organization settings (can be updated)
-# -----------------------------------------------------------------------------
 
 variable "api_access_list_required" {
   description = "Require API operations to originate from an IP in the organization's API access list."
