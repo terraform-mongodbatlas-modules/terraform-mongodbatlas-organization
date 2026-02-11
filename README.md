@@ -43,134 +43,130 @@ The following resources are used by this module:
 
 <!-- BEGIN_TF_INPUTS_RAW -->
 <!-- @generated
-WARNING: Inputs section below is processed and grouped by generate_inputs_from_readme.py. Do not edit directly.
+WARNING: This grouped inputs section is auto-generated. Do not edit directly.
 Changes will be overwritten when documentation is regenerated.
+Run 'just docs' to regenerate.
 -->
-## Required Inputs
+## Optional Variables
 
-No required inputs.
+### api_access_list_required
 
-## Optional Inputs
-
-The following input variables are optional (have default values):
-
-### <a name="input_api_access_list_required"></a> [api\_access\_list\_required](#input\_api\_access\_list\_required)
-
-Description: Require API operations to originate from an IP in the organization's API access list.
+Require API operations to originate from an IP in the organization's API access list.
 
 Type: `bool`
 
 Default: `null`
 
-### <a name="input_description"></a> [description](#input\_description)
+### description
 
-Description: Description for the initial programmatic API key created with the organization. Required on creation, cannot be updated.
-
-Type: `string`
-
-Default: `null`
-
-### <a name="input_existing_org_id"></a> [existing\_org\_id](#input\_existing\_org\_id)
-
-Description: ID of an existing organization to manage. When set, the module skips creation and uses this org instead.
+Description for the initial programmatic API key created with the organization. Required on creation, cannot be updated.
 
 Type: `string`
 
 Default: `null`
 
-### <a name="input_federation_settings_id"></a> [federation\_settings\_id](#input\_federation\_settings\_id)
+### existing_org_id
 
-Description: Federation ID to link the new organization to. Cannot be updated after creation.
+ID of an existing organization to manage. When set, the module skips creation and uses this org instead.
 
 Type: `string`
 
 Default: `null`
 
-### <a name="input_gen_ai_features_enabled"></a> [gen\_ai\_features\_enabled](#input\_gen\_ai\_features\_enabled)
+### federation_settings_id
 
-Description: Enable generative AI features for this organization (Atlas Commercial only, defaults to true in Atlas).
+Federation ID to link the new organization to. Cannot be updated after creation.
+
+Type: `string`
+
+Default: `null`
+
+### gen_ai_features_enabled
+
+Enable generative AI features for this organization (Atlas Commercial only, defaults to true in Atlas).
 
 Type: `bool`
 
 Default: `null`
 
-### <a name="input_multi_factor_auth_required"></a> [multi\_factor\_auth\_required](#input\_multi\_factor\_auth\_required)
+### multi_factor_auth_required
 
-Description: Require users to set up MFA before accessing the organization. Defaults to true as a secure-by-default setting.
+Require users to set up MFA before accessing the organization. Defaults to true as a secure-by-default setting.
 
 Type: `bool`
 
 Default: `true`
 
-### <a name="input_name"></a> [name](#input\_name)
+### name
 
-Description: Name of the organization. Required when creating a new organization (org\_id is not set).
-
-Type: `string`
-
-Default: `null`
-
-### <a name="input_org_owner_id"></a> [org\_owner\_id](#input\_org\_owner\_id)
-
-Description: Atlas user ID to assign as Organization Owner. Required on creation, cannot be updated.
+Name of the organization. Required when creating a new organization (org_id is not set).
 
 Type: `string`
 
 Default: `null`
 
-### <a name="input_resource_policies"></a> [resource\_policies](#input\_resource\_policies)
+### org_owner_id
 
-Description: Resource policy configuration. When set, the resource\_policy submodule is enabled. Secure-by-default policies (block\_wildcard\_ip, require\_maintenance\_window) default to true.
+Atlas user ID to assign as Organization Owner. Required on creation, cannot be updated.
+
+Type: `string`
+
+Default: `null`
+
+### resource_policies
+
+Resource policy configuration. When set, the resource_policy submodule is enabled. Secure-by-default policies (block_wildcard_ip, require_maintenance_window) default to true.
 
 Type:
 
 ```hcl
 object({
-    block_wildcard_ip              = optional(bool, true)
-    require_maintenance_window     = optional(bool, true)
-    cluster_tier_limits            = optional(object({ min = string, max = string }))
-    allowed_cloud_providers        = optional(list(string))
-    allowed_regions                = optional(list(string))
-    restrict_private_endpoint_mods = optional(bool)
-    restrict_vpc_peering_mods      = optional(bool)
-    restrict_ip_access_list_mods   = optional(bool)
-    tls_ciphers                    = optional(list(string))
-  })
+  block_wildcard_ip              = optional(bool, true)
+  require_maintenance_window     = optional(bool, true)
+  cluster_tier_limits            = optional(object({ min = string, max = string }))
+  allowed_cloud_providers        = optional(list(string))
+  allowed_regions                = optional(list(string))
+  restrict_private_endpoint_mods = optional(bool)
+  restrict_vpc_peering_mods      = optional(bool)
+  restrict_ip_access_list_mods   = optional(bool)
+  tls_ciphers                    = optional(list(string))
+})
 ```
 
 Default: `null`
 
-### <a name="input_restrict_employee_access"></a> [restrict\_employee\_access](#input\_restrict\_employee\_access)
+### restrict_employee_access
 
-Description: Block MongoDB Support from accessing Atlas infrastructure without explicit permission. Defaults to true as a secure-by-default setting. A 24-hour bypass can be granted when needed.
+Block MongoDB Support from accessing Atlas infrastructure without explicit permission. Defaults to true as a secure-by-default setting. A 24-hour bypass can be granted when needed.
 
 Type: `bool`
 
 Default: `true`
 
-### <a name="input_role_names"></a> [role\_names](#input\_role\_names)
+### role_names
 
-Description: Roles for the initial programmatic API key (e.g. ["ORG\_OWNER"]). Required on creation, cannot be updated.
+Roles for the initial programmatic API key (e.g. ["ORG_OWNER"]). Required on creation, cannot be updated.
 
 Type: `list(string)`
 
 Default: `null`
 
-### <a name="input_security_contact"></a> [security\_contact](#input\_security\_contact)
+### security_contact
 
-Description: Email address to receive security-related notifications for the organization.
+Email address to receive security-related notifications for the organization.
 
 Type: `string`
 
 Default: `null`
 
-### <a name="input_skip_default_alerts_settings"></a> [skip\_default\_alerts\_settings](#input\_skip\_default\_alerts\_settings)
+### skip_default_alerts_settings
 
-Description: Skip creation of default alert settings when creating the organization.
+Skip creation of default alert settings when creating the organization.
 
 Type: `bool`
 
 Default: `null`
+
 <!-- END_TF_INPUTS_RAW -->
 
 ## Outputs
