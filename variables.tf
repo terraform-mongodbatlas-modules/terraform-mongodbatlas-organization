@@ -44,10 +44,10 @@ variable "existing_org_id" {
 }
 
 variable "resource_policies" {
-  description = "Resource policy configuration. When set, the resource_policy submodule is enabled. Secure-by-default policies (block_wildcard_ip, require_maintenance_window) default to true."
+  description = "Resource policy configuration. When set, the resource_policy submodule is enabled. All policies are opt-in: set individual policies to enforce them."
   type = object({
-    block_wildcard_ip              = optional(bool, true)
-    require_maintenance_window     = optional(bool, true)
+    block_wildcard_ip              = optional(bool, false)
+    require_maintenance_window     = optional(bool, false)
     cluster_tier_limits            = optional(object({ min = string, max = string }))
     allowed_cloud_providers        = optional(list(string))
     allowed_regions                = optional(list(string))
