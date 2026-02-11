@@ -96,7 +96,7 @@ variable "organization_settings" {
 }
 
 variable "skip_default_alerts_settings" {
-  description = "Skip creation of default alert settings when creating the organization."
+  description = "Skip creation of default alert settings when creating the organization. When null, Atlas applies its own default (false), meaning default org-level alerts are created. See: https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-createorg"
   type        = bool
   default     = null
 }

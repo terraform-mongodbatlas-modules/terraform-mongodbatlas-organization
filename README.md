@@ -139,7 +139,7 @@ Default: `null`
 
 ### skip_default_alerts_settings
 
-Skip creation of default alert settings when creating the organization.
+Skip creation of default alert settings when creating the organization. When null, Atlas applies its own default (false), meaning default org-level alerts are created. See: https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-createorg
 
 Type: `bool`
 
