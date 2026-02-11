@@ -14,15 +14,16 @@ variable "existing_org_id" {
   type        = string
   default     = null
 
-  # Existing org: creation-only attrs must not be set.
+  # Existing org: creation-only attrs and organization_settings must not be set.
   validation {
     condition = var.existing_org_id != null ? alltrue([
       var.org_owner_id == null,
       var.description == null,
       var.role_names == null,
       var.federation_settings_id == null,
+      var.organization_settings == null,
     ]) : true
-    error_message = "Variables org_owner_id, description, role_names, and federation_settings_id must not be set when using an existing organization (existing_org_id is provided)."
+    error_message = "Variables org_owner_id, description, role_names, federation_settings_id, and organization_settings must not be set when using an existing organization (existing_org_id is provided)."
   }
 
   # New org: required creation attrs must be provided.
@@ -82,34 +83,16 @@ variable "federation_settings_id" {
   default     = null
 }
 
-variable "api_access_list_required" {
-  description = "Require API operations to originate from an IP in the organization's API access list."
-  type        = bool
-  default     = null
-}
-
-variable "multi_factor_auth_required" {
-  description = "Require users to set up MFA before accessing the organization. Defaults to true as a secure-by-default setting."
-  type        = bool
-  default     = true
-}
-
-variable "restrict_employee_access" {
-  description = "Block MongoDB Support from accessing Atlas infrastructure without explicit permission. Defaults to true as a secure-by-default setting. A 24-hour bypass can be granted when needed."
-  type        = bool
-  default     = true
-}
-
-variable "gen_ai_features_enabled" {
-  description = "Enable generative AI features for this organization (Atlas Commercial only, defaults to true in Atlas)."
-  type        = bool
-  default     = null
-}
-
-variable "security_contact" {
-  description = "Email address to receive security-related notifications for the organization."
-  type        = string
-  default     = null
+variable "organization_settings" {
+  description = "Organization settings to manage. When set, the module configures these on the organization. Must not be set when using existing_org_id (the module does not manage the org resource in that case). Secure-by-default: multi_factor_auth_required and restrict_employee_access default to true."
+  type = object({
+    api_access_list_required   = optional(bool)
+    multi_factor_auth_required = optional(bool, true)
+    restrict_employee_access   = optional(bool, true)
+    gen_ai_features_enabled    = optional(bool)
+    security_contact           = optional(string)
+  })
+  default = null
 }
 
 variable "skip_default_alerts_settings" {

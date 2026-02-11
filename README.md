@@ -49,14 +49,6 @@ Run 'just docs' to regenerate.
 -->
 ## Optional Variables
 
-### api_access_list_required
-
-Require API operations to originate from an IP in the organization's API access list.
-
-Type: `bool`
-
-Default: `null`
-
 ### description
 
 Description for the initial programmatic API key created with the organization. Required on creation, cannot be updated.
@@ -81,22 +73,6 @@ Type: `string`
 
 Default: `null`
 
-### gen_ai_features_enabled
-
-Enable generative AI features for this organization (Atlas Commercial only, defaults to true in Atlas).
-
-Type: `bool`
-
-Default: `null`
-
-### multi_factor_auth_required
-
-Require users to set up MFA before accessing the organization. Defaults to true as a secure-by-default setting.
-
-Type: `bool`
-
-Default: `true`
-
 ### name
 
 Name of the organization. Required when creating a new organization (org_id is not set).
@@ -110,6 +86,24 @@ Default: `null`
 Atlas user ID to assign as Organization Owner. Required on creation, cannot be updated.
 
 Type: `string`
+
+Default: `null`
+
+### organization_settings
+
+Organization settings to manage. When set, the module configures these on the organization. Must not be set when using existing_org_id (the module does not manage the org resource in that case). Secure-by-default: multi_factor_auth_required and restrict_employee_access default to true.
+
+Type:
+
+```hcl
+object({
+  api_access_list_required   = optional(bool)
+  multi_factor_auth_required = optional(bool, true)
+  restrict_employee_access   = optional(bool, true)
+  gen_ai_features_enabled    = optional(bool)
+  security_contact           = optional(string)
+})
+```
 
 Default: `null`
 
@@ -135,27 +129,11 @@ object({
 
 Default: `null`
 
-### restrict_employee_access
-
-Block MongoDB Support from accessing Atlas infrastructure without explicit permission. Defaults to true as a secure-by-default setting. A 24-hour bypass can be granted when needed.
-
-Type: `bool`
-
-Default: `true`
-
 ### role_names
 
 Roles for the initial programmatic API key (e.g. ["ORG_OWNER"]). Required on creation, cannot be updated.
 
 Type: `list(string)`
-
-Default: `null`
-
-### security_contact
-
-Email address to receive security-related notifications for the organization.
-
-Type: `string`
 
 Default: `null`
 
