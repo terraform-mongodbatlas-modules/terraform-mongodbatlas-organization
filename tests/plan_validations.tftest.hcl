@@ -9,11 +9,11 @@ run "create_new_org" {
   }
 
   variables {
-    org_id       = null
-    name         = "test-org"
-    org_owner_id = "6578a5f6c776211a7f4e41b2"
-    description  = "programmatic API key for test-org"
-    role_names   = ["ORG_OWNER"]
+    existing_org_id = null
+    name            = "test-org"
+    org_owner_id    = "6578a5f6c776211a7f4e41b2"
+    description     = "programmatic API key for test-org"
+    role_names      = ["ORG_OWNER"]
   }
 
   assert {
@@ -36,17 +36,17 @@ run "use_existing_org" {
   }
 
   variables {
-    org_id = "6578a5f6c776211a7f4e41b2"
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
   }
 
   assert {
     condition     = length(mongodbatlas_organization.this) == 0
-    error_message = "Expected no organization resource when org_id is provided."
+    error_message = "Expected no organization resource when existing_org_id is provided."
   }
 
   assert {
     condition     = output.org_id == "6578a5f6c776211a7f4e41b2"
-    error_message = "org_id output should match the provided org_id."
+    error_message = "existing_org_id output should match the provided existing_org_id."
   }
 
   assert {
@@ -74,7 +74,7 @@ run "create_org_with_settings" {
   }
 
   variables {
-    org_id                     = null
+    existing_org_id            = null
     name                       = "test-org-full"
     org_owner_id               = "6578a5f6c776211a7f4e41b2"
     description                = "programmatic API key"
@@ -92,8 +92,8 @@ run "create_org_with_settings" {
   }
 }
 
-# Validation: creation-only attrs rejected when org_id is set
-run "validation_creation_attrs_conflict_with_org_id" {
+# Validation: creation-only attrs rejected when existing_org_id is set
+run "validation_creation_attrs_conflict_with_existing_org_id" {
   command = plan
 
   providers = {
@@ -102,14 +102,14 @@ run "validation_creation_attrs_conflict_with_org_id" {
   }
 
   variables {
-    org_id       = "6578a5f6c776211a7f4e41b2"
-    org_owner_id = "should-not-be-set"
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
+    org_owner_id    = "should-not-be-set"
   }
 
-  expect_failures = [var.org_id]
+  expect_failures = [var.existing_org_id]
 }
 
-run "validation_description_conflicts_with_org_id" {
+run "validation_description_conflicts_with_existing_org_id" {
   command = plan
 
   providers = {
@@ -118,14 +118,14 @@ run "validation_description_conflicts_with_org_id" {
   }
 
   variables {
-    org_id      = "6578a5f6c776211a7f4e41b2"
-    description = "should-not-be-set"
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
+    description     = "should-not-be-set"
   }
 
-  expect_failures = [var.org_id]
+  expect_failures = [var.existing_org_id]
 }
 
-run "validation_role_names_conflict_with_org_id" {
+run "validation_role_names_conflict_with_existing_org_id" {
   command = plan
 
   providers = {
@@ -134,14 +134,14 @@ run "validation_role_names_conflict_with_org_id" {
   }
 
   variables {
-    org_id     = "6578a5f6c776211a7f4e41b2"
-    role_names = ["ORG_OWNER"]
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
+    role_names      = ["ORG_OWNER"]
   }
 
-  expect_failures = [var.org_id]
+  expect_failures = [var.existing_org_id]
 }
 
-run "validation_federation_settings_id_conflicts_with_org_id" {
+run "validation_federation_settings_id_conflicts_with_existing_org_id" {
   command = plan
 
   providers = {
@@ -150,11 +150,11 @@ run "validation_federation_settings_id_conflicts_with_org_id" {
   }
 
   variables {
-    org_id                 = "6578a5f6c776211a7f4e41b2"
+    existing_org_id        = "6578a5f6c776211a7f4e41b2"
     federation_settings_id = "should-not-be-set"
   }
 
-  expect_failures = [var.org_id]
+  expect_failures = [var.existing_org_id]
 }
 
 # Required fields for creation
@@ -168,13 +168,13 @@ run "org_owner_id_required" {
   }
 
   variables {
-    org_id      = null
-    name        = "test-org"
-    description = "test key"
-    role_names  = ["ORG_OWNER"]
+    existing_org_id = null
+    name            = "test-org"
+    description     = "test key"
+    role_names      = ["ORG_OWNER"]
   }
 
-  expect_failures = [mongodbatlas_organization.this]
+  expect_failures = [var.existing_org_id]
 }
 
 run "description_required" {
@@ -186,13 +186,13 @@ run "description_required" {
   }
 
   variables {
-    org_id       = null
-    name         = "test-org"
-    org_owner_id = "6578a5f6c776211a7f4e41b2"
-    role_names   = ["ORG_OWNER"]
+    existing_org_id = null
+    name            = "test-org"
+    org_owner_id    = "6578a5f6c776211a7f4e41b2"
+    role_names      = ["ORG_OWNER"]
   }
 
-  expect_failures = [mongodbatlas_organization.this]
+  expect_failures = [var.existing_org_id]
 }
 
 run "role_names_required" {
@@ -204,11 +204,11 @@ run "role_names_required" {
   }
 
   variables {
-    org_id       = null
-    name         = "test-org"
-    org_owner_id = "6578a5f6c776211a7f4e41b2"
-    description  = "test key"
+    existing_org_id = null
+    name            = "test-org"
+    org_owner_id    = "6578a5f6c776211a7f4e41b2"
+    description     = "test key"
   }
 
-  expect_failures = [mongodbatlas_organization.this]
+  expect_failures = [var.existing_org_id]
 }

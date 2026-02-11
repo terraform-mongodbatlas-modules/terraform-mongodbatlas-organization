@@ -4,24 +4,41 @@ variable "name" {
   default     = null
 
   validation {
-    condition     = var.org_id != null || var.name != null
-    error_message = "Variable name is required when creating a new organization (org_id is not set)."
+    condition     = var.existing_org_id != null || var.name != null
+    error_message = "Variable name is required when creating a new organization (existing_org_id is not set)."
   }
 }
 
-variable "org_id" {
+variable "existing_org_id" {
   description = "ID of an existing organization to manage. When set, the module skips creation and uses this org instead."
   type        = string
   default     = null
 
+  # Existing org: creation-only attrs must not be set.
   validation {
-    condition = var.org_id != null ? alltrue([
+    condition = var.existing_org_id != null ? alltrue([
       var.org_owner_id == null,
       var.description == null,
       var.role_names == null,
       var.federation_settings_id == null,
     ]) : true
-    error_message = "Variables org_owner_id, description, role_names, and federation_settings_id must not be set when using an existing organization (org_id is provided)."
+    error_message = "Variables org_owner_id, description, role_names, and federation_settings_id must not be set when using an existing organization (existing_org_id is provided)."
+  }
+
+  # New org: required creation attrs must be provided.
+  validation {
+    condition     = var.existing_org_id != null || var.org_owner_id != null
+    error_message = "Variable org_owner_id is required when creating a new organization."
+  }
+
+  validation {
+    condition     = var.existing_org_id != null || var.description != null
+    error_message = "Variable description is required when creating a new organization."
+  }
+
+  validation {
+    condition     = var.existing_org_id != null || var.role_names != null
+    error_message = "Variable role_names is required when creating a new organization."
   }
 }
 
