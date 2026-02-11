@@ -70,6 +70,14 @@ Type: `string`
 
 Default: `null`
 
+### <a name="input_existing_org_id"></a> [existing\_org\_id](#input\_existing\_org\_id)
+
+Description: ID of an existing organization to manage. When set, the module skips creation and uses this org instead.
+
+Type: `string`
+
+Default: `null`
+
 ### <a name="input_federation_settings_id"></a> [federation\_settings\_id](#input\_federation\_settings\_id)
 
 Description: Federation ID to link the new organization to. Cannot be updated after creation.
@@ -88,23 +96,15 @@ Default: `null`
 
 ### <a name="input_multi_factor_auth_required"></a> [multi\_factor\_auth\_required](#input\_multi\_factor\_auth\_required)
 
-Description: Require users to set up MFA before accessing the organization.
+Description: Require users to set up MFA before accessing the organization. Defaults to true as a secure-by-default setting.
 
 Type: `bool`
 
-Default: `null`
+Default: `true`
 
 ### <a name="input_name"></a> [name](#input\_name)
 
 Description: Name of the organization. Required when creating a new organization (org\_id is not set).
-
-Type: `string`
-
-Default: `null`
-
-### <a name="input_org_id"></a> [org\_id](#input\_org\_id)
-
-Description: ID of an existing organization to manage. When set, the module skips creation and uses this org instead.
 
 Type: `string`
 
@@ -142,11 +142,11 @@ Default: `null`
 
 ### <a name="input_restrict_employee_access"></a> [restrict\_employee\_access](#input\_restrict\_employee\_access)
 
-Description: Block MongoDB Support from accessing Atlas infrastructure without explicit permission.
+Description: Block MongoDB Support from accessing Atlas infrastructure without explicit permission. Defaults to true as a secure-by-default setting. A 24-hour bypass can be granted when needed.
 
 Type: `bool`
 
-Default: `null`
+Default: `true`
 
 ### <a name="input_role_names"></a> [role\_names](#input\_role\_names)
 

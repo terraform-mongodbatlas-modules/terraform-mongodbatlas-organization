@@ -89,15 +89,15 @@ variable "api_access_list_required" {
 }
 
 variable "multi_factor_auth_required" {
-  description = "Require users to set up MFA before accessing the organization."
+  description = "Require users to set up MFA before accessing the organization. Defaults to true as a secure-by-default setting."
   type        = bool
-  default     = null
+  default     = true
 }
 
 variable "restrict_employee_access" {
-  description = "Block MongoDB Support from accessing Atlas infrastructure without explicit permission."
+  description = "Block MongoDB Support from accessing Atlas infrastructure without explicit permission. Defaults to true as a secure-by-default setting. A 24-hour bypass can be granted when needed."
   type        = bool
-  default     = null
+  default     = true
 }
 
 variable "gen_ai_features_enabled" {
