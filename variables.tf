@@ -43,6 +43,7 @@ variable "existing_org_id" {
   }
 }
 
+# tflint-ignore: terraform_unused_declarations # TODO: CLOUDP-379748 will wire this to the resource_policy submodule
 variable "resource_policies" {
   description = "Resource policy configuration. When set, the resource_policy submodule is enabled. All policies are opt-in: set individual policies to enforce them."
   type = object({
