@@ -4,7 +4,7 @@ run "create_new_org" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
+    mongodbatlas             = mongodbatlas
     mongodbatlas.org_creator = mongodbatlas
   }
 
@@ -31,7 +31,7 @@ run "use_existing_org" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
+    mongodbatlas             = mongodbatlas
     mongodbatlas.org_creator = mongodbatlas
   }
 
@@ -69,7 +69,7 @@ run "create_org_with_settings" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
+    mongodbatlas             = mongodbatlas
     mongodbatlas.org_creator = mongodbatlas
   }
 
@@ -97,7 +97,7 @@ run "validation_creation_attrs_conflict_with_existing_org_id" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
+    mongodbatlas             = mongodbatlas
     mongodbatlas.org_creator = mongodbatlas
   }
 
@@ -113,7 +113,7 @@ run "validation_description_conflicts_with_existing_org_id" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
+    mongodbatlas             = mongodbatlas
     mongodbatlas.org_creator = mongodbatlas
   }
 
@@ -129,7 +129,7 @@ run "validation_role_names_conflict_with_existing_org_id" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
+    mongodbatlas             = mongodbatlas
     mongodbatlas.org_creator = mongodbatlas
   }
 
@@ -145,7 +145,7 @@ run "validation_federation_settings_id_conflicts_with_existing_org_id" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
+    mongodbatlas             = mongodbatlas
     mongodbatlas.org_creator = mongodbatlas
   }
 
@@ -163,7 +163,7 @@ run "org_owner_id_required" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
+    mongodbatlas             = mongodbatlas
     mongodbatlas.org_creator = mongodbatlas
   }
 
@@ -181,7 +181,7 @@ run "description_required" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
+    mongodbatlas             = mongodbatlas
     mongodbatlas.org_creator = mongodbatlas
   }
 
@@ -199,7 +199,7 @@ run "role_names_required" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
+    mongodbatlas             = mongodbatlas
     mongodbatlas.org_creator = mongodbatlas
   }
 
