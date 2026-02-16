@@ -5,7 +5,7 @@ terraform {
     mongodbatlas = {
       source                = "mongodb/mongodbatlas"
       version               = "~> 2.6" # TODO: CLOUDP-379763 bump after provider fixes are released
-      configuration_aliases = [mongodbatlas.new_org]
+      configuration_aliases = [mongodbatlas.org_creator]
     }
   }
 }
