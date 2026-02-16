@@ -5,7 +5,7 @@ run "create_new_org" {
 
   providers = {
     mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -32,7 +32,7 @@ run "use_existing_org" {
 
   providers = {
     mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -70,7 +70,7 @@ run "create_org_with_settings" {
 
   providers = {
     mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -98,7 +98,7 @@ run "validation_creation_attrs_conflict_with_existing_org_id" {
 
   providers = {
     mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -114,7 +114,7 @@ run "validation_description_conflicts_with_existing_org_id" {
 
   providers = {
     mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -130,7 +130,7 @@ run "validation_role_names_conflict_with_existing_org_id" {
 
   providers = {
     mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -146,7 +146,7 @@ run "validation_federation_settings_id_conflicts_with_existing_org_id" {
 
   providers = {
     mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -164,7 +164,7 @@ run "org_owner_id_required" {
 
   providers = {
     mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -182,7 +182,7 @@ run "description_required" {
 
   providers = {
     mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -200,7 +200,7 @@ run "role_names_required" {
 
   providers = {
     mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
