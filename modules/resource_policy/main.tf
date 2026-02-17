@@ -29,7 +29,7 @@ resource "mongodbatlas_resource_policy" "require_maintenance_window" {
       body = <<-EOF
         forbid (
           principal,
-          action == ResourcePolicy::Action::"project.maintenanceWindow.modify",
+          action == ResourcePolicy::Action::"cluster.modify",
           resource
         )
         when { context.project.hasDefinedMaintenanceWindow == false };

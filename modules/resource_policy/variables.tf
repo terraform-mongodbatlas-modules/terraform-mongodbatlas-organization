@@ -10,7 +10,7 @@ variable "block_wildcard_ip" {
 }
 
 variable "require_maintenance_window" {
-  description = "When true, requires projects to have a defined maintenance window before modifications are allowed."
+  description = "When true, forbids cluster modifications in projects that do not have a maintenance window configured."
   type        = bool
   default     = false
 }
