@@ -33,7 +33,7 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
-- <a name="provider_mongodbatlas"></a> [mongodbatlas](#provider\_mongodbatlas) (~> 2.6)
+- <a name="provider_mongodbatlas.org_creator"></a> [mongodbatlas.org\_creator](#provider\_mongodbatlas.org\_creator) (~> 2.6)
 
 ## Resources
 
@@ -173,5 +173,5 @@ Description: Public key of the programmatic API key created with the organizatio
 
 ### <a name="output_resource_policy_ids"></a> [resource\_policy\_ids](#output\_resource\_policy\_ids)
 
-Description: Map of resource policy names to their IDs. Empty until resource\_policy submodule is wired in CLOUDP-379748.
+Description: Map of resource policy names to their IDs. Empty when resource\_policies is not set.
 <!-- END_TF_DOCS -->

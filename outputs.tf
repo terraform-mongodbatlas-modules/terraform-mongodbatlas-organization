@@ -29,6 +29,6 @@ output "client_secret" {
 }
 
 output "resource_policy_ids" {
-  description = "Map of resource policy names to their IDs. Empty until resource_policy submodule is wired in CLOUDP-379748."
-  value       = {}
+  description = "Map of resource policy names to their IDs. Empty when resource_policies is not set."
+  value       = var.resource_policies != null ? module.resource_policy[0].policy_ids : {}
 }

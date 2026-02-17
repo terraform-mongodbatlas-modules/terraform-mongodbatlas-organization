@@ -4,7 +4,8 @@ locals {
 }
 
 resource "mongodbatlas_organization" "this" {
-  count = local.create_org ? 1 : 0
+  count    = local.create_org ? 1 : 0
+  provider = mongodbatlas.org_creator
 
   name                         = var.name
   org_owner_id                 = var.org_owner_id
@@ -17,4 +18,13 @@ resource "mongodbatlas_organization" "this" {
   gen_ai_features_enabled      = var.organization_settings != null ? var.organization_settings.gen_ai_features_enabled : null
   security_contact             = var.organization_settings != null ? var.organization_settings.security_contact : null
   skip_default_alerts_settings = var.skip_default_alerts_settings
+}
+
+module "resource_policy" {
+  source = "./modules/resource_policy"
+  count  = var.resource_policies != null ? 1 : 0
+
+  org_id                     = local.org_id
+  block_wildcard_ip          = var.resource_policies.block_wildcard_ip
+  require_maintenance_window = var.resource_policies.require_maintenance_window
 }

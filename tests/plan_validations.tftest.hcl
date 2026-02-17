@@ -4,8 +4,8 @@ run "create_new_org" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -23,7 +23,7 @@ run "create_new_org" {
 
   assert {
     condition     = output.resource_policy_ids == {}
-    error_message = "resource_policy_ids should be empty before submodule wiring."
+    error_message = "resource_policy_ids should be empty when resource_policies is not set."
   }
 }
 
@@ -31,8 +31,8 @@ run "use_existing_org" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -61,7 +61,103 @@ run "use_existing_org" {
 
   assert {
     condition     = output.resource_policy_ids == {}
-    error_message = "resource_policy_ids should be empty before submodule wiring."
+    error_message = "resource_policy_ids should be empty when resource_policies is not set."
+  }
+}
+
+# Resource policy submodule tests
+
+run "new_org_with_policies_enabled" {
+  command = plan
+
+  providers = {
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
+  }
+
+  variables {
+    existing_org_id = null
+    name            = "test-org-policies"
+    org_owner_id    = "6578a5f6c776211a7f4e41b2"
+    description     = "programmatic API key"
+    role_names      = ["ORG_OWNER"]
+    resource_policies = {
+      block_wildcard_ip          = true
+      require_maintenance_window = true
+    }
+  }
+
+  assert {
+    condition     = length(module.resource_policy) == 1
+    error_message = "resource_policy submodule should be invoked when resource_policies is set."
+  }
+
+  assert {
+    condition     = contains(keys(output.resource_policy_ids), "block_wildcard_ip")
+    error_message = "resource_policy_ids should contain block_wildcard_ip key."
+  }
+
+  assert {
+    condition     = contains(keys(output.resource_policy_ids), "require_maintenance_window")
+    error_message = "resource_policy_ids should contain require_maintenance_window key."
+  }
+}
+
+run "existing_org_with_policies" {
+  command = plan
+
+  providers = {
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
+  }
+
+  variables {
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
+    resource_policies = {
+      block_wildcard_ip = true
+    }
+  }
+
+  assert {
+    condition     = length(mongodbatlas_organization.this) == 0
+    error_message = "Expected no organization resource when existing_org_id is provided."
+  }
+
+  assert {
+    condition     = length(module.resource_policy) == 1
+    error_message = "resource_policy submodule should be invoked when resource_policies is set."
+  }
+}
+
+run "policies_set_but_all_disabled" {
+  command = plan
+
+  providers = {
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
+  }
+
+  variables {
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
+    resource_policies = {
+      block_wildcard_ip          = false
+      require_maintenance_window = false
+    }
+  }
+
+  assert {
+    condition     = length(module.resource_policy) == 1
+    error_message = "Submodule should be invoked when resource_policies is set (even if all false)."
+  }
+
+  assert {
+    condition     = output.resource_policy_ids["block_wildcard_ip"] == null
+    error_message = "block_wildcard_ip policy ID should be null when disabled."
+  }
+
+  assert {
+    condition     = output.resource_policy_ids["require_maintenance_window"] == null
+    error_message = "require_maintenance_window policy ID should be null when disabled."
   }
 }
 
@@ -69,8 +165,8 @@ run "create_org_with_settings" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -97,8 +193,8 @@ run "validation_creation_attrs_conflict_with_existing_org_id" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -113,8 +209,8 @@ run "validation_description_conflicts_with_existing_org_id" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -129,8 +225,8 @@ run "validation_role_names_conflict_with_existing_org_id" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -145,8 +241,8 @@ run "validation_federation_settings_id_conflicts_with_existing_org_id" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -163,8 +259,8 @@ run "org_owner_id_required" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -181,8 +277,8 @@ run "description_required" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
@@ -199,8 +295,8 @@ run "role_names_required" {
   command = plan
 
   providers = {
-    mongodbatlas         = mongodbatlas
-    mongodbatlas.new_org = mongodbatlas
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
   }
 
   variables {
