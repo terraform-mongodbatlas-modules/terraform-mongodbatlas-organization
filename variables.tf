@@ -48,7 +48,7 @@ variable "resource_policies" {
   type = object({
     block_wildcard_ip              = optional(bool, false)
     require_maintenance_window     = optional(bool, false)
-    cluster_tier_limits            = optional(object({ min = string, max = string }))
+    cluster_tier_limits            = optional(object({ min = optional(string), max = optional(string) }))
     allowed_cloud_providers        = optional(list(string))
     allowed_regions                = optional(list(string))
     restrict_private_endpoint_mods = optional(bool)

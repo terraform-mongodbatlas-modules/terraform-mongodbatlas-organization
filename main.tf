@@ -27,4 +27,7 @@ module "resource_policy" {
   org_id                     = local.org_id
   block_wildcard_ip          = var.resource_policies.block_wildcard_ip
   require_maintenance_window = var.resource_policies.require_maintenance_window
+  cluster_tier_limits        = var.resource_policies.cluster_tier_limits
+  allowed_cloud_providers    = var.resource_policies.allowed_cloud_providers
+  allowed_regions            = var.resource_policies.allowed_regions
 }
