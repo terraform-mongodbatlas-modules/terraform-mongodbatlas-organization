@@ -15,5 +15,30 @@ variable "require_maintenance_window" {
   default     = false
 }
 
-# TODO: CLOUDP-379749 -- cluster_tier_limits, allowed_cloud_providers, allowed_regions
+variable "cluster_tier_limits" {
+  description = "When set, restricts cluster tier sizes. Specify min (for example, \"M10\") and/or max (for example, \"M60\") General class instance size bounds."
+  type = object({
+    min = optional(string)
+    max = optional(string)
+  })
+  default = null
+
+  validation {
+    condition     = var.cluster_tier_limits == null || (var.cluster_tier_limits.min != null || var.cluster_tier_limits.max != null)
+    error_message = "At least one of min or max must be set when cluster_tier_limits is provided."
+  }
+}
+
+variable "allowed_cloud_providers" {
+  description = "When set, restricts clusters to only the specified cloud providers (for example, [\"aws\", \"azure\"])."
+  type        = list(string)
+  default     = null
+}
+
+variable "allowed_regions" {
+  description = "When set, restricts clusters to only the specified regions (for example, [\"aws:us-east-1\", \"azure:westeurope\"])."
+  type        = list(string)
+  default     = null
+}
+
 # TODO: CLOUDP-379750 -- restrict_private_endpoint_mods, restrict_vpc_peering_mods, restrict_ip_access_list_mods, tls_ciphers
