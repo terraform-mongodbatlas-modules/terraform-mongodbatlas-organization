@@ -16,7 +16,7 @@ variable "require_maintenance_window" {
 }
 
 variable "cluster_tier_limits" {
-  description = "When set, restricts cluster tier sizes. Specify min (e.g. \"M10\") and/or max (e.g. \"M60\") General class instance size bounds."
+  description = "When set, restricts cluster tier sizes. Specify min (for example, \"M10\") and/or max (for example, \"M60\") General class instance size bounds."
   type = object({
     min = optional(string)
     max = optional(string)
@@ -30,13 +30,13 @@ variable "cluster_tier_limits" {
 }
 
 variable "allowed_cloud_providers" {
-  description = "When set, restricts clusters to only the specified cloud providers (e.g. [\"aws\", \"azure\"])."
+  description = "When set, restricts clusters to only the specified cloud providers (for example, [\"aws\", \"azure\"])."
   type        = list(string)
   default     = null
 }
 
 variable "allowed_regions" {
-  description = "When set, restricts clusters to only the specified regions (e.g. [\"aws:us-east-1\", \"azure:westeurope\"])."
+  description = "When set, restricts clusters to only the specified regions (for example, [\"aws:us-east-1\", \"azure:westeurope\"])."
   type        = list(string)
   default     = null
 }

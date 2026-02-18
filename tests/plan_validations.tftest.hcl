@@ -176,7 +176,7 @@ run "policies_set_but_all_disabled" {
   }
 }
 
-# Cluster governance policy tests (CLOUDP-379749)
+# Cluster governance policy tests
 
 run "cluster_tier_limits_min_and_max" {
   command = plan
