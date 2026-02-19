@@ -31,3 +31,4 @@ provider-src/
 # === OK_EDIT: path-sync gitignore-workspace ===
 .cursor
 .claude
+.terraform-docs-generated

@@ -4,7 +4,7 @@ run "manage_existing_org" {
   command = plan
 
   module {
-    source = "./modules/manage"
+    source = "./modules/existing"
   }
 
   variables {
@@ -26,7 +26,7 @@ run "manage_org_with_policies" {
   command = plan
 
   module {
-    source = "./modules/manage"
+    source = "./modules/existing"
   }
 
   variables {
@@ -46,7 +46,7 @@ run "policies_set_but_all_disabled" {
   command = plan
 
   module {
-    source = "./modules/manage"
+    source = "./modules/existing"
   }
 
   variables {
@@ -94,7 +94,7 @@ run "cluster_tier_limits_min_and_max" {
   command = plan
 
   module {
-    source = "./modules/manage"
+    source = "./modules/existing"
   }
 
   variables {
@@ -117,7 +117,7 @@ run "cluster_tier_limits_min_only" {
   command = plan
 
   module {
-    source = "./modules/manage"
+    source = "./modules/existing"
   }
 
   variables {
@@ -139,7 +139,7 @@ run "cluster_tier_limits_max_only" {
   command = plan
 
   module {
-    source = "./modules/manage"
+    source = "./modules/existing"
   }
 
   variables {
@@ -161,7 +161,7 @@ run "allowed_cloud_providers_policy" {
   command = plan
 
   module {
-    source = "./modules/manage"
+    source = "./modules/existing"
   }
 
   variables {
@@ -181,7 +181,7 @@ run "allowed_regions_policy" {
   command = plan
 
   module {
-    source = "./modules/manage"
+    source = "./modules/existing"
   }
 
   variables {
@@ -201,7 +201,7 @@ run "all_cluster_governance_policies" {
   command = plan
 
   module {
-    source = "./modules/manage"
+    source = "./modules/existing"
   }
 
   variables {

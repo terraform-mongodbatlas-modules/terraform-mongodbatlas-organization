@@ -17,15 +17,13 @@ jobs:
           terraform_version: ${{ vars.TF_VERSION_LATEST }}
           terraform_wrapper: false
       - run: terraform fmt -check -recursive
-      - run: terraform init
-      - run: terraform validate
       - name: validate modules/create
         working-directory: modules/create
         run: |
           terraform init
           terraform validate
-      - name: validate modules/manage
-        working-directory: modules/manage
+      - name: validate modules/existing
+        working-directory: modules/existing
         run: |
           terraform init
           terraform validate
