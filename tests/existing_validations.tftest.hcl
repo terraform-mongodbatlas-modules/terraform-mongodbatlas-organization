@@ -8,12 +8,12 @@ run "manage_existing_org" {
   }
 
   variables {
-    org_id = "6578a5f6c776211a7f4e41b2"
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
   }
 
   assert {
     condition     = output.org_id == "6578a5f6c776211a7f4e41b2"
-    error_message = "org_id output should match the provided org_id."
+    error_message = "existing_org_id output should match the provided existing_org_id."
   }
 
   assert {
@@ -30,7 +30,7 @@ run "manage_org_with_policies" {
   }
 
   variables {
-    org_id = "6578a5f6c776211a7f4e41b2"
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
     resource_policies = {
       block_wildcard_ip = true
     }
@@ -50,7 +50,7 @@ run "policies_set_but_all_disabled" {
   }
 
   variables {
-    org_id = "6578a5f6c776211a7f4e41b2"
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
     resource_policies = {
       block_wildcard_ip          = false
       require_maintenance_window = false
@@ -98,7 +98,7 @@ run "cluster_tier_limits_min_and_max" {
   }
 
   variables {
-    org_id = "6578a5f6c776211a7f4e41b2"
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
     resource_policies = {
       cluster_tier_limits = {
         min = "M10"
@@ -121,7 +121,7 @@ run "cluster_tier_limits_min_only" {
   }
 
   variables {
-    org_id = "6578a5f6c776211a7f4e41b2"
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
     resource_policies = {
       cluster_tier_limits = {
         min = "M10"
@@ -143,7 +143,7 @@ run "cluster_tier_limits_max_only" {
   }
 
   variables {
-    org_id = "6578a5f6c776211a7f4e41b2"
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
     resource_policies = {
       cluster_tier_limits = {
         max = "M60"
@@ -165,7 +165,7 @@ run "allowed_cloud_providers_policy" {
   }
 
   variables {
-    org_id = "6578a5f6c776211a7f4e41b2"
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
     resource_policies = {
       allowed_cloud_providers = ["aws", "gcp"]
     }
@@ -185,7 +185,7 @@ run "allowed_regions_policy" {
   }
 
   variables {
-    org_id = "6578a5f6c776211a7f4e41b2"
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
     resource_policies = {
       allowed_regions = ["aws:us-east-1", "aws:eu-central-1"]
     }
@@ -205,7 +205,7 @@ run "all_cluster_governance_policies" {
   }
 
   variables {
-    org_id = "6578a5f6c776211a7f4e41b2"
+    existing_org_id = "6578a5f6c776211a7f4e41b2"
     resource_policies = {
       block_wildcard_ip          = true
       require_maintenance_window = true
