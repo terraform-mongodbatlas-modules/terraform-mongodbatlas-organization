@@ -1,6 +1,6 @@
 # Create Organization
 
-Creates a new MongoDB Atlas organization with an initial programmatic API key, and optionally applies resource policies.
+Creates a new MongoDB Atlas organization with an initial programmatic API key.
 
 Callers must pass two providers: the default provider (target org credentials) and `mongodbatlas.org_creator` (paying org credentials).
 

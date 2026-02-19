@@ -1,6 +1,6 @@
 # Existing Organization
 
-Manages resource policies on an existing MongoDB Atlas organization. No aliased provider is required -- callers inherit the default provider automatically.
+Applies governance and configuration to an existing MongoDB Atlas organization.
 
 ## Usage
 
