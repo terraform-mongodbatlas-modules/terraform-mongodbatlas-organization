@@ -1,4 +1,4 @@
-variable "org_id" {
+variable "existing_org_id" {
   description = "ID of the existing organization to manage."
   type        = string
 }

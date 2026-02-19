@@ -47,7 +47,7 @@ Changes will be overwritten when documentation is regenerated.
 
 The following input variables are required:
 
-### <a name="input_org_id"></a> [org\_id](#input\_org\_id)
+### <a name="input_existing_org_id"></a> [existing\_org\_id](#input\_existing\_org\_id)
 
 Description: ID of the existing organization to manage.
 

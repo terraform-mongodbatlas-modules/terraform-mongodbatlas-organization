@@ -1,6 +1,6 @@
 output "org_id" {
   description = "The ID of the managed organization (passthrough)."
-  value       = var.org_id
+  value       = var.existing_org_id
 }
 
 output "resource_policy_ids" {
