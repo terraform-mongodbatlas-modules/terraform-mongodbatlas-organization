@@ -19,3 +19,13 @@ jobs:
       - run: terraform fmt -check -recursive
       - run: terraform init
       - run: terraform validate
+      - name: validate modules/create
+        working-directory: modules/create
+        run: |
+          terraform init
+          terraform validate
+      - name: validate modules/manage
+        working-directory: modules/manage
+        run: |
+          terraform init
+          terraform validate
