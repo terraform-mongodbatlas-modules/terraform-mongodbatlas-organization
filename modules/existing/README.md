@@ -8,7 +8,7 @@ Applies governance and configuration to an existing MongoDB Atlas organization.
 module "atlas_org" {
   source = "mongodb/organization/mongodbatlas//modules/existing"
 
-  org_id = var.existing_org_id
+  existing_org_id = var.existing_org_id
 
   resource_policies = {
     block_wildcard_ip = true
