@@ -7,6 +7,17 @@ Callers must pass two providers: the default provider (target org credentials) a
 ## Usage
 
 ```hcl
+provider "mongodbatlas" {
+  # Credentials for the new organization (target org).
+  client_id     = module.atlas_org.service_account[0].client_id
+  client_secret = module.atlas_org.service_account[0].secrets[0].secret
+}
+
+provider "mongodbatlas" {
+  alias = "org_creator"
+  # Credentials for the paying organization that owns the new org.
+}
+
 module "atlas_org" {
   source = "mongodb/organization/mongodbatlas//modules/create"
 
