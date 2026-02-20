@@ -1,0 +1,5 @@
+# Internal submodule -- suppress README generation.
+# terraform-docs recursive mode has no exclude option, so we redirect
+# output to a gitignored hidden file instead of README.md.
+output:
+  file: ".terraform-docs-generated"
