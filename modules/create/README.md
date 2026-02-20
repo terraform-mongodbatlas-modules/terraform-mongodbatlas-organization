@@ -9,8 +9,8 @@ Callers must pass two providers: the default provider (target org credentials) a
 ```hcl
 provider "mongodbatlas" {
   # Credentials for the new organization (target org).
-  client_id     = module.atlas_org.service_account[0].client_id
-  client_secret = module.atlas_org.service_account[0].secrets[0].secret
+  client_id     = module.atlas_org.client_id
+  client_secret = module.atlas_org.client_secret
 }
 
 provider "mongodbatlas" {
