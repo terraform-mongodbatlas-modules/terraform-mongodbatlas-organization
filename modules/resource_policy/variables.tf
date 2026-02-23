@@ -60,7 +60,7 @@ variable "restrict_ip_access_list_mods" {
 }
 
 variable "tls_ciphers" {
-  description = "When set, restricts clusters to only the specified TLS cipher suites (for example, [\"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384\"]). Requires custom cipher config mode."
+  description = "When set, restricts clusters to only the specified TLS cipher suites. Requires custom cipher config mode. For the full list of allowed values, see: https://www.mongodb.com/docs/atlas/atlas-resource-policies/#restrict-tls-protocol-and-cipher-suites"
   type        = list(string)
   default     = null
 }

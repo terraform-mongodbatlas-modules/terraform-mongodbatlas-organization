@@ -1,6 +1,9 @@
 # Cedar policy syntax reference for Atlas Resource Policies: https://www.mongodb.com/docs/atlas/atlas-resource-policies
 
 locals {
+  # General class tiers follow the M<number> pattern (M10, M20, M30, M40, M50, M60, M80, M140, M200, M300, M400, M700).
+  # Low-CPU and NVMe tiers are a separate class and not affected by this policy.
+  # See: https://www.mongodb.com/docs/atlas/atlas-resource-policies/#restrict-cluster-tier-sizes
   tier_min_value = try(tonumber(trimprefix(var.cluster_tier_limits.min, "M")), null)
   tier_max_value = try(tonumber(trimprefix(var.cluster_tier_limits.max, "M")), null)
 
@@ -159,8 +162,6 @@ resource "mongodbatlas_resource_policy" "restrict_ip_access_list_mods" {
 
   org_id = var.org_id
   name   = "restrict-ip-access-list-mods"
-
-  depends_on = [mongodbatlas_resource_policy.block_wildcard_ip]
 
   policies = [
     {
