@@ -41,4 +41,26 @@ variable "allowed_regions" {
   default     = null
 }
 
-# TODO: CLOUDP-379750 -- restrict_private_endpoint_mods, restrict_vpc_peering_mods, restrict_ip_access_list_mods, tls_ciphers
+variable "restrict_private_endpoint_mods" {
+  description = "When true, forbids all modifications to private endpoint connections."
+  type        = bool
+  default     = false
+}
+
+variable "restrict_vpc_peering_mods" {
+  description = "When true, forbids all modifications to VPC peering connections."
+  type        = bool
+  default     = false
+}
+
+variable "restrict_ip_access_list_mods" {
+  description = "When true, forbids all modifications to the project IP access list."
+  type        = bool
+  default     = false
+}
+
+variable "tls_ciphers" {
+  description = "When set, restricts clusters to only the specified TLS cipher suites. Requires custom cipher config mode. For the full list of allowed values, see: https://www.mongodb.com/docs/atlas/atlas-resource-policies/#restrict-tls-protocol-and-cipher-suites"
+  type        = list(string)
+  default     = null
+}

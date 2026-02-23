@@ -53,9 +53,9 @@ variable "resource_policies" {
     cluster_tier_limits            = optional(object({ min = optional(string), max = optional(string) }))
     allowed_cloud_providers        = optional(list(string))
     allowed_regions                = optional(list(string))
-    restrict_private_endpoint_mods = optional(bool)
-    restrict_vpc_peering_mods      = optional(bool)
-    restrict_ip_access_list_mods   = optional(bool)
+    restrict_private_endpoint_mods = optional(bool, false)
+    restrict_vpc_peering_mods      = optional(bool, false)
+    restrict_ip_access_list_mods   = optional(bool, false)
     tls_ciphers                    = optional(list(string))
   })
   default = null
