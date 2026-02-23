@@ -1,8 +1,8 @@
 # Cedar policy syntax reference for Atlas Resource Policies: https://www.mongodb.com/docs/atlas/atlas-resource-policies
 
 locals {
-  tier_min_value = var.cluster_tier_limits != null && var.cluster_tier_limits.min != null ? tonumber(trimprefix(var.cluster_tier_limits.min, "M")) : null
-  tier_max_value = var.cluster_tier_limits != null && var.cluster_tier_limits.max != null ? tonumber(trimprefix(var.cluster_tier_limits.max, "M")) : null
+  tier_min_value = try(tonumber(trimprefix(var.cluster_tier_limits.min, "M")), null)
+  tier_max_value = try(tonumber(trimprefix(var.cluster_tier_limits.max, "M")), null)
 
   tier_min_clause = local.tier_min_value != null ? "(context.cluster has minGeneralClassInstanceSizeValue && context.cluster.minGeneralClassInstanceSizeValue < ${local.tier_min_value})" : ""
   tier_max_clause = local.tier_max_value != null ? "(context.cluster has maxGeneralClassInstanceSizeValue && context.cluster.maxGeneralClassInstanceSizeValue > ${local.tier_max_value})" : ""

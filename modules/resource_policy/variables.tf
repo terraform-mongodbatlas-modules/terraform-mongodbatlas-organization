@@ -24,7 +24,7 @@ variable "cluster_tier_limits" {
   default = null
 
   validation {
-    condition     = var.cluster_tier_limits == null || (var.cluster_tier_limits.min != null || var.cluster_tier_limits.max != null)
+    condition     = var.cluster_tier_limits != null ? (var.cluster_tier_limits.min != null || var.cluster_tier_limits.max != null) : true
     error_message = "At least one of min or max must be set when cluster_tier_limits is provided."
   }
 }

@@ -4,18 +4,21 @@ variable "name" {
 }
 
 variable "org_owner_id" {
-  description = "Atlas user ID to assign as Organization Owner. Cannot be updated after creation."
+  description = "Atlas user ID to assign as Organization Owner. Required for new organizations, ignored on import."
   type        = string
+  default     = null
 }
 
 variable "description" {
-  description = "Description for the initial programmatic API key created with the organization. Cannot be updated after creation."
+  description = "Description for the initial programmatic API key created with the organization. Required for new organizations, ignored on import."
   type        = string
+  default     = null
 }
 
 variable "role_names" {
-  description = "Roles for the initial programmatic API key (for example, [\"ORG_OWNER\"]). Cannot be updated after creation."
+  description = "Roles for the initial programmatic API key (for example, [\"ORG_OWNER\"]). Required for new organizations, ignored on import."
   type        = list(string)
+  default     = null
 }
 
 variable "federation_settings_id" {
