@@ -41,7 +41,7 @@ run "create_new_org" {
 }
 
 run "create_org_with_policies" {
-  command = plan
+  command = apply
 
   module {
     source = "./modules/create"
@@ -69,13 +69,13 @@ run "create_org_with_policies" {
   }
 
   assert {
-    condition     = contains(keys(output.resource_policy_ids), "block_wildcard_ip")
-    error_message = "resource_policy_ids should contain block_wildcard_ip key."
+    condition     = output.resource_policy_ids["block_wildcard_ip"] != null
+    error_message = "block_wildcard_ip policy ID should not be null when enabled."
   }
 
   assert {
-    condition     = contains(keys(output.resource_policy_ids), "require_maintenance_window")
-    error_message = "resource_policy_ids should contain require_maintenance_window key."
+    condition     = output.resource_policy_ids["require_maintenance_window"] != null
+    error_message = "require_maintenance_window policy ID should not be null when enabled."
   }
 }
 
@@ -132,7 +132,7 @@ run "create_org_with_settings" {
 }
 
 run "create_org_with_all_policies" {
-  command = plan
+  command = apply
 
   module {
     source = "./modules/create"
@@ -155,13 +155,19 @@ run "create_org_with_all_policies" {
         min = "M10"
         max = "M60"
       }
-      allowed_cloud_providers = ["aws"]
-      allowed_regions         = ["aws:us-east-1"]
+      allowed_cloud_providers        = ["aws"]
+      allowed_regions                = ["aws:us-east-1"]
+      restrict_private_endpoint_mods = true
+      restrict_vpc_peering_mods      = true
+      restrict_ip_access_list_mods   = true
+      tls_ciphers                    = ["TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"]
     }
   }
 
   assert {
-    condition     = length(keys(output.resource_policy_ids)) == 5
-    error_message = "resource_policy_ids should contain 5 keys when all policies are enabled."
+    condition = alltrue([
+      for k, v in output.resource_policy_ids : v != null
+    ])
+    error_message = "All policy IDs should be non-null when every policy is enabled."
   }
 }
