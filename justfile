@@ -11,14 +11,17 @@ py := "PYTHONPATH=" + gh_dir + " " + uv_gh + " python -m"
 default:
     just --list
 # === OK_EDIT: path-sync core ===
-# === DO_NOT_EDIT: path-sync checks ===
 # CHECKS
-pre-commit: fmt py-check validate lint check-docs
-    @echo "Pre-commit checks passed"
+pre-commit:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo 'provider "mongodbatlas" { alias = "org_creator" }' > modules/create/ci_providers.tf
+    trap 'rm -f modules/create/ci_providers.tf' EXIT
+    just fmt py-check validate lint check-docs
+    echo "Pre-commit checks passed"
 
 pre-push: pre-commit unit-plan-tests py-test
     @echo "Pre-push checks passed"
-# === OK_EDIT: path-sync checks ===
 # === DO_NOT_EDIT: path-sync dev-setup ===
 # DEV SETUP
 uv-sync:

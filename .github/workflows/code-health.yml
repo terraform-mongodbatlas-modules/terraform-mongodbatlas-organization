@@ -28,8 +28,6 @@ jobs:
           just: 'true'
           terraform: 'true'
           docs: 'true'
-      - name: Stub aliased provider for modules/create validate
-        run: echo 'provider "mongodbatlas" { alias = "org_creator" }' > modules/create/ci_providers.tf
       - name: Run all validation checks
         run: just pre-commit
   # === DO_NOT_EDIT: path-sync job-plan-tests ===

@@ -29,6 +29,7 @@ outputs_actual.json
 dev.tfrc
 provider-src/
 # === OK_EDIT: path-sync gitignore-workspace ===
+ci_providers.tf
 .cursor
 .claude
 .terraform-docs-generated
