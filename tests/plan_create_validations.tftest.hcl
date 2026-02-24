@@ -93,3 +93,31 @@ run "create_org_with_settings" {
     error_message = "resource_policy_ids should be empty when resource_policies is not set."
   }
 }
+
+run "plan_with_only_name_for_import" {
+  command = plan
+
+  module {
+    source = "./modules/create"
+  }
+
+  providers = {
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
+  }
+
+  variables {
+    org_owner_id = null
+    name         = "imported-org"
+  }
+
+  assert {
+    condition     = mongodbatlas_organization.this.name == "imported-org"
+    error_message = "Organization name should match when only name is provided (import scenario)."
+  }
+
+  assert {
+    condition     = output.resource_policy_ids == {}
+    error_message = "resource_policy_ids should be empty when resource_policies is not set."
+  }
+}

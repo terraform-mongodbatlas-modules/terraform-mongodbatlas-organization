@@ -73,37 +73,35 @@ Changes will be overwritten when documentation is regenerated.
 
 The following input variables are required:
 
-### <a name="input_description"></a> [description](#input\_description)
-
-Description: Description for the initial programmatic API key created with the organization. Cannot be updated after creation.
-
-Type: `string`
-
 ### <a name="input_name"></a> [name](#input\_name)
 
 Description: Name of the organization.
 
 Type: `string`
 
-### <a name="input_org_owner_id"></a> [org\_owner\_id](#input\_org\_owner\_id)
-
-Description: Atlas user ID to assign as Organization Owner. Cannot be updated after creation.
-
-Type: `string`
-
-### <a name="input_role_names"></a> [role\_names](#input\_role\_names)
-
-Description: Roles for the initial programmatic API key (for example, ["ORG\_OWNER"]). Cannot be updated after creation.
-
-Type: `list(string)`
-
 ## Optional Inputs
 
 The following input variables are optional (have default values):
 
+### <a name="input_description"></a> [description](#input\_description)
+
+Description: Description for the initial programmatic API key created with the organization. Required for new organizations, ignored on import.
+
+Type: `string`
+
+Default: `null`
+
 ### <a name="input_federation_settings_id"></a> [federation\_settings\_id](#input\_federation\_settings\_id)
 
 Description: Federation ID to link the new organization to. Cannot be updated after creation.
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_org_owner_id"></a> [org\_owner\_id](#input\_org\_owner\_id)
+
+Description: Atlas user ID to assign as Organization Owner. Required for new organizations, ignored on import.
 
 Type: `string`
 
@@ -146,6 +144,14 @@ object({
     tls_ciphers                    = optional(list(string))
   })
 ```
+
+Default: `null`
+
+### <a name="input_role_names"></a> [role\_names](#input\_role\_names)
+
+Description: Roles for the initial programmatic API key (for example, ["ORG\_OWNER"]). Required for new organizations, ignored on import.
+
+Type: `list(string)`
 
 Default: `null`
 
