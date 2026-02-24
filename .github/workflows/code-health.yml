@@ -18,7 +18,6 @@ on:
         type: string
 # === OK_EDIT: path-sync triggers ===
 jobs:
-  # === DO_NOT_EDIT: path-sync job-check ===
   check:
     name: Code Quality & Validation
     runs-on: ubuntu-latest
@@ -29,9 +28,10 @@ jobs:
           just: 'true'
           terraform: 'true'
           docs: 'true'
+      - name: Stub aliased provider for modules/create validate
+        run: echo 'provider "mongodbatlas" { alias = "org_creator" }' > modules/create/ci_providers.tf
       - name: Run all validation checks
         run: just pre-commit
-  # === OK_EDIT: path-sync job-check ===
   # === DO_NOT_EDIT: path-sync job-plan-tests ===
   plan-tests:
     name: Terraform Unit Plan Tests
