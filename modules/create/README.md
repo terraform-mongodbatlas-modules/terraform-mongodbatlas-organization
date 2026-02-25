@@ -28,7 +28,7 @@ module "atlas_org" {
 
   name         = "my-new-org"
   org_owner_id = var.user_id
-  credentials  = { type = "api_key", description = "org key" }
+  credentials  = { type = "service_account" }
 
   resource_policies = {
     block_wildcard_ip          = true
