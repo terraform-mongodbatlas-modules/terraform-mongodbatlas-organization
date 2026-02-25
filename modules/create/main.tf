@@ -3,7 +3,7 @@ resource "mongodbatlas_organization" "this" {
 
   name                         = var.name
   org_owner_id                 = var.org_owner_id
-  description                  = try(var.credentials.type, null) == "api_key" ? var.credentials.description : null
+  description                  = try(var.credentials.type, null) == "api_key" ? coalesce(var.credentials.description, "API key for ${var.name}") : null
   role_names                   = try(var.credentials.type, null) == "api_key" ? var.credentials.roles : null
   federation_settings_id       = var.federation_settings_id
   api_access_list_required     = var.organization_settings != null ? var.organization_settings.api_access_list_required : null
