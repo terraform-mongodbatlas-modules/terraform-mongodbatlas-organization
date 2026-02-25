@@ -93,8 +93,8 @@ object({
     type                       = optional(string)
     name                       = optional(string)
     description                = optional(string)
-    roles                      = optional(list(string), ["ORG_OWNER"])
-    secret_expires_after_hours = optional(number, 2160)
+    roles                      = optional(list(string), ["ORG_OWNER"]) # used by both api_key (role_names) and service_account (service_account.roles)
+    secret_expires_after_hours = optional(number, 2160)                # 90 days, only used when type = "service_account"
   })
 ```
 
