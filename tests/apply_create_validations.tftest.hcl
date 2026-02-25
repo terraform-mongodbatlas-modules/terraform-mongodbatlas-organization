@@ -4,6 +4,36 @@ variables {
   org_owner_id = "000000000000000000000001"
 }
 
+run "create_org_sa_outputs" {
+  command = apply
+
+  module {
+    source = "./modules/create"
+  }
+
+  providers = {
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
+  }
+
+  variables {
+    name        = "test-org-sa"
+    credentials = {}
+  }
+
+  assert {
+    condition     = output.org_id != null
+    error_message = "org_id should not be null."
+  }
+
+  # client_id is populated by the provider's service_account block.
+  # mock_provider returns "" (zero value) which is != null.
+  assert {
+    condition     = output.client_id != null
+    error_message = "client_id should not be null when credentials.type is service_account."
+  }
+}
+
 run "create_org_with_policies" {
   command = apply
 
@@ -18,8 +48,7 @@ run "create_org_with_policies" {
 
   variables {
     name        = "test-org-policies"
-    description = "programmatic API key"
-    role_names  = ["ORG_OWNER"]
+    credentials = {}
     resource_policies = {
       block_wildcard_ip          = true
       require_maintenance_window = true
@@ -56,8 +85,7 @@ run "create_org_with_all_policies" {
 
   variables {
     name        = "test-org-all-policies"
-    description = "programmatic API key"
-    role_names  = ["ORG_OWNER"]
+    credentials = {}
     resource_policies = {
       block_wildcard_ip          = true
       require_maintenance_window = true

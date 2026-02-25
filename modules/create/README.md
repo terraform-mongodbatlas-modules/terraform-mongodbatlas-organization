@@ -1,6 +1,6 @@
 # Create Organization
 
-Creates a new MongoDB Atlas organization with an initial programmatic API key.
+Creates a new MongoDB Atlas organization with a Service Account or Programmatic API Key.
 
 Callers must pass two providers: the default provider (target org credentials) and `mongodbatlas.org_creator` (paying org credentials).
 
@@ -28,8 +28,7 @@ module "atlas_org" {
 
   name         = "my-new-org"
   org_owner_id = var.user_id
-  description  = "Terraform managed API key"
-  role_names   = ["ORG_OWNER"]
+  credentials  = {}
 
   resource_policies = {
     block_wildcard_ip          = true
@@ -83,11 +82,21 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
-### <a name="input_description"></a> [description](#input\_description)
+### <a name="input_credentials"></a> [credentials](#input\_credentials)
 
-Description: Description for the initial programmatic API key created with the organization. Required for new organizations, ignored on import.
+Description: Credential configuration for the organization. Defaults to Service Account when set. Set type = "api\_key" for legacy Programmatic API Key. Null for import scenarios where credentials are already configured outside Terraform.
 
-Type: `string`
+Type:
+
+```hcl
+object({
+    type                       = optional(string, "service_account")
+    name                       = optional(string)
+    description                = optional(string)
+    roles                      = optional(list(string), ["ORG_OWNER"])
+    secret_expires_after_hours = optional(number, 2160)
+  })
+```
 
 Default: `null`
 
@@ -147,14 +156,6 @@ object({
 
 Default: `null`
 
-### <a name="input_role_names"></a> [role\_names](#input\_role\_names)
-
-Description: Roles for the initial programmatic API key (for example, ["ORG\_OWNER"]). Required for new organizations, ignored on import.
-
-Type: `list(string)`
-
-Default: `null`
-
 ### <a name="input_skip_default_alerts_settings"></a> [skip\_default\_alerts\_settings](#input\_skip\_default\_alerts\_settings)
 
 Description: Skip creation of default alert settings when creating the organization. When null, Atlas applies its own default (false), meaning default org-level alerts are created. See: https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-createorg
@@ -170,11 +171,11 @@ The following outputs are exported:
 
 ### <a name="output_client_id"></a> [client\_id](#output\_client\_id)
 
-Description: Client ID of the service account created with the organization. Requires provider support from CLOUDP-379374.
+Description: Client ID of the service account created with the organization. Only populated when credentials.type is "service\_account".
 
 ### <a name="output_client_secret"></a> [client\_secret](#output\_client\_secret)
 
-Description: Client secret of the service account created with the organization. Requires provider support from CLOUDP-379374.
+Description: Client secret of the service account created with the organization. Only populated when credentials.type is "service\_account".
 
 ### <a name="output_org_id"></a> [org\_id](#output\_org\_id)
 

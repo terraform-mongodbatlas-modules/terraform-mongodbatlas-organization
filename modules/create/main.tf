@@ -3,8 +3,8 @@ resource "mongodbatlas_organization" "this" {
 
   name                         = var.name
   org_owner_id                 = var.org_owner_id
-  description                  = var.description
-  role_names                   = var.role_names
+  description                  = try(var.credentials.type, null) == "api_key" ? var.credentials.description : null
+  role_names                   = try(var.credentials.type, null) == "api_key" ? var.credentials.roles : null
   federation_settings_id       = var.federation_settings_id
   api_access_list_required     = var.organization_settings != null ? var.organization_settings.api_access_list_required : null
   multi_factor_auth_required   = var.organization_settings != null ? var.organization_settings.multi_factor_auth_required : true
@@ -12,6 +12,23 @@ resource "mongodbatlas_organization" "this" {
   gen_ai_features_enabled      = var.organization_settings != null ? var.organization_settings.gen_ai_features_enabled : null
   security_contact             = var.organization_settings != null ? var.organization_settings.security_contact : null
   skip_default_alerts_settings = var.skip_default_alerts_settings
+
+  dynamic "service_account" {
+    for_each = try(var.credentials.type, null) == "service_account" ? [1] : []
+    content {
+      name                       = coalesce(var.credentials.name, var.name)
+      description                = coalesce(var.credentials.description, "Service account for ${var.name}")
+      roles                      = var.credentials.roles
+      secret_expires_after_hours = var.credentials.secret_expires_after_hours
+    }
+  }
+
+  lifecycle {
+    precondition {
+      condition     = var.credentials != null || var.org_owner_id == null
+      error_message = "credentials must be set when creating a new organization (org_owner_id is set)."
+    }
+  }
 }
 
 module "resource_policy" {

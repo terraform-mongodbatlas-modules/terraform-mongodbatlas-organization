@@ -9,16 +9,21 @@ variable "org_owner_id" {
   default     = null
 }
 
-variable "description" {
-  description = "Description for the initial programmatic API key created with the organization. Required for new organizations, ignored on import."
-  type        = string
-  default     = null
-}
+variable "credentials" {
+  description = "Credential configuration for the organization. Defaults to Service Account when set. Set type = \"api_key\" for legacy Programmatic API Key. Null for import scenarios where credentials are already configured outside Terraform."
+  type = object({
+    type                       = optional(string, "service_account")
+    name                       = optional(string)
+    description                = optional(string)
+    roles                      = optional(list(string), ["ORG_OWNER"])
+    secret_expires_after_hours = optional(number, 2160)
+  })
+  default = null
 
-variable "role_names" {
-  description = "Roles for the initial programmatic API key (for example, [\"ORG_OWNER\"]). Required for new organizations, ignored on import."
-  type        = list(string)
-  default     = null
+  validation {
+    condition     = var.credentials == null ? true : contains(["service_account", "api_key"], var.credentials.type)
+    error_message = "credentials.type must be \"service_account\" or \"api_key\"."
+  }
 }
 
 variable "federation_settings_id" {
