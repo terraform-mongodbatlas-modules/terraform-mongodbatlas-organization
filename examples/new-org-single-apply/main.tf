@@ -17,9 +17,6 @@ provider "mongodbatlas" {
 }
 
 module "atlas_org" {
-  # When using outside this repo, replace with registry source and version:
-  # source  = "terraform-mongodbatlas-modules/organization/mongodbatlas//modules/create"
-  # version = "~> X.Y"
   source = "../../modules/create"
 
   providers = {

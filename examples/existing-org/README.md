@@ -30,9 +30,6 @@ Copy and use this code to get started quickly:
 provider "mongodbatlas" {}
 
 module "atlas_org" {
-  # When using outside this repo, replace with registry source and version:
-  # source  = "terraform-mongodbatlas-modules/organization/mongodbatlas//modules/existing"
-  # version = "~> X.Y"
   source = "../../modules/existing"
 
   existing_org_id = var.org_id
