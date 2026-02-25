@@ -23,12 +23,6 @@ resource "mongodbatlas_organization" "this" {
     }
   }
 
-  lifecycle {
-    precondition {
-      condition     = var.credentials != null || var.org_owner_id == null
-      error_message = "credentials must be set when creating a new organization (org_owner_id is set)."
-    }
-  }
 }
 
 module "resource_policy" {

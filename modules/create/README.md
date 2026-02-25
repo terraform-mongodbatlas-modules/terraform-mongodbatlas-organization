@@ -28,7 +28,7 @@ module "atlas_org" {
 
   name         = "my-new-org"
   org_owner_id = var.user_id
-  credentials  = {}
+  credentials  = { type = "api_key", description = "org key" }
 
   resource_policies = {
     block_wildcard_ip          = true
@@ -84,13 +84,13 @@ The following input variables are optional (have default values):
 
 ### <a name="input_credentials"></a> [credentials](#input\_credentials)
 
-Description: Credential configuration for the organization. Defaults to Service Account when set. Set type = "api\_key" for legacy Programmatic API Key. Null for import scenarios where credentials are already configured outside Terraform.
+Description: Credential configuration for the organization. Set type = "api\_key" for Programmatic API Key or "service\_account" for Service Account.
 
 Type:
 
 ```hcl
 object({
-    type                       = optional(string, "service_account")
+    type                       = optional(string)
     name                       = optional(string)
     description                = optional(string)
     roles                      = optional(list(string), ["ORG_OWNER"])

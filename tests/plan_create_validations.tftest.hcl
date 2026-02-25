@@ -4,7 +4,7 @@ variables {
   org_owner_id = "000000000000000000000001"
 }
 
-run "create_new_org_with_sa" {
+run "create_new_org_with_pak" {
   command = plan
 
   module {
@@ -18,7 +18,7 @@ run "create_new_org_with_sa" {
 
   variables {
     name        = "test-org"
-    credentials = {}
+    credentials = { type = "api_key", description = "org key" }
   }
 
   assert {
@@ -34,6 +34,39 @@ run "create_new_org_with_sa" {
   assert {
     condition     = mongodbatlas_organization.this.restrict_employee_access == true
     error_message = "restrict_employee_access should default to true when organization_settings is null."
+  }
+
+  assert {
+    condition     = mongodbatlas_organization.this.description == "org key"
+    error_message = "description should be set when credentials.type is api_key."
+  }
+
+  assert {
+    condition     = mongodbatlas_organization.this.role_names == toset(["ORG_OWNER"])
+    error_message = "role_names should default to ORG_OWNER when credentials.type is api_key."
+  }
+
+  assert {
+    condition     = output.resource_policy_ids == {}
+    error_message = "resource_policy_ids should be empty when resource_policies is not set."
+  }
+}
+
+run "create_new_org_with_sa" {
+  command = plan
+
+  module {
+    source = "./modules/create"
+  }
+
+  providers = {
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
+  }
+
+  variables {
+    name        = "test-org-sa"
+    credentials = { type = "service_account" }
   }
 
   assert {
@@ -67,6 +100,7 @@ run "create_org_with_sa_custom_name" {
   variables {
     name = "test-org-custom-sa"
     credentials = {
+      type        = "service_account"
       name        = "custom-sa-name"
       description = "custom service account"
     }
@@ -134,7 +168,7 @@ run "create_org_with_settings" {
 
   variables {
     name        = "test-org-full"
-    credentials = {}
+    credentials = { type = "api_key", description = "org key" }
     organization_settings = {
       api_access_list_required   = true
       multi_factor_auth_required = true
@@ -168,6 +202,28 @@ run "create_org_with_settings" {
     condition     = output.resource_policy_ids == {}
     error_message = "resource_policy_ids should be empty when resource_policies is not set."
   }
+}
+
+run "empty_credentials_fails_validation" {
+  command = plan
+
+  module {
+    source = "./modules/create"
+  }
+
+  providers = {
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
+  }
+
+  variables {
+    name        = "test-org-empty-creds"
+    credentials = {}
+  }
+
+  expect_failures = [
+    var.credentials,
+  ]
 }
 
 run "plan_with_only_name_for_import" {

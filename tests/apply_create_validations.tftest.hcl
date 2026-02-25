@@ -18,7 +18,7 @@ run "create_org_sa_outputs" {
 
   variables {
     name        = "test-org-sa"
-    credentials = {}
+    credentials = { type = "service_account" }
   }
 
   assert {
@@ -48,7 +48,7 @@ run "create_org_with_policies" {
 
   variables {
     name        = "test-org-policies"
-    credentials = {}
+    credentials = { type = "api_key", description = "org key" }
     resource_policies = {
       block_wildcard_ip          = true
       require_maintenance_window = true
@@ -85,7 +85,7 @@ run "create_org_with_all_policies" {
 
   variables {
     name        = "test-org-all-policies"
-    credentials = {}
+    credentials = { type = "api_key", description = "org key" }
     resource_policies = {
       block_wildcard_ip          = true
       require_maintenance_window = true

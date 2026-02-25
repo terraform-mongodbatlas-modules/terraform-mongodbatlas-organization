@@ -10,18 +10,18 @@ variable "org_owner_id" {
 }
 
 variable "credentials" {
-  description = "Credential configuration for the organization. Defaults to Service Account when set. Set type = \"api_key\" for legacy Programmatic API Key. Null for import scenarios where credentials are already configured outside Terraform."
+  description = "Credential configuration for the organization. Set type = \"api_key\" for Programmatic API Key or \"service_account\" for Service Account."
   type = object({
-    type                       = optional(string, "service_account")
+    type                       = optional(string)
     name                       = optional(string)
     description                = optional(string)
-    roles                      = optional(list(string), ["ORG_OWNER"])
-    secret_expires_after_hours = optional(number, 2160)
+    roles                      = optional(list(string), ["ORG_OWNER"]) # used by both api_key (role_names) and service_account (service_account.roles)
+    secret_expires_after_hours = optional(number, 2160)               # 90 days, only used when type = "service_account"
   })
   default = null
 
   validation {
-    condition     = var.credentials == null ? true : contains(["service_account", "api_key"], var.credentials.type)
+    condition     = var.credentials == null ? true : try(contains(["service_account", "api_key"], var.credentials.type), false)
     error_message = "credentials.type must be \"service_account\" or \"api_key\"."
   }
 }
