@@ -12,7 +12,7 @@ variable "org_owner_id" {
 variable "credentials" {
   description = "Credential configuration for the organization. Set type = \"api_key\" for Programmatic API Key or \"service_account\" for Service Account."
   type = object({
-    type                       = optional(string)
+    type                       = string # "api_key" or "service_account"
     name                       = optional(string)
     description                = optional(string)
     roles                      = optional(list(string), ["ORG_OWNER"]) # used by both api_key (role_names) and service_account (service_account.roles)
