@@ -1,0 +1,6 @@
+name: require-maintenance-window
+org_id: <org_id>
+policies:
+- body: "forbid (\n  principal,\n  action == ResourcePolicy::Action::\"project.maintenanceWindow.modify\"\
+    ,\n  resource\n)\nwhen { context.project.hasDefinedMaintenanceWindow == false\
+    \ };\n"

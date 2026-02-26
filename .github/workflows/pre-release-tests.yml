@@ -1,0 +1,35 @@
+name: Pre-Release Tests
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'
+
+jobs:
+  acceptance-tests:
+    name: Acceptance Tests (Apply/Destroy)
+    runs-on: ubuntu-latest
+    env:
+      MONGODB_ATLAS_CLIENT_ID: ${{ secrets.MONGODB_ATLAS_CLIENT_ID }}
+      MONGODB_ATLAS_CLIENT_SECRET: ${{ secrets.MONGODB_ATLAS_CLIENT_SECRET }}
+      MONGODB_ATLAS_ORG_ID: ${{ secrets.MONGODB_ATLAS_ORG_ID }}
+      MONGODB_ATLAS_ORG_NAME: ${{ secrets.MONGODB_ATLAS_ORG_NAME }}
+      MONGODB_ATLAS_ORG_OWNER_ID: ${{ secrets.MONGODB_ATLAS_ORG_OWNER_ID }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: ./.github/actions/setup
+        with:
+          just: 'true'
+          terraform: 'true'
+          uv: 'true'
+      - run: just dev-vars-org
+      - name: Apply examples
+        run: just apply-examples-org --auto-approve
+      - name: Check outputs
+        run: just check-outputs-org
+      - name: Remove imported org from state
+        if: always()
+        run: terraform -chdir=tests/workspace_org_examples state rm module.ex_import || true
+      - name: Destroy examples
+        if: always()
+        run: just destroy-examples-org --auto-approve

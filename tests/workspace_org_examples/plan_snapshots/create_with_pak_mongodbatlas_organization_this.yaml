@@ -1,0 +1,9 @@
+description: programmatic API key for ws-test-create-pak
+gen_ai_features_enabled: true
+multi_factor_auth_required: true
+name: ws-test-create-pak
+org_owner_id: ''
+restrict_employee_access: true
+role_names:
+- ORG_OWNER
+service_account: []

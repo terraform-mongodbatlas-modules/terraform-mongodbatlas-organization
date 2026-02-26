@@ -58,3 +58,20 @@ jobs:
           mise: 'true'
       - run: just test-compat
   # === OK_EDIT: path-sync job-compat-tests ===
+  plan-snapshot-tests:
+    name: Plan Snapshot Tests
+    runs-on: ubuntu-latest
+    env:
+      MONGODB_ATLAS_CLIENT_ID: ${{ secrets.MONGODB_ATLAS_CLIENT_ID }}
+      MONGODB_ATLAS_CLIENT_SECRET: ${{ secrets.MONGODB_ATLAS_CLIENT_SECRET }}
+      MONGODB_ATLAS_ORG_ID: ${{ secrets.MONGODB_ATLAS_ORG_ID }}
+      MONGODB_ATLAS_ORG_NAME: ${{ secrets.MONGODB_ATLAS_ORG_NAME }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: ./.github/actions/setup
+        with:
+          just: 'true'
+          terraform: 'true'
+          uv: 'true'
+      - run: just dev-vars-org
+      - run: just plan-snapshot-test-org

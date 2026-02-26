@@ -244,3 +244,18 @@ update-terraform-versions:
 sdlc-validate:
     uvx path-sync validate-no-changes -b main
 # === OK_EDIT: path-sync sdlc-validate ===
+
+dev-vars-org:
+    {{py}} dev.dev_vars org
+
+plan-snapshot-test-org *args:
+    just plan-snapshot-test --ws workspace_org_examples -e none --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
+
+apply-examples-org *args:
+    just apply-examples --ws workspace_org_examples -e none --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
+
+check-outputs-org *args:
+    just check-outputs --ws workspace_org_examples -e none {{args}}
+
+destroy-examples-org *args:
+    just destroy-examples --ws workspace_org_examples -e none --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}

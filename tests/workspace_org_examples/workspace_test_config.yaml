@@ -1,0 +1,46 @@
+examples:
+  - name: create_with_pak
+    plan_regressions:
+      - address: mongodbatlas_organization.this
+    output_assertions:
+      - output: org_id
+        not_empty: true
+  - name: create_with_policies
+    plan_regressions:
+      - address: mongodbatlas_organization.this
+      - address: module.resource_policy[0].mongodbatlas_resource_policy.block_wildcard_ip[0]
+      - address: module.resource_policy[0].mongodbatlas_resource_policy.require_maintenance_window[0]
+      - address: module.resource_policy[0].mongodbatlas_resource_policy.restrict_vpc_peering_mods[0]
+      - address: module.resource_policy[0].mongodbatlas_resource_policy.cluster_tier_limits[0]
+    output_assertions:
+      - output: org_id
+        not_empty: true
+      - output: resource_policy_ids
+        not_empty: true
+  - name: import
+    output_assertions:
+      - output: org_id
+        not_empty: true
+  - name: existing_org
+    plan_regressions:
+      - address: module.resource_policy[0].mongodbatlas_resource_policy.block_wildcard_ip[0]
+        dump:
+          skip_lines:
+            redact_attributes: [org_id]
+      - address: module.resource_policy[0].mongodbatlas_resource_policy.require_maintenance_window[0]
+        dump:
+          skip_lines:
+            redact_attributes: [org_id]
+      - address: module.resource_policy[0].mongodbatlas_resource_policy.restrict_vpc_peering_mods[0]
+        dump:
+          skip_lines:
+            redact_attributes: [org_id]
+      - address: module.resource_policy[0].mongodbatlas_resource_policy.cluster_tier_limits[0]
+        dump:
+          skip_lines:
+            redact_attributes: [org_id]
+    output_assertions:
+      - output: org_id
+        not_empty: true
+      - output: resource_policy_ids
+        not_empty: true
