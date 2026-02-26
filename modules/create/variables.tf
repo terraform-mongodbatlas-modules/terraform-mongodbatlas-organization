@@ -12,7 +12,7 @@ variable "org_owner_id" {
 variable "credentials" {
   description = "Credential configuration for the organization. Set type = \"api_key\" for Programmatic API Key or \"service_account\" for Service Account."
   type = object({
-    type                       = string # "api_key" or "service_account"
+    type                       = optional(string) # "api_key" or "service_account"
     name                       = optional(string)
     description                = optional(string)
     roles                      = optional(list(string), ["ORG_OWNER"]) # used by both api_key (role_names) and service_account (service_account.roles)
@@ -21,7 +21,7 @@ variable "credentials" {
   default = null
 
   validation {
-    condition     = var.credentials == null ? true : try(contains(["service_account", "api_key"], var.credentials.type), false)
+    condition     = var.credentials == null ? true : try(var.credentials.type != null ? contains(["service_account", "api_key"], var.credentials.type) : false, false)
     error_message = "credentials.type must be \"service_account\" or \"api_key\"."
   }
 }
