@@ -246,7 +246,16 @@ sdlc-validate:
 # === OK_EDIT: path-sync sdlc-validate ===
 
 dev-vars-org:
-    {{py}} dev.dev_vars org
+    #!/usr/bin/env bash
+    set -euo pipefail
+    ws_dir="{{justfile_directory()}}/tests/workspace_org_examples"
+    mkdir -p "$ws_dir"
+    {
+      echo "org_id = \"${MONGODB_ATLAS_ORG_ID:?}\""
+      [ -n "${MONGODB_ATLAS_ORG_NAME:-}" ] && echo "org_name = \"$MONGODB_ATLAS_ORG_NAME\"" || echo "MONGODB_ATLAS_ORG_NAME not set, import test will show name drift" >&2
+      [ -n "${MONGODB_ATLAS_ORG_OWNER_ID:-}" ] && echo "org_owner_id = \"$MONGODB_ATLAS_ORG_OWNER_ID\"" || echo "MONGODB_ATLAS_ORG_OWNER_ID not set, org creation tests will be skipped" >&2
+    } > "$ws_dir/dev.tfvars"
+    echo "Generated $ws_dir/dev.tfvars"
 
 plan-snapshot-test-org *args:
     just plan-snapshot-test --ws workspace_org_examples -e none --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
