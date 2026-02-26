@@ -1,0 +1,5 @@
+name: block-wildcard-ip
+policies:
+- body: "forbid (\n  principal,\n  action == ResourcePolicy::Action::\"project.ipAccessList.modify\"\
+    ,\n  resource\n)\nwhen { context.project.ipAccessList.contains(ip(\"0.0.0.0/0\"\
+    )) };\n"
