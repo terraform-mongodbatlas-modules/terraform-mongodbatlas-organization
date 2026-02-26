@@ -8,7 +8,10 @@ terraform {
   required_version = ">= 1.9"
 }
 
-provider "mongodbatlas" {}
+provider "mongodbatlas" {
+  public_key  = module.ex_create_with_pak.public_key
+  private_key = module.ex_create_with_pak.private_key
+}
 
 provider "mongodbatlas" {
   alias = "org_creator"
