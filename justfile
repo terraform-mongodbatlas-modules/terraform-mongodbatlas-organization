@@ -258,13 +258,13 @@ dev-vars-org:
     echo "Generated $ws_dir/dev.tfvars"
 
 plan-snapshot-test-org *args:
-    just plan-snapshot-test --ws workspace_org_examples -e none --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
+    just plan-snapshot-test --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
 
 apply-examples-org *args:
-    just apply-examples --ws workspace_org_examples -e none --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
+    just apply-examples --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
 
 check-outputs-org *args:
     just check-outputs --ws workspace_org_examples -e none {{args}}
 
 destroy-examples-org *args:
-    just destroy-examples --ws workspace_org_examples -e none --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
+    just destroy-examples --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
