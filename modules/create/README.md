@@ -28,7 +28,7 @@ module "atlas_org" {
 
   name         = "my-new-org"
   org_owner_id = var.user_id
-  credentials  = { type = "service_account" }
+  credentials  = { type = "SERVICE_ACCOUNT" }
 
   resource_policies = {
     block_wildcard_ip          = true
@@ -84,17 +84,17 @@ The following input variables are optional (have default values):
 
 ### <a name="input_credentials"></a> [credentials](#input\_credentials)
 
-Description: Credential configuration for the organization. Set type = "api\_key" for Programmatic API Key or "service\_account" for Service Account.
+Description: Credential configuration for the organization. Set type = "API\_KEY" for Programmatic API Key or "SERVICE\_ACCOUNT" for Service Account.
 
 Type:
 
 ```hcl
 object({
-    type                       = optional(string) # "api_key" or "service_account"
+    type                       = string # "API_KEY" or "SERVICE_ACCOUNT"
     name                       = optional(string)
     description                = optional(string)
-    roles                      = optional(list(string), ["ORG_OWNER"]) # used by both api_key (role_names) and service_account (service_account.roles)
-    secret_expires_after_hours = optional(number, 2160)                # 90 days, only used when type = "service_account"
+    roles                      = optional(list(string), ["ORG_OWNER"]) # used by both API_KEY (role_names) and SERVICE_ACCOUNT (service_account.roles)
+    secret_expires_after_hours = optional(number, 2160)                # 90 days, only used when type = "SERVICE_ACCOUNT"
   })
 ```
 
@@ -171,11 +171,11 @@ The following outputs are exported:
 
 ### <a name="output_client_id"></a> [client\_id](#output\_client\_id)
 
-Description: Client ID of the service account created with the organization. Only populated when credentials.type is "service\_account".
+Description: Client ID of the service account created with the organization. Only populated when credentials.type is "SERVICE\_ACCOUNT".
 
 ### <a name="output_client_secret"></a> [client\_secret](#output\_client\_secret)
 
-Description: Client secret of the service account created with the organization. Only populated when credentials.type is "service\_account".
+Description: Client secret of the service account created with the organization. Only populated when credentials.type is "SERVICE\_ACCOUNT".
 
 ### <a name="output_org_id"></a> [org\_id](#output\_org\_id)
 

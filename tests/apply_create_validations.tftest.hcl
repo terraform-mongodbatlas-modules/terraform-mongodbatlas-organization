@@ -18,7 +18,7 @@ run "create_org_sa_outputs" {
 
   variables {
     name        = "test-org-sa"
-    credentials = { type = "service_account" }
+    credentials = { type = "SERVICE_ACCOUNT" }
   }
 
   assert {
@@ -30,7 +30,7 @@ run "create_org_sa_outputs" {
   # mock_provider returns "" (zero value) which is != null.
   assert {
     condition     = output.client_id != null
-    error_message = "client_id should not be null when credentials.type is service_account."
+    error_message = "client_id should not be null when credentials.type is SERVICE_ACCOUNT."
   }
 }
 
@@ -48,7 +48,7 @@ run "create_org_with_policies" {
 
   variables {
     name        = "test-org-policies"
-    credentials = { type = "api_key", description = "org key" }
+    credentials = { type = "API_KEY", description = "org key" }
     resource_policies = {
       block_wildcard_ip          = true
       require_maintenance_window = true
@@ -85,7 +85,7 @@ run "create_org_with_all_policies" {
 
   variables {
     name        = "test-org-all-policies"
-    credentials = { type = "api_key", description = "org key" }
+    credentials = { type = "API_KEY", description = "org key" }
     resource_policies = {
       block_wildcard_ip          = true
       require_maintenance_window = true

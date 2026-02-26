@@ -10,19 +10,19 @@ variable "org_owner_id" {
 }
 
 variable "credentials" {
-  description = "Credential configuration for the organization. Set type = \"api_key\" for Programmatic API Key or \"service_account\" for Service Account."
+  description = "Credential configuration for the organization. Set type = \"API_KEY\" for Programmatic API Key or \"SERVICE_ACCOUNT\" for Service Account."
   type = object({
-    type                       = optional(string) # "api_key" or "service_account"
+    type                       = string # "API_KEY" or "SERVICE_ACCOUNT"
     name                       = optional(string)
     description                = optional(string)
-    roles                      = optional(list(string), ["ORG_OWNER"]) # used by both api_key (role_names) and service_account (service_account.roles)
-    secret_expires_after_hours = optional(number, 2160)                # 90 days, only used when type = "service_account"
+    roles                      = optional(list(string), ["ORG_OWNER"]) # used by both API_KEY (role_names) and SERVICE_ACCOUNT (service_account.roles)
+    secret_expires_after_hours = optional(number, 2160)                # 90 days, only used when type = "SERVICE_ACCOUNT"
   })
   default = null
 
   validation {
-    condition     = var.credentials == null ? true : try(var.credentials.type != null ? contains(["service_account", "api_key"], var.credentials.type) : false, false)
-    error_message = "credentials.type must be \"service_account\" or \"api_key\"."
+    condition     = var.credentials == null ? true : try(var.credentials.type != null ? contains(["SERVICE_ACCOUNT", "API_KEY"], var.credentials.type) : false, false)
+    error_message = "credentials.type must be \"SERVICE_ACCOUNT\" or \"API_KEY\"."
   }
 }
 

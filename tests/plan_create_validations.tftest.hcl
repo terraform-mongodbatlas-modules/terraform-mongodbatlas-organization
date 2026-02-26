@@ -18,7 +18,7 @@ run "create_new_org_with_pak" {
 
   variables {
     name        = "test-org"
-    credentials = { type = "api_key", description = "org key" }
+    credentials = { type = "API_KEY", description = "org key" }
   }
 
   assert {
@@ -38,12 +38,12 @@ run "create_new_org_with_pak" {
 
   assert {
     condition     = mongodbatlas_organization.this.description == "org key"
-    error_message = "description should be set when credentials.type is api_key."
+    error_message = "description should be set when credentials.type is API_KEY."
   }
 
   assert {
     condition     = mongodbatlas_organization.this.role_names == toset(["ORG_OWNER"])
-    error_message = "role_names should default to ORG_OWNER when credentials.type is api_key."
+    error_message = "role_names should default to ORG_OWNER when credentials.type is API_KEY."
   }
 
   assert {
@@ -66,17 +66,17 @@ run "create_new_org_with_sa" {
 
   variables {
     name        = "test-org-sa"
-    credentials = { type = "service_account" }
+    credentials = { type = "SERVICE_ACCOUNT" }
   }
 
   assert {
     condition     = mongodbatlas_organization.this.description == null
-    error_message = "description should be null when credentials.type is service_account."
+    error_message = "description should be null when credentials.type is SERVICE_ACCOUNT."
   }
 
   assert {
     condition     = mongodbatlas_organization.this.role_names == null
-    error_message = "role_names should be null when credentials.type is service_account."
+    error_message = "role_names should be null when credentials.type is SERVICE_ACCOUNT."
   }
 
   assert {
@@ -100,7 +100,7 @@ run "create_org_with_sa_custom_name" {
   variables {
     name = "test-org-custom-sa"
     credentials = {
-      type        = "service_account"
+      type        = "SERVICE_ACCOUNT"
       name        = "custom-sa-name"
       description = "custom service account"
     }
@@ -132,7 +132,7 @@ run "create_org_with_api_key" {
   variables {
     name = "test-org-pak"
     credentials = {
-      type        = "api_key"
+      type        = "API_KEY"
       description = "programmatic API key"
       roles       = ["ORG_OWNER"]
     }
@@ -140,12 +140,12 @@ run "create_org_with_api_key" {
 
   assert {
     condition     = mongodbatlas_organization.this.description == "programmatic API key"
-    error_message = "description should be set when credentials.type is api_key."
+    error_message = "description should be set when credentials.type is API_KEY."
   }
 
   assert {
     condition     = mongodbatlas_organization.this.role_names == toset(["ORG_OWNER"])
-    error_message = "role_names should be set when credentials.type is api_key."
+    error_message = "role_names should be set when credentials.type is API_KEY."
   }
 
   assert {
@@ -168,7 +168,7 @@ run "create_org_with_settings" {
 
   variables {
     name        = "test-org-full"
-    credentials = { type = "api_key", description = "org key" }
+    credentials = { type = "API_KEY", description = "org key" }
     organization_settings = {
       api_access_list_required   = true
       multi_factor_auth_required = true
@@ -202,28 +202,6 @@ run "create_org_with_settings" {
     condition     = output.resource_policy_ids == {}
     error_message = "resource_policy_ids should be empty when resource_policies is not set."
   }
-}
-
-run "empty_credentials_fails_validation" {
-  command = plan
-
-  module {
-    source = "./modules/create"
-  }
-
-  providers = {
-    mongodbatlas             = mongodbatlas
-    mongodbatlas.org_creator = mongodbatlas
-  }
-
-  variables {
-    name        = "test-org-empty-creds"
-    credentials = {}
-  }
-
-  expect_failures = [
-    var.credentials,
-  ]
 }
 
 run "plan_with_only_name_for_import" {

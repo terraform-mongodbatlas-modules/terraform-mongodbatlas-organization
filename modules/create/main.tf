@@ -3,8 +3,8 @@ resource "mongodbatlas_organization" "this" {
 
   name                         = var.name
   org_owner_id                 = var.org_owner_id
-  description                  = try(var.credentials.type, null) == "api_key" ? coalesce(var.credentials.description, "API key for ${var.name}") : null
-  role_names                   = try(var.credentials.type, null) == "api_key" ? var.credentials.roles : null
+  description                  = try(var.credentials.type, null) == "API_KEY" ? coalesce(var.credentials.description, "API key for ${var.name}") : null
+  role_names                   = try(var.credentials.type, null) == "API_KEY" ? var.credentials.roles : null
   federation_settings_id       = var.federation_settings_id
   api_access_list_required     = var.organization_settings != null ? var.organization_settings.api_access_list_required : null
   multi_factor_auth_required   = var.organization_settings != null ? var.organization_settings.multi_factor_auth_required : true
@@ -14,7 +14,7 @@ resource "mongodbatlas_organization" "this" {
   skip_default_alerts_settings = var.skip_default_alerts_settings
 
   dynamic "service_account" {
-    for_each = try(var.credentials.type, null) == "service_account" ? [1] : []
+    for_each = try(var.credentials.type, null) == "SERVICE_ACCOUNT" ? [1] : []
     content {
       name                       = coalesce(var.credentials.name, var.name)
       description                = coalesce(var.credentials.description, "Service account for ${var.name}")

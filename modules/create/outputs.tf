@@ -16,13 +16,13 @@ output "private_key" {
 }
 
 output "client_id" {
-  description = "Client ID of the service account created with the organization. Only populated when credentials.type is \"service_account\"."
+  description = "Client ID of the service account created with the organization. Only populated when credentials.type is \"SERVICE_ACCOUNT\"."
   value       = try(mongodbatlas_organization.this.service_account[0].client_id, null)
   sensitive   = true
 }
 
 output "client_secret" {
-  description = "Client secret of the service account created with the organization. Only populated when credentials.type is \"service_account\"."
+  description = "Client secret of the service account created with the organization. Only populated when credentials.type is \"SERVICE_ACCOUNT\"."
   value       = try(mongodbatlas_organization.this.service_account[0].secrets[0].secret, null)
   sensitive   = true
 }

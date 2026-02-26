@@ -55,7 +55,7 @@ module "atlas_org" {
 
   name         = var.org_name
   org_owner_id = var.org_owner_id
-  credentials  = { type = "service_account" }
+  credentials  = { type = "SERVICE_ACCOUNT" }
 
   resource_policies = {
     block_wildcard_ip          = true
