@@ -9,16 +9,21 @@ variable "org_owner_id" {
   default     = null
 }
 
-variable "description" {
-  description = "Description for the initial programmatic API key created with the organization. Required for new organizations, ignored on import."
-  type        = string
-  default     = null
-}
+variable "credentials" {
+  description = "Credential configuration for the organization. Set type = \"API_KEY\" for Programmatic API Key or \"SERVICE_ACCOUNT\" for Service Account."
+  type = object({
+    type                       = string # "API_KEY" or "SERVICE_ACCOUNT"
+    name                       = optional(string)
+    description                = optional(string)
+    roles                      = optional(list(string), ["ORG_OWNER"]) # used by both API_KEY (role_names) and SERVICE_ACCOUNT (service_account.roles)
+    secret_expires_after_hours = optional(number, 2160)                # 90 days, only used when type = "SERVICE_ACCOUNT"
+  })
+  default = null
 
-variable "role_names" {
-  description = "Roles for the initial programmatic API key (for example, [\"ORG_OWNER\"]). Required for new organizations, ignored on import."
-  type        = list(string)
-  default     = null
+  validation {
+    condition     = var.credentials == null ? true : try(var.credentials.type != null ? contains(["SERVICE_ACCOUNT", "API_KEY"], var.credentials.type) : false, false)
+    error_message = "credentials.type must be \"SERVICE_ACCOUNT\" or \"API_KEY\"."
+  }
 }
 
 variable "federation_settings_id" {

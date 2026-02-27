@@ -13,6 +13,5 @@ module "atlas_org" {
 
   name         = var.org_name
   org_owner_id = var.org_owner_id
-  description  = "programmatic API key for ${var.org_name}"
-  role_names   = ["ORG_OWNER"]
+  credentials  = { type = "API_KEY", description = "programmatic API key for ${var.org_name}" }
 }

@@ -3,15 +3,15 @@ output "org_id" {
   value       = module.atlas_org.org_id
 }
 
-output "public_key" {
-  description = "Public key of the PAK created with the organization."
-  value       = module.atlas_org.public_key
+output "client_id" {
+  description = "Client ID of the service account created with the organization."
+  value       = module.atlas_org.client_id
   sensitive   = true
 }
 
-output "private_key" {
-  description = "Private key of the PAK created with the organization."
-  value       = module.atlas_org.private_key
+output "client_secret" {
+  description = "Client secret of the service account created with the organization."
+  value       = module.atlas_org.client_secret
   sensitive   = true
 }
 
