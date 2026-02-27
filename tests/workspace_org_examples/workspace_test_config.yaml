@@ -22,6 +22,9 @@ var_groups:
     - name: org_id
       expose_in_workspace: false
       module_value: 'local.existing_org_id'
+    - name: providers
+      expose_in_workspace: false
+      module_value: '{ mongodbatlas = mongodbatlas.existing_org }'
 
   new-org-single-apply:
     - name: org_name
