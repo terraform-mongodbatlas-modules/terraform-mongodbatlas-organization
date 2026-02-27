@@ -69,6 +69,16 @@ run "create_org_with_policies" {
     condition     = output.resource_policy_ids["require_maintenance_window"] != null
     error_message = "require_maintenance_window policy ID should not be null when enabled."
   }
+
+  assert {
+    condition     = output.public_key != null
+    error_message = "public_key should not be null when credentials.type is API_KEY."
+  }
+
+  assert {
+    condition     = output.private_key != null
+    error_message = "private_key should not be null when credentials.type is API_KEY."
+  }
 }
 
 run "create_org_with_all_policies" {

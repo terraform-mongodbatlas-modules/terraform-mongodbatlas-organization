@@ -26,6 +26,11 @@ run "cluster_tier_limits_min_and_max" {
     condition     = output.resource_policy_ids["cluster_tier_limits"] != null
     error_message = "cluster_tier_limits policy ID should not be null when enabled."
   }
+
+  assert {
+    condition     = output.org_id == var.existing_org_id
+    error_message = "org_id output should match existing_org_id."
+  }
 }
 
 run "cluster_tier_limits_min_only" {
