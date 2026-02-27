@@ -9,6 +9,7 @@ app = typer.Typer()
 WORKSPACE_DIR = Path(__file__).parent.parent.parent / "tests" / "workspace_org_examples"
 DEV_TFVARS = WORKSPACE_DIR / "dev.tfvars"
 
+
 @app.command()
 def org(existing_org_id: str = typer.Option(..., envvar="MONGODB_ATLAS_ORG_ID")) -> None:
     content = f'existing_org_id = "{existing_org_id}"\n'
