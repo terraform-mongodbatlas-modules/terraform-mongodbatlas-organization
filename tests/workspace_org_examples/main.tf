@@ -10,6 +10,7 @@ terraform {
 
 provider "mongodbatlas" {}
 
+# tflint-ignore: terraform_unused_declarations
 variable "existing_org_id" {
   type        = string
   description = "Existing organization ID for existing-org example."
