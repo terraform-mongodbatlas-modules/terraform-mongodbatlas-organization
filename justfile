@@ -244,27 +244,14 @@ update-terraform-versions:
 sdlc-validate:
     uvx path-sync validate-no-changes -b main
 # === OK_EDIT: path-sync sdlc-validate ===
-
 dev-vars-org:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    ws_dir="{{justfile_directory()}}/tests/workspace_org_examples"
-    mkdir -p "$ws_dir"
-    {
-      echo "org_id = \"${MONGODB_ATLAS_ORG_ID:?}\""
-      [ -n "${MONGODB_ATLAS_ORG_NAME:-}" ] && echo "org_name = \"$MONGODB_ATLAS_ORG_NAME\"" || echo "MONGODB_ATLAS_ORG_NAME not set, import test will show name drift" >&2
-      [ -n "${MONGODB_ATLAS_ORG_OWNER_ID:-}" ] && echo "org_owner_id = \"$MONGODB_ATLAS_ORG_OWNER_ID\"" || echo "MONGODB_ATLAS_ORG_OWNER_ID not set, org creation tests will be skipped" >&2
-    } > "$ws_dir/dev.tfvars"
-    echo "Generated $ws_dir/dev.tfvars"
+    {{py}} dev.dev_vars org
 
 plan-snapshot-test-org *args:
     just plan-snapshot-test --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
 
 apply-examples-org *args:
     just apply-examples --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
-
-check-outputs-org *args:
-    just check-outputs --ws workspace_org_examples -e none {{args}}
 
 destroy-examples-org *args:
     just destroy-examples --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
