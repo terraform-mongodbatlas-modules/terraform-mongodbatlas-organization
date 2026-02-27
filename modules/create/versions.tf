@@ -8,4 +8,10 @@ terraform {
       configuration_aliases = [mongodbatlas.org_creator]
     }
   }
+
+  # These values are used in the User-Agent Header
+  provider_meta "mongodbatlas" {
+    module_name    = "organizationcreate"
+    module_version = "local"
+  }
 }
