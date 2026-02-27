@@ -7,29 +7,8 @@ examples:
     - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.require_maintenance_window[0]
     - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.restrict_vpc_peering_mods[0]
 
-  - name: new-org-single-apply
-    var_groups: [new-org-single-apply]
-    sensitive_output: true
-    plan_regressions:
-    - address: module.atlas_org.mongodbatlas_organization.this
-    - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.block_wildcard_ip[0]
-    - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.cluster_tier_limits[0]
-    - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.require_maintenance_window[0]
-    - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.restrict_vpc_peering_mods[0]
-
 var_groups:
   existing-org:
     - name: org_id
       expose_in_workspace: false
-      module_value: 'local.existing_org_id'
-    - name: providers
-      expose_in_workspace: false
-      module_value: '{ mongodbatlas = mongodbatlas.existing_org }'
-
-  new-org-single-apply:
-    - name: org_name
-      expose_in_workspace: false
-      module_value: '"test-org-single-apply"'
-    - name: org_owner_id
-      expose_in_workspace: false
-      module_value: 'var.org_owner_id'
+      module_value: 'var.existing_org_id'

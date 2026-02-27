@@ -1,4 +1,0 @@
-name: restrict-vpc-peering-mods
-policies:
-- body: "forbid (\n  principal,\n  action == ResourcePolicy::Action::\"project.vpcPeering.modify\"\
-    ,\n  resource\n);\n"

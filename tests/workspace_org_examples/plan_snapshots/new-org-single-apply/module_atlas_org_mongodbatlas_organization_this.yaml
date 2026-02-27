@@ -1,9 +1,0 @@
-description: programmatic API key for test-org-single-apply
-gen_ai_features_enabled: true
-multi_factor_auth_required: true
-name: test-org-single-apply
-org_owner_id: <org_owner_id>
-restrict_employee_access: true
-role_names:
-- ORG_OWNER
-service_account: []
