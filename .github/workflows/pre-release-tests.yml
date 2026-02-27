@@ -75,13 +75,13 @@ jobs:
         with:
           provider-ref: ${{ inputs.provider_ref }}
       # === OK_EDIT: path-sync job-apply-setup ===
-      - run: just dev-vars-org "${MONGODB_ATLAS_ORG_ID}"
+      - run: just dev-vars-org
       - name: Apply examples
         env:
           INCLUDE_EXAMPLES: ${{ inputs.include_examples }}
-        run: just apply-examples --auto-approve -e "$INCLUDE_EXAMPLES" --var-file $(pwd)/tests/workspace_cluster_examples/dev.tfvars
+        run: just apply-examples-org --auto-approve -e "$INCLUDE_EXAMPLES"
       - name: Destroy examples
         if: always()
         env:
           INCLUDE_EXAMPLES: ${{ inputs.include_examples }}
-        run: just destroy-examples --auto-approve -e "$INCLUDE_EXAMPLES" --var-file $(pwd)/tests/workspace_cluster_examples/dev.tfvars
+        run: just destroy-examples-org --auto-approve -e "$INCLUDE_EXAMPLES"
