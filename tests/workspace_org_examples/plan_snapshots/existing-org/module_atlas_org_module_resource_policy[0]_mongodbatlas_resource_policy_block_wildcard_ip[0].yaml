@@ -1,5 +1,4 @@
 name: block-wildcard-ip
-org_id: <org_id>
 policies:
 - body: "forbid (\n  principal,\n  action == ResourcePolicy::Action::\"project.ipAccessList.modify\"\
     ,\n  resource\n)\nwhen { context.project.ipAccessList.contains(ip(\"0.0.0.0/0\"\
