@@ -1,4 +1,5 @@
 name: cluster-tier-limits
+org_id: <org_id>
 policies:
 - body: "forbid (\n  principal,\n  action == ResourcePolicy::Action::\"cluster.modify\"\
     ,\n  resource\n)\nwhen { (context.cluster has minGeneralClassInstanceSizeValue\
