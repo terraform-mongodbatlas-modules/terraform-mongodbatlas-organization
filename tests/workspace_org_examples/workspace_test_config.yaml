@@ -1,0 +1,14 @@
+examples:
+  - name: existing-org
+    var_groups: [existing-org]
+    plan_regressions:
+    - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.block_wildcard_ip[0]
+    - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.cluster_tier_limits[0]
+    - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.require_maintenance_window[0]
+    - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.restrict_vpc_peering_mods[0]
+
+var_groups:
+  existing-org:
+    - name: org_id
+      expose_in_workspace: false
+      module_value: 'var.existing_org_id'
