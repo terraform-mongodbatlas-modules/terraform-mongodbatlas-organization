@@ -10,7 +10,7 @@ terraform {
 
   # These values are used in the User-Agent Header
   provider_meta "mongodbatlas" {
-    module_name    = "organization_resource_policy"
+    module_name    = "organizationresourcepolicy"
     module_version = "local"
   }
 }

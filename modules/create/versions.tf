@@ -11,7 +11,7 @@ terraform {
 
   # These values are used in the User-Agent Header
   provider_meta "mongodbatlas" {
-    module_name    = "organization_create"
+    module_name    = "organizationcreate"
     module_version = "local"
   }
 }
