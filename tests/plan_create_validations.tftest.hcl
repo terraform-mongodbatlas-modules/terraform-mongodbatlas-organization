@@ -219,6 +219,16 @@ run "plan_with_only_name_for_import" {
   variables {
     org_owner_id = null
     name         = "imported-org"
+    credentials  = null
+    resource_policies = {
+      block_wildcard_ip          = true
+      require_maintenance_window = true
+      restrict_vpc_peering_mods  = true
+      cluster_tier_limits = {
+        min = "M10"
+        max = "M40"
+      }
+    }
   }
 
   assert {
@@ -227,7 +237,22 @@ run "plan_with_only_name_for_import" {
   }
 
   assert {
-    condition     = output.resource_policy_ids == {}
-    error_message = "resource_policy_ids should be empty when resource_policies is not set."
+    condition     = mongodbatlas_organization.this.org_owner_id == null
+    error_message = "org_owner_id should be null in import-mode runs."
+  }
+
+  assert {
+    condition     = mongodbatlas_organization.this.description == null
+    error_message = "description should be null when credentials is null in import-mode runs."
+  }
+
+  assert {
+    condition     = length(module.resource_policy) == 1
+    error_message = "resource_policy submodule should be enabled when import-mode resource_policies is set."
+  }
+
+  assert {
+    condition     = contains(keys(output.resource_policy_ids), "cluster_tier_limits")
+    error_message = "resource_policy_ids should include cluster_tier_limits when import-mode resource_policies is set."
   }
 }
