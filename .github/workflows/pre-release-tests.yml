@@ -24,9 +24,9 @@ on:
 # === OK_EDIT: path-sync header ===
 
 env:
-  MONGODB_ATLAS_ORG_ID: ${{ secrets.MONGODB_ATLAS_ORG_ID_PRE_RELEASE }}
-  MONGODB_ATLAS_CLIENT_ID: ${{ secrets.MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE }}
-  MONGODB_ATLAS_CLIENT_SECRET: ${{ secrets.MONGODB_ATLAS_CLIENT_SECRET_PRE_RELEASE }}
+  MONGODB_ATLAS_ORG_ID: ${{ secrets.MONGODB_ATLAS_ORG_ID }}
+  MONGODB_ATLAS_CLIENT_ID: ${{ secrets.MONGODB_ATLAS_CLIENT_ID }}
+  MONGODB_ATLAS_CLIENT_SECRET: ${{ secrets.MONGODB_ATLAS_CLIENT_SECRET }}
   MONGODB_ATLAS_BASE_URL: ${{ secrets.MONGODB_ATLAS_BASE_URL }}
   TF_VAR_org_owner_id: ${{ secrets.MONGODB_ATLAS_ORG_OWNER_ID }}
 
@@ -57,6 +57,10 @@ jobs:
   apply-and-destroy:
     name: Apply & Destroy Examples
     runs-on: ubuntu-latest
+    env:
+      MONGODB_ATLAS_ORG_ID: ${{ secrets.MONGODB_ATLAS_ORG_ID_PRE_RELEASE }}
+      MONGODB_ATLAS_CLIENT_ID: ${{ secrets.MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE }}
+      MONGODB_ATLAS_CLIENT_SECRET: ${{ secrets.MONGODB_ATLAS_CLIENT_SECRET_PRE_RELEASE }}
     steps:
       # === DO_NOT_EDIT: path-sync job-apply-setup ===
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
