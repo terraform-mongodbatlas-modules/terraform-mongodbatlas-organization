@@ -1,10 +1,22 @@
-# Create Organization
+# Create Organization submodule
 
-Creates a new MongoDB Atlas organization with a Service Account or Programmatic API Key.
+The `create` submodule provisions and manages a new MongoDB Atlas organization using either a Service Account or a Programmatic API Key.
 
-Callers must pass two providers: the default provider (target org credentials) and `mongodbatlas.org_creator` (paying org credentials).
+The following providers are required: 
+
+- The default provider with the target org credentials.
+_ The `mongodbatlas.org_creator` with the paying org credentials.
 
 ## Usage
+The submodule does the following:
+1. Defines a **default provider** with Paying Organization Credentials
+2. Defines an **aliased providers** referencing the Service Account outputs
+    - `client_id`
+    - `client_secret`
+3. Passes both providers information to the module through the `providers` block
+4. Executes `terraform apply` to create the organization and policies
+
+To use this submodule, run the following script:
 
 ```hcl
 provider "mongodbatlas" {

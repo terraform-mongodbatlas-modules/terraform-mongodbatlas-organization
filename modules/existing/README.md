@@ -1,8 +1,13 @@
-# Existing Organization
-
-Applies governance and configuration to an existing MongoDB Atlas organization.
+# Existing Organization submodule
+The `existing` submodule manages and configures existing MongoDB Atlas organizations. Since it works with existing organizations, it does not require provider declaration, which simplifies its implementation.
 
 ## Usage
+The submodule does the following:
+1. Defines a single provider with a MongoDB existing organization credentials
+2. Sets `existing_org_id` with the existing organization ID
+3. Configures `resources_policies`
+
+To use this submodule, run the following script:
 
 ```hcl
 module "atlas_org" {
