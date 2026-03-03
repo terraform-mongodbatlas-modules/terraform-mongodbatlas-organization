@@ -28,6 +28,7 @@ env:
   MONGODB_ATLAS_CLIENT_ID: ${{ secrets.MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE }}
   MONGODB_ATLAS_CLIENT_SECRET: ${{ secrets.MONGODB_ATLAS_CLIENT_SECRET_PRE_RELEASE }}
   MONGODB_ATLAS_BASE_URL: ${{ secrets.MONGODB_ATLAS_BASE_URL }}
+  TF_VAR_org_owner_id: ${{ secrets.MONGODB_ATLAS_ORG_OWNER_ID }}
 
 jobs:
   # === DO_NOT_EDIT: path-sync job-tftest ===
