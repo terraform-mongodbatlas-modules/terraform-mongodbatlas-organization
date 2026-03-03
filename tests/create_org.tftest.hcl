@@ -4,6 +4,8 @@
 # and TF_VAR_org_owner_id env var set to an Atlas user ID.
 # Excluded from unit-plan-tests; runs as part of tftest-all (pre-release).
 
+provider "mongodbatlas" {}
+
 provider "mongodbatlas" {
   alias = "org_creator"
 }
