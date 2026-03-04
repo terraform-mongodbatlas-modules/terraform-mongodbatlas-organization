@@ -9,13 +9,14 @@ The following providers are required:
 
 ## Usage
 
-The submodule does the following:
-1. Creates a new MongoDB Atlas organization with the provided credentials.
-2. (Optional)Creates resource policies to enforce organization-level constraints.
-    - Typically referencing Service Account or API key outputs:
-      - `client_id`
-      - `client_secret`
-3. Passes both providers to the module through the `providers` block so that the create logic and any resource policies can use the appropriate credentials.
+The submodule:
+1. Creates a new MongoDB Atlas organization using the `mongodbatlas.org_creator` aliased provider.
+2. Exposes credentials generated during organization creation as [outputs](./outputs.tf) (`client_id`, `client_secret`, `public_key`, `private_key`).
+3. (Optional) Creates resource policies to enforce organization-level constraints.
+
+You must define two `mongodbatlas` providers and pass them to the module via the `providers` block:
+- **Default provider** (`mongodbatlas`): credentials for the new organization (target org).
+- **Aliased provider** (`mongodbatlas.org_creator`): credentials for the paying organization that owns the new org.
 
 ```hcl
 provider "mongodbatlas" {
@@ -48,8 +49,7 @@ module "atlas_org" {
 }
 ```
 
-4. Run `terraform plan` to ensure you agree with the configuration 
-5. Run `terraform apply` to create the organization and policies.
+Then run `terraform plan` to review the configuration and `terraform apply` to create the organization and policies.
 
 <!-- BEGIN_TF_DOCS -->
 <!-- @generated

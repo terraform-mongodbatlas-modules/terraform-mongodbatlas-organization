@@ -6,7 +6,7 @@ The following are examples for managing MongoDB Atlas organizations with Terrafo
 
 | Use Case | Example | Description |
 |----------|---------|-------------|
-| **Manage existing organization** | [`existing-org/`](./existing-org/) | Applies resource policies to an organization that already exists in MongoDB Atlas. |
+| **Manage resource policies for an already existing organization** | [`existing-org/`](./existing-org/) | Applies resource policies to an organization that already exists in MongoDB Atlas. |
 | **Create new organization (single apply)** | [`new-org-single-apply/`](./new-org-single-apply/) | Creates a new organization and apply policies in a single `terraform apply` command. |
 | **Create new organization (two-step)** | [`new-org-two-step/`](./new-org-two-step/) | Creates a new organization and apply policies in separate steps. Note: Use this when you cannot use the single-apply workflow. |
 | **Import existing organization** | [`import/`](./import/) | Import an already-existing MongoDB Atlas organization into your Terraform state. |

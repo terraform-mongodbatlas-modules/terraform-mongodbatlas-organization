@@ -2,78 +2,74 @@
 
 ## Overview
 
-This Terraform module simplifies the management of MongoDB Atlas organizations. It provides a streamlined way to create and configure organization resources, including teams, projects, and roles, using infrastructure-as-code principles.
+This Terraform module provides two submodules for managing MongoDB Atlas organizations:
 
-The module is designed to help DevOps engineers and cloud architects automate MongoDB Atlas organization setup and management within their Terraform workflows.
+- **[`create`](./modules/create/)**: Provisions a new organization and optionally applies [resource policies](https://www.mongodb.com/docs/atlas/atlas-resource-policies/).
+- **[`existing`](./modules/existing/)**: Manages resource policies for an organization that already exists.
 
+Choose the submodule that matches your starting point. For a detailed comparison, see the [modules overview](./modules/README.md).
 
-## Usage 
+## Usage
+
+### Create a new organization
 
 ```hcl
-module "mongodb_atlas_org" {
-    source = "./modules/organization"
+module "atlas_org" {
+  source = "mongodb/organization/mongodbatlas//modules/create"
 
-    org_name = "my-organization"
-    api_key  = var.mongodb_atlas_api_key
-    
-    teams = {
-        platform = {
-            name        = "Platform Team"
-            description = "Infrastructure and platform team"
-        }
-    }
+  providers = {
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas.paying_org
+  }
+
+  name         = "my-new-org"
+  org_owner_id = var.user_id
+  credentials  = { type = "SERVICE_ACCOUNT" }
+
+  resource_policies = {
+    block_wildcard_ip          = true
+    require_maintenance_window = true
+  }
 }
 ```
 
-To use this module:
+### Manage an existing organization
 
-1. Initialize Terraform:
-     ```bash
-     terraform init
-     ```
+```hcl
+module "atlas_org" {
+  source = "mongodb/organization/mongodbatlas//modules/existing"
 
-2. Plan your changes:
-     ```bash
-     terraform plan
-     ```
+  existing_org_id = var.org_id
 
-3. Apply the configuration:
-     ```bash
-     terraform apply
-     ```
+  resource_policies = {
+    block_wildcard_ip          = true
+    require_maintenance_window = true
+  }
+}
+```
 
-For detailed examples, see the `examples/` directory.
+For more workflows, see the [examples](./examples/README.md).
 
 ## Resources
 
 This module manages the following MongoDB Atlas resources:
 
-- **Organizations**: Create and configure MongoDB Atlas organizations
-- **Teams**: Define teams within the organization with specific permissions
-- **Projects**: Create projects and assign teams to manage resources
-- **Organization Roles**: Configure custom roles for organization-level access control
-- **API Keys**: Generate and manage API credentials for programmatic access
-- **IP Whitelist**: Manage IP access restrictions at the organization level
+- **[Organizations](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/resources/organization)**: Create and configure MongoDB Atlas organizations (via the `create` submodule).
+- **[Resource Policies](https://www.mongodb.com/docs/atlas/atlas-resource-policies/)**: Define organization-level controls that constrain how developers create or configure Atlas resources such as clusters, network configurations, and project settings.
 
-## Considerations 
+## Considerations
 
-### API Key Security
-Ensure MongoDB Atlas API keys are stored securely using Terraform variables or a secrets management system. Never commit API credentials to version control.
+### Credential Security
+Ensure MongoDB Atlas credentials (API keys, service account secrets) are stored securely using Terraform variables or a secrets management system. Never commit credentials to version control. See the [Atlas authentication guide](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs#authentication).
 
-### Permissions and Access Control
-Verify that your MongoDB Atlas organization has the necessary permissions to create teams, projects, and roles. Some operations may require Organization Owner privileges.
-
-### API Rate Limiting
-Be aware of MongoDB Atlas API rate limits when managing large numbers of resources. Consider implementing delays between operations if needed.
+### Permissions
+Some operations require Organization Owner privileges. See [MongoDB Atlas organization roles](https://www.mongodb.com/docs/atlas/reference/user-roles/#organization-roles) for details.
 
 ### State Management
-Store your Terraform state file securely, as it contains sensitive information about your MongoDB Atlas organization configuration.
+Store your Terraform state file securely, as it may contain sensitive information about your MongoDB Atlas organization configuration. See [Terraform sensitive data in state](https://developer.hashicorp.com/terraform/language/state/sensitive-data).
 
-### Existing Resources
-If importing existing MongoDB Atlas organizations, use `terraform import` to avoid duplicate resource creation and maintain consistency with your infrastructure code.
-
-### Regional Considerations
-MongoDB Atlas organization and project settings may have regional implications. Review MongoDB's documentation for region-specific features and limitations before deployment.
+### Importing Existing Resources
+If importing existing MongoDB Atlas organizations, use the [`import` example](./examples/import/) to bring them into your Terraform state. See [Terraform import](https://developer.hashicorp.com/terraform/cli/import) for general guidance.
 
 ## License
 

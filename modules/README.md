@@ -61,10 +61,6 @@ module "atlas_org" {
 
 ## Resource Policies
 
-Resource policies control access and permissions within organizations:
+[Atlas resource policies](https://www.mongodb.com/docs/atlas/atlas-resource-policies/) enable Organization Owners to constrain the specific configuration options available to developers when they create or configure Atlas resources such as clusters, network configurations, and project settings.
 
-- **Org Owner**: Full administrative access
-- **Org Member**: Limited organizational access
-- **Custom Roles**: Granularly defined permissions
-
-Policies are applied consistently across both `create` and `existing` submodules to enforce security boundaries and role-based access control.
+Both submodules provide easy-to-configure resource policies that follow best practices for security, compliance, and operational governance. Policies are opt-in: set individual policies to enforce them.
