@@ -1,7 +1,5 @@
 # Integration tests — applies real resources against an Atlas organization.
-# Not auto-discovered by CI; run manually with:
-#   terraform init -test-directory=tests/integration
-#   terraform test -test-directory=tests/integration -var "org_id=$MONGODB_ATLAS_ORG_ID"
+# Not auto-discovered by CI; run manually with: just integration-test-org
 # Requires MONGODB_ATLAS_CLIENT_ID and MONGODB_ATLAS_CLIENT_SECRET env vars.
 
 variable "org_id" {

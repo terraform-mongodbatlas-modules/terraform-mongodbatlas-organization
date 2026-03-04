@@ -255,3 +255,8 @@ apply-examples-org *args:
 
 destroy-examples-org *args:
     just destroy-examples --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
+
+# Integration tests against real Atlas infrastructure (not run in CI).
+integration-test-org org_id=env_var("MONGODB_ATLAS_ORG_ID"):
+    terraform init -test-directory=tests/integration
+    terraform test -test-directory=tests/integration -var 'org_id={{org_id}}'

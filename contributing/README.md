@@ -8,6 +8,15 @@ This directory contains guides for contributors to the terraform-mongodbatlas-cl
 
 - **[Development Guide](development-guide.md)** - Quick start, development workflow, and release process
 - **[Test Guide](test-guide.md)** - Running unit, integration, and plan snapshot tests
+
+## Pre-Release Checklist
+
+Before releasing, run the integration tests that run against a real Atlas Organization. Requires `MONGODB_ATLAS_CLIENT_ID` and `MONGODB_ATLAS_CLIENT_SECRET` env vars. Not run in CI.
+
+```bash
+just integration-test-org              # uses MONGODB_ATLAS_ORG_ID env var
+just integration-test-org <org_id>     # pass org_id directly
+```
 <!-- === DO_NOT_EDIT: path-sync default === -->
 - **[Documentation Guide](documentation-guide.md)** - Working with auto-generated documentation
 - **[Changelog Guide](changelog-process.md)** - Creating changelog entries and understanding the changelog workflow
