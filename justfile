@@ -1,5 +1,5 @@
 # path-sync copy -n sdlc
-PLAN_TEST_FILES := "-filter=tests/plan_create_validations.tftest.hcl -filter=tests/plan_existing_validations.tftest.hcl -filter=tests/apply_create_validations.tftest.hcl -filter=tests/apply_existing_validations.tftest.hcl"
+PLAN_TEST_FILES := ""
 
 # === DO_NOT_EDIT: path-sync core ===
 set dotenv-load

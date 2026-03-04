@@ -1,7 +1,8 @@
 # Integration tests — applies real resources against an Atlas organization.
-# Requires MONGODB_ATLAS_CLIENT_ID, MONGODB_ATLAS_CLIENT_SECRET env vars
-# and org_id passed via: terraform test -var 'org_id=<ATLAS_ORG_ID>'
-# Excluded from unit-plan-tests; runs as part of tftest-all (pre-release).
+# Not auto-discovered by CI; run manually with:
+#   terraform init -test-directory=tests/integration
+#   terraform test -test-directory=tests/integration -var "org_id=$MONGODB_ATLAS_ORG_ID"
+# Requires MONGODB_ATLAS_CLIENT_ID and MONGODB_ATLAS_CLIENT_SECRET env vars.
 
 variable "org_id" {
   type = string
