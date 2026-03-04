@@ -1,6 +1,13 @@
 # Organization Module
 
-This module provides resources for managing MongoDB Atlas organizations.
+This module can be used in **two different ways**, depending on whether you need to create a new MongoDB Atlas organization or manage one that already exists.
+
+## Two Ways to Use This Module
+
+1. Use the `create` submodule to create a new organization and manage it.
+2. Use the `existing` submodule to connect to an existing organization and manage supported configuration on top of it.
+
+Choose the submodule that matches your lifecycle starting point.
 
 ## Submodules
 
@@ -12,6 +19,15 @@ Use this submodule when you need to create a new MongoDB Atlas organization from
 - Setting up multi-tenant environments
 - Creating isolated organizational structures
 
+**Quick start:**
+```hcl
+module "atlas_org" {
+	source = "./modules/create"
+
+	# required inputs...
+}
+```
+
 ### `existing` Submodule
 Use this submodule when working with pre-existing MongoDB Atlas organizations.
 
@@ -20,14 +36,28 @@ Use this submodule when working with pre-existing MongoDB Atlas organizations.
 - Integrating with existing infrastructure
 - Avoiding duplicate organization creation
 
+**Quick start:**
+```hcl
+module "atlas_org" {
+	source = "./modules/existing"
+
+	# required inputs...
+}
+```
+
 ## Key Differences
 
 | Aspect | Create | Existing |
 |--------|--------|----------|
 | **Purpose** | Provisions new organizations | Manages existing organizations |
-| **Resource Creation** | Creates organization resources | References existing resources |
-| **State Management** | Manages full lifecycle | Read-only or limited modifications |
+| **Resource Creation** | Creates organization resources | Does not create organization itself, may create related configuration resources (for example, resource policies) |
+| **State Management** | Manages full lifecycle | Manages configuration state of existing organization, not full lifecycle |
 | **Use Case** | Greenfield deployments | Brownfield integrations |
+
+## How to Choose
+
+- Choose `create` if your Terraform run is responsible for standing up the organization.
+- Choose `existing` if the organization is already present and Terraform should only manage supported add-on configuration.
 
 ## Resource Policies
 
