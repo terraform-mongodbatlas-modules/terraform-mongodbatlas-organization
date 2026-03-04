@@ -16,7 +16,7 @@ Before releasing, run the acceptance tests that create and destroy real Atlas re
 ```bash
 just acc-test-org                          # uses MONGODB_ATLAS_ORG_ID env var
 just acc-test-org <org_id>                 # pass org_id directly and uses MONGODB_ATLAS_ORG_OWNER_ID env var
-just acc-test-org <org_id> <org_owner_id>  # pass both org_id and  directly
+just acc-test-org <org_id> <org_owner_id>  # pass both org_id and org_owner_id directly
 ```
 <!-- === DO_NOT_EDIT: path-sync default === -->
 - **[Documentation Guide](documentation-guide.md)** - Working with auto-generated documentation
