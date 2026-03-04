@@ -1,5 +1,5 @@
-# Integration tests — applies real resources against an Atlas organization.
-# Not auto-discovered by CI; run manually with: just integration-test-org
+# Acceptance tests — applies real resources against an Atlas organization.
+# Not auto-discovered by CI; run manually with: just acc-test-org
 # Requires MONGODB_ATLAS_CLIENT_ID and MONGODB_ATLAS_CLIENT_SECRET env vars.
 
 variable "org_id" {

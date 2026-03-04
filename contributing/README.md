@@ -11,11 +11,11 @@ This directory contains guides for contributors to the terraform-mongodbatlas-cl
 
 ## Pre-Release Checklist
 
-Before releasing, run the integration tests that run against a real Atlas Organization. Requires `MONGODB_ATLAS_CLIENT_ID` and `MONGODB_ATLAS_CLIENT_SECRET` env vars. Not run in CI.
+Before releasing, run the acceptance tests that run against a real Atlas Organization. Requires `MONGODB_ATLAS_CLIENT_ID` and `MONGODB_ATLAS_CLIENT_SECRET` env vars. Not run in CI.
 
 ```bash
-just integration-test-org              # uses MONGODB_ATLAS_ORG_ID env var
-just integration-test-org <org_id>     # pass org_id directly
+just acc-test-org              # uses MONGODB_ATLAS_ORG_ID env var
+just acc-test-org <org_id>     # pass org_id directly
 ```
 <!-- === DO_NOT_EDIT: path-sync default === -->
 - **[Documentation Guide](documentation-guide.md)** - Working with auto-generated documentation
