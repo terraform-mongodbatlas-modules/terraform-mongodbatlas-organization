@@ -14,8 +14,9 @@ This directory contains guides for contributors to the terraform-mongodbatlas-cl
 Before releasing, run the acceptance tests that create and destroy real Atlas resources. Requires `MONGODB_ATLAS_CLIENT_ID` and `MONGODB_ATLAS_CLIENT_SECRET` env vars. The org creation test also requires `MONGODB_ATLAS_ORG_OWNER_ID` and a paying organization. Not run in CI.
 
 ```bash
-just acc-test-org              # uses MONGODB_ATLAS_ORG_ID env var
-just acc-test-org <org_id>     # pass org_id directly
+just acc-test-org                          # uses MONGODB_ATLAS_ORG_ID env var
+just acc-test-org <org_id>                 # pass org_id directly and uses MONGODB_ATLAS_ORG_OWNER_ID env var
+just acc-test-org <org_id> <org_owner_id>  # pass both org_id and  directly
 ```
 <!-- === DO_NOT_EDIT: path-sync default === -->
 - **[Documentation Guide](documentation-guide.md)** - Working with auto-generated documentation
