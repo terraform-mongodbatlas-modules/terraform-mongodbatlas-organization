@@ -1,11 +1,13 @@
-# Create Organization submodule
+# Create Organization Submodule
 
 The `create` submodule provisions and manages a new MongoDB Atlas organization using either a Service Account or a Programmatic API Key.
 
-The following providers are required: 
+The following providers are required:
 
 - The default `mongodbatlas` provider with the target organization credentials.
 - The `mongodbatlas.org_creator` aliased provider with the paying organization credentials.
+
+**Note:** Service Accounts are the preferred authentication method. To learn more, see [Service Account (Recommended)](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/guides/provider-configuration#service-account-recommended) in the official MongoDB Atlas provider for Terraform documentation.
 
 ## Usage
 

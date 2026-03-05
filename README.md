@@ -44,9 +44,11 @@ This module can be used in **two different ways**, depending on whether you need
 
 ## Usage
 
-### Create a new organization
+### Create a New Organization
 
-```hcl
+To create a new organization, use the following code snippet in your `main.tf` file:
+
+```hcl<>
 module "atlas_org" {
   source = "mongodb/organization/mongodbatlas//modules/create"
 
@@ -66,7 +68,9 @@ module "atlas_org" {
 }
 ```
 
-### Manage an existing organization
+### Manage an Existing Organization
+
+To manage an existing organization, use the following code snippet in your `main.tf` file:
 
 ```hcl
 module "atlas_org" {
