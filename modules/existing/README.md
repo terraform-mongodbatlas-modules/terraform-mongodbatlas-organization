@@ -19,8 +19,7 @@ module "atlas_org" {
 }
 ```
 
-3. Run `terraform plan` to review the configuration.
-4. Run `terraform apply` to apply the resource policies.
+Then run `terraform plan` to review the configuration and `terraform apply` to apply the resource policies.
 
 <!-- BEGIN_TF_DOCS -->
 <!-- @generated
