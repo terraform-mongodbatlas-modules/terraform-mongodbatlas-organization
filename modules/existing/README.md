@@ -1,8 +1,11 @@
-# Existing Organization
-
-Applies governance and configuration to an existing MongoDB Atlas organization.
+# Existing Organization submodule
+The `existing` submodule manages and configures existing MongoDB Atlas organizations. It relies on the `mongodbatlas` provider configuration defined in the calling (root) module instead of declaring its own provider.
 
 ## Usage
+The submodule expects the following:
+1. The `mongodbatlas` provider is configured in the root module with credentials for the existing MongoDB Atlas organization.
+2. `existing_org_id` is set to the ID of the existing organization to manage.
+3. (Optional) `resource_policies` is configured to enable and customize resource policy behavior.
 
 ```hcl
 module "atlas_org" {
@@ -15,6 +18,8 @@ module "atlas_org" {
   }
 }
 ```
+
+Then run `terraform plan` to review the configuration and `terraform apply` to apply the resource policies.
 
 <!-- BEGIN_TF_DOCS -->
 <!-- @generated
