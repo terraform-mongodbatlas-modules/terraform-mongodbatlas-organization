@@ -143,3 +143,8 @@ By splitting into two submodules, users managing an existing organization (`exis
 ## License
 
 See [LICENSE](./LICENSE) for full details.
+
+<!-- BEGIN_TF_DOCS -->
+<!-- BEGIN_TF_INPUTS_RAW -->
+<!-- END_TF_INPUTS_RAW -->
+<!-- END_TF_DOCS -->
