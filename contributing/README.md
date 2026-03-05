@@ -6,8 +6,8 @@ This directory contains guides for contributors to the terraform-mongodbatlas-cl
 
 ## Available Guides
 
-- **[Development Guide](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v0.1.0/contributing/development-guide.md)** - Quick start, development workflow, and release process
-- **[Test Guide](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v0.1.0/contributing/test-guide.md)** - Running unit, integration, and plan snapshot tests
+- **[Development Guide](development-guide.md)** - Quick start, development workflow, and release process
+- **[Test Guide](test-guide.md)** - Running unit, integration, and plan snapshot tests
 
 ## Pre-Release Checklist
 
@@ -19,9 +19,9 @@ just acc-test-org <org_id>                 # pass org_id directly and uses MONGO
 just acc-test-org <org_id> <org_owner_id>  # pass both org_id and org_owner_id directly
 ```
 <!-- === DO_NOT_EDIT: path-sync default === -->
-- **[Documentation Guide](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v0.1.0/contributing/documentation-guide.md)** - Working with auto-generated documentation
-- **[Changelog Guide](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v0.1.0/contributing/changelog-process.md)** - Creating changelog entries and understanding the changelog workflow
-- **[SDLC Sync Guide](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v0.1.0/contributing/sdlc-sync.md)** - How tooling is shared between Terraform modules
+- **[Documentation Guide](documentation-guide.md)** - Working with auto-generated documentation
+- **[Changelog Guide](changelog-process.md)** - Creating changelog entries and understanding the changelog workflow
+- **[SDLC Sync Guide](sdlc-sync.md)** - How tooling is shared between Terraform modules
 
 ## Quick Start
 
@@ -33,7 +33,7 @@ just pre-commit
 
 ## Getting Help
 
-- Check [Issues](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v0.1.0/../../../issues) for similar problems
+- Check [Issues](../../../issues) for similar problems
 - Create new issue with output from `just pre-commit` if needed
 - See [Terraform docs](https://www.terraform.io/docs) and [MongoDB Atlas Provider docs](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs)
 <!-- === OK_EDIT: path-sync default === -->
