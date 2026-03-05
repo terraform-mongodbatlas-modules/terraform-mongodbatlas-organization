@@ -9,7 +9,8 @@ The submodule expects the following:
 
 ```hcl
 module "atlas_org" {
-  source = "mongodb/organization/mongodbatlas//modules/existing"
+  source  = "terraform-mongodbatlas-modules/organization/mongodbatlas//modules/existing"
+  version = "0.1.0"
 
   existing_org_id = var.existing_org_id
 

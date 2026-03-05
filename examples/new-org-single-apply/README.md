@@ -70,9 +70,9 @@ module "atlas_org" {
 ```
 
 **Additional files needed:**
-- [outputs.tf](./outputs.tf)
-- [variables.tf](./variables.tf)
-- [versions.tf](./versions.tf)
+- [outputs.tf](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v0.1.0/examples/new-org-single-apply/outputs.tf)
+- [variables.tf](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v0.1.0/examples/new-org-single-apply/variables.tf)
+- [versions.tf](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v0.1.0/examples/new-org-single-apply/versions.tf)
 
 
 
