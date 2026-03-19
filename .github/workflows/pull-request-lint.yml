@@ -13,6 +13,7 @@ on:
       - edited
 jobs:
   validate:
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
     name: Validate PR title
     runs-on: ubuntu-latest
     permissions:
@@ -44,7 +45,7 @@ jobs:
             The subject "{subject}" found in the pull request title "{title}"
             didn't match the configured pattern. Please ensure that the subject
             starts with an uppercase character.
-      - uses: marocchino/sticky-pull-request-comment@773744901bac0e8cbb5a0dc842800d45e9b2b405
+      - uses: marocchino/sticky-pull-request-comment@70d2764d1a7d5d9560b100cbea0077fc8f633987
         # When the previous steps fails, the workflow would stop. By adding this
         # condition you can continue the execution with the populated error message.
         if: always() && (steps.lint_pr_title.outputs.error_message != null)
@@ -64,12 +65,13 @@ jobs:
             ```
       # Delete a previous comment when the issue has been resolved
       - if: ${{ steps.lint_pr_title.outputs.error_message == null }}
-        uses: marocchino/sticky-pull-request-comment@773744901bac0e8cbb5a0dc842800d45e9b2b405
+        uses: marocchino/sticky-pull-request-comment@70d2764d1a7d5d9560b100cbea0077fc8f633987
         with:   
           header: pr-title-lint-error
           delete: true
   labeler:
     name: Add Label
+    if: always()
     needs: [ validate ]
     runs-on: ubuntu-latest
     permissions:
