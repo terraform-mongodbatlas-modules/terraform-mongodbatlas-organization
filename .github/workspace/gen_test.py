@@ -69,3 +69,55 @@ def test_generate_modules_tf_non_sensitive_output(fake_repo: Path, tmp_path: Pat
 def test_generate_modules_tf_empty_examples(tmp_path: Path):
     config = models.WsConfig(examples=[], var_groups={})
     assert gen.generate_modules_tf(config, [], tmp_path) is None
+
+
+def test_generate_modules_tf_source_override(fake_repo: Path, tmp_path: Path):
+    (fake_repo / "privatelink").mkdir()
+    config = models.WsConfig(
+        examples=[
+            models.Example(name="privatelink_global_access", source="privatelink"),
+        ],
+        var_groups={},
+    )
+    result = gen.generate_modules_tf(config, config.examples, tmp_path)
+    assert result is not None
+    assert 'module "ex_privatelink_global_access" {' in result
+    assert 'source = "../../examples/privatelink"' in result
+    assert "# Example privatelink_global_access (source privatelink):" in result
+
+
+def test_generate_modules_tf_two_examples_same_source(fake_repo: Path, tmp_path: Path):
+    (fake_repo / "privatelink").mkdir()
+    config = models.WsConfig(
+        examples=[
+            models.Example(name="privatelink_global_access", source="privatelink"),
+            models.Example(name="privatelink_regional_access", source="privatelink"),
+        ],
+        var_groups={},
+    )
+    result = gen.generate_modules_tf(config, config.examples, tmp_path)
+    assert result is not None
+    assert 'module "ex_privatelink_global_access" {' in result
+    assert 'module "ex_privatelink_regional_access" {' in result
+    assert result.count('source = "../../examples/privatelink"') == 2
+    assert "# Example privatelink_global_access (source privatelink):" in result
+    assert "# Example privatelink_regional_access (source privatelink):" in result
+
+
+def test_generate_modules_tf_module_depends_on(fake_repo: Path, tmp_path: Path):
+    (fake_repo / "with_dep").mkdir()
+    config = models.WsConfig(
+        examples=[
+            models.Example(
+                name="with_dep",
+                module_depends_on=["time_sleep.x", "null_resource.y"],
+            )
+        ],
+        var_groups={},
+    )
+    result = gen.generate_modules_tf(config, config.examples, tmp_path)
+    assert result is not None
+    assert "  depends_on = [" in result
+    assert "    time_sleep.x," in result
+    assert "    null_resource.y," in result
+    assert 'module "ex_with_dep" {' in result

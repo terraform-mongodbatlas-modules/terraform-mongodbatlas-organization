@@ -88,13 +88,13 @@ jobs:
   # === OK_EDIT: path-sync job-snapshot-tests ===
   # === DO_NOT_EDIT: path-sync job-slack ===
   slack-notification:
-    needs: [check, plan-tests, compat-tests, plan-snapshot-tests]
+    needs: [check, py-tests, plan-tests, compat-tests, plan-snapshot-tests]
     if: ${{ github.event_name == 'schedule' && !cancelled() && contains(needs.*.result, 'failure') }}
     runs-on: ubuntu-latest
     permissions: {}
     steps:
       - name: Send Slack message
-        uses: slackapi/slack-github-action@af78098f536edbc4de71162a307590698245be95
+        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
