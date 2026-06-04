@@ -1,0 +1,9 @@
+org_id = "YOUR_ORG_ID"
+
+# Optional: shorter TTL and rotation period for QA (check org min/max policy first)
+# secret_expires_after_hours = 48
+# rotation_hours             = 24
+
+# Bump rotation_id (or any key) on one slot, then terraform apply to replace that secret
+# manual_changes_secret_1 = { rotation_id = "1" }
+# manual_changes_secret_2 = { rotation_id = "0" }

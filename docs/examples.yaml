@@ -1,6 +1,7 @@
 examples_readme:
   readme_template: docs/example_readme.md
-  skip_examples: []
+  skip_examples:
+    - sa-secret-rotation
   code_snippet_files:
     additional: []
   template_vars:
@@ -31,3 +32,7 @@ tables:
       - folder_name: new-org-two-step
         feature: New Organization
         name: Create Organization with Policies (Two-Step)
+      - folder_name: sa-secret-rotation
+        feature: Service Account
+        name: Service Account Secret Rotation (Two-Secret Pattern)
+        description: Rotates a standalone Atlas service account with two secrets, import bootstrap, staggered time_rotating schedules, and manual_changes triggers.

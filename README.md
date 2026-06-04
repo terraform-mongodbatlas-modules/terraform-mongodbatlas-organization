@@ -93,6 +93,7 @@ module "atlas_org" {
 | **Create new organization (single apply)** | [`new-org-single-apply/`](./examples/new-org-single-apply/) | Creates a new organization and apply policies in a single `terraform apply` command. |
 | **Create new organization (two-step)** | [`new-org-two-step/`](./examples/new-org-two-step/) | Creates a new organization and apply policies in separate steps. Note: Use this when you cannot use the single-apply workflow. |
 | **Import existing organization** | [`import/`](./examples/import/) | Import an already-existing MongoDB Atlas organization into your Terraform state. |
+| **Service account secret rotation** | [`sa-secret-rotation/`](./examples/sa-secret-rotation/) | Rotates a standalone Atlas service account with two secrets, import bootstrap, staggered `time_rotating` schedules, and `manual_changes_*` triggers. |
 
 ### Prerequisites
 
