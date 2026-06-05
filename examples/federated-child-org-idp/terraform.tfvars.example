@@ -1,0 +1,19 @@
+federation_settings_id = "YOUR_FEDERATION_SETTINGS_ID"
+okta_idp_id            = "YOUR_OKTA_IDP_ID"
+idp_id                 = "YOUR_IDP_ID"
+org_owner_id           = "YOUR_ORG_OWNER_USER_ID"
+org_name               = "child-org-example"
+external_group_name    = "YOUR_IDP_GROUP_ID"
+
+idp = {
+  name                         = "EntraID"
+  idp_type                     = "OIDC"
+  status                       = "ACTIVE"
+  associated_domains           = ["example.com"]
+  issuer_uri                   = "https://login.microsoftonline.com/TENANT_ID/v2.0"
+  protocol                     = "OIDC"
+  request_binding              = "HTTP-POST"
+  response_signature_algorithm = "SHA-256"
+  sso_url                      = "https://login.microsoftonline.com/TENANT_ID/saml2"
+  sso_debug_enabled            = false
+}

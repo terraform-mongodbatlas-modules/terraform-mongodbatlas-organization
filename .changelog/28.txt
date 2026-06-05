@@ -1,0 +1,3 @@
+```release-note:enhancement
+example/federated-child-org-idp: Adds example for child org creation with federated IdP linking
+```

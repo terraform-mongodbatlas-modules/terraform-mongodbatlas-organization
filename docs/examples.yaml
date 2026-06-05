@@ -1,6 +1,7 @@
 examples_readme:
   readme_template: docs/example_readme.md
-  skip_examples: []
+  skip_examples:
+    - federated-child-org-idp
   code_snippet_files:
     additional: []
   template_vars:
@@ -31,3 +32,7 @@ tables:
       - folder_name: new-org-two-step
         feature: New Organization
         name: Create Organization with Policies (Two-Step)
+      - folder_name: federated-child-org-idp
+        feature: Federation
+        name: Create Child Organization and Link IdP
+        description: Creates a linked-billing child organization and attaches a pre-existing SAML IdP through federated settings, including required import steps.
