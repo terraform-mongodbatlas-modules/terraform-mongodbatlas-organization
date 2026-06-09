@@ -1,6 +1,6 @@
 # Federation Workforce IdP (Okta)
 
-Bootstraps a federation-level Okta SAML workforce IdP: Okta app, users, groups, and Atlas workforce IdP import. Run once per federation. Hand off `workforce_idp_id` and `org_id` to [`federated-workforce-org`](../federated-workforce-org/).
+Bootstraps a federation-level Okta SAML workforce IdP: Okta app, users, groups, and Atlas workforce IdP import. Run once per federation. Hand off `workforce_idp_id` to [`federated-workforce-org`](../federated-workforce-org/) for each organization that joins the federation.
 
 Together with the org example, this end state lets workforce users sign in to Atlas through SAML single sign-on (SSO). Okta manages users and groups; Atlas maps IdP groups to organization roles.
 
@@ -159,10 +159,7 @@ Plan: 1 to import, 0 to add, 1 to change, 0 to destroy.
 
 ## Handoff
 
-Copy bootstrap values into [`federated-workforce-org`](../federated-workforce-org/) tfvars:
-
-- `workforce_idp_id` (`terraform output -raw workforce_idp_id`)
-- `org_id` (same lab Atlas org as this example)
+Copy `workforce_idp_id` into [`federated-workforce-org`](../federated-workforce-org/) tfvars for each organization that joins the federation (`terraform output -raw workforce_idp_id`). Set `org_id` to the organization you are configuring in that example; it does not have to be the organization used during bootstrap.
 
 ## Test federated login
 
