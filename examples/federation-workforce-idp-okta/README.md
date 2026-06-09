@@ -1,0 +1,132 @@
+# Federation Workforce IdP (Okta)
+
+Bootstraps a federation-level Okta SAML workforce IdP: Okta app, users, groups, and Atlas workforce IdP import. Run once per federation. Hand off `federation_settings_id` and `workforce_idp_id` to [`federated-workforce-org`](../federated-workforce-org/).
+
+This is a **lab example**. Several steps relax security controls so you can complete SAML federation quickly in a throwaway Okta Integrator org. Do not copy these patterns into production without hardening.
+
+## Lab shortcuts (not for production)
+
+- **Password-only sign-in (MFA skipped)**: `okta_mfa.tf` scopes password-only MFA enrollment, global session (`mfa_required = false`), and 1FA app sign-on to `atlas_org_owners_group` only. Other Okta users keep your org defaults.
+- **Synthetic test user**: Optional `create_alice_user` provisions a lab user with a `random` provider password. Retrieve with `terraform output -raw alice_password`.
+- **SAML placeholders**: Step 1 applies `okta_app_saml` with `http://localhost` and `urn:idp:default` until FMC returns real ACS and audience values in Step 2.
+- **Atlas SSO debug**: `sso_debug_enabled = true` on the imported workforce IdP aids FMC troubleshooting; disable in production.
+- **ForceAuthn disabled**: `honor_force_authn = false` on the Okta SAML app reduces friction during login tests.
+- **DNS outside this example**: Domain TXT verification is not in this example root module. Step 4 shows an inline [Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html) Terraform snippet you can add in a separate stack or one-off apply.
+- **Okta Integrator limits**: Free-plan orgs cap active users and deactivate after 180 days without login.
+
+## Prerequisites
+
+1. [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.9
+2. [Okta Integrator](https://developer.okta.com/docs/reference/org-defaults/) org and API token:
+   - **Sign up**: [Okta developer signup](https://developer.okta.com/signup/) → **Workforce Identity** → **Integrator Free Plan**.
+   - **Activate**: Open the verification email and complete org activation. Note your org URL (for example `integrator-7930367.okta.com`) and set `okta_org_name` in tfvars to the subdomain (`integrator-7930367`).
+   - **API token**: Okta admin console → **Security** → **API** → **Tokens** → **Create token**. Store as `OKTA_API_TOKEN`, `TF_VAR_okta_api_token`, or in gitignored `terraform.tfvars` (`okta_api_token`). Tokens cannot be created via Terraform.
+3. Atlas **Organization Owner** credentials for an org that will join the federation
+4. Access to the [Federation Management Console (FMC)](https://www.mongodb.com/docs/atlas/security/manage-federated-auth/) in Atlas:
+   - Sign in to [Atlas](https://cloud.mongodb.com/) and select your organization from the **Organizations** menu in the top navigation bar
+   - In the left sidebar, open **Identity & Access** → **Federation**
+   - Under **Federated Authentication Settings**, click **Open Federation Management App** (FMC opens in a new browser tab)
+   - In FMC, use the left navigation: **Identity Providers** (create IdP, domains, org connect), **Domains** (TXT verification), **Organizations** (connect org to IdP)
+5. DNS control for `federated_domain`
+
+## Apply order
+
+### Step 1 — Create Okta app and register certificate in FMC
+
+```sh
+cd examples/federation-workforce-idp-okta
+cp terraform.tfvars.example terraform.tfvars
+terraform init
+terraform apply   # Okta SAML app with placeholder ACS/audience
+terraform output -raw okta_idp_certificate > okta.pem
+```
+
+Leave `atlas_acs_url` and `atlas_audience` empty in tfvars for this step.
+
+In FMC (see Prerequisites), open **Identity Providers** → **Setup Identity Provider** (or **Add Identity Provider** if one already exists). Select **SAML** for Atlas UI access, then:
+
+| FMC field | Value |
+| --- | --- |
+| Issuer URI / SSO URL | Placeholder values (per [Atlas Okta guide](https://www.mongodb.com/docs/atlas/security/federated-auth-okta/)) |
+| Certificate | Paste `okta.pem` |
+| Request binding | HTTP POST |
+| Response signature algorithm | SHA-256 |
+
+Click **Next**, copy **Assertion Consumer Service URL** and **Audience URI**, then **Finish**.
+
+### Step 2 — Wire Okta SAML to Atlas metadata
+
+Set `atlas_acs_url` and `atlas_audience` in tfvars, then `terraform apply`.
+
+### Step 3 — Users (optional)
+
+```sh
+export TF_VAR_create_alice_user=true
+terraform apply
+terraform output -raw alice_password
+```
+
+Creates the lab user, `atlas_org_owners_group`, app assignment, and the password-only policies in `okta_mfa.tf`.
+
+### Step 4 — Domain TXT (manual)
+
+FMC → Domains → Add Domain → `federated_domain` → DNS Record. Copy the 32-character token (without the `mongodb-site-verification=` prefix).
+
+**Route 53 (Terraform)** when the domain is in a hosted zone. Add to a separate file or stack (not included in this example):
+
+```hcl
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_route53_record" "atlas_domain_verify" {
+  zone_id = "Z0123456789ABCDEFGHIJ" # Route 53 hosted zone ID
+  name    = "test-federated.example.com"
+  type    = "TXT"
+  ttl     = 300
+  records = ["mongodb-site-verification=YOUR_32_CHAR_TOKEN"]
+}
+```
+
+```sh
+terraform apply
+```
+
+Confirm propagation, then verify in FMC:
+
+```sh
+dig TXT +short "$FEDERATED_DOMAIN"
+```
+
+FMC → Verify → Identity Providers → Associated Domains → IdP **ACTIVE**.
+
+Use your registrar or another DNS stack if you are not on Route 53; the TXT value format is the same.
+
+### Step 5 — Connect org in FMC
+
+In FMC, open **Organizations** → select the lab org → **Apply Identity Provider**. Note `federation_settings_id` and 24-hex `workforce_idp_id` (not 20-hex `okta_idp_id`).
+
+### Step 6 — Import Atlas IdP
+
+```hcl
+enable_atlas_federation = true
+federation_settings_id  = "..."
+workforce_idp_id        = "..."
+```
+
+```sh
+terraform apply
+```
+
+Import ID: `{federation_settings_id}-{workforce_idp_id}`.
+
+## Handoff
+
+Copy bootstrap outputs into [`federated-workforce-org`](../federated-workforce-org/) tfvars:
+
+- `federation_settings_id`
+- `workforce_idp_id`
+
+## Feedback or Help
+
+- If you have any feedback or trouble please open a Github Issue

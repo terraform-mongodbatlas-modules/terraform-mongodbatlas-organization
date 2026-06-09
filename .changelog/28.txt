@@ -1,3 +1,6 @@
 ```release-note:enhancement
-example/federated-child-org-idp: Adds example for child org creation with federated IdP linking
+example/federation_workforce_idp_okta: Adds Okta SAML workforce IdP bootstrap example
+```
+```release-note:enhancement
+example/federated_workforce_org: Adds org_config and role mapping example for existing federated orgs
 ```

@@ -1,0 +1,21 @@
+org_id                 = "YOUR_ORG_ID"
+federation_settings_id = "YOUR_FEDERATION_SETTINGS_ID"
+workforce_idp_id       = "YOUR_24_HEX_IDP_ID"
+
+role_mappings = {
+  org_admins = {
+    external_group_name = "atlas-org-admins"
+    org_roles           = ["ORG_OWNER"]
+  }
+  org_readers = {
+    external_group_name = "atlas-org-readers"
+    org_roles           = ["ORG_READ_ONLY"]
+  }
+  # dev_project_owners = {
+  #   external_group_name = "atlas-dev-owners"
+  #   org_roles           = ["ORG_MEMBER"]
+  #   project_roles = {
+  #     "YOUR_EXISTING_PROJECT_ID" = ["GROUP_OWNER"]
+  #   }
+  # }
+}

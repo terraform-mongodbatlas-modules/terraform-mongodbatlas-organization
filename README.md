@@ -93,7 +93,8 @@ module "atlas_org" {
 | **Create new organization (single apply)** | [`new-org-single-apply/`](./examples/new-org-single-apply/) | Creates a new organization and apply policies in a single `terraform apply` command. |
 | **Create new organization (two-step)** | [`new-org-two-step/`](./examples/new-org-two-step/) | Creates a new organization and apply policies in separate steps. Note: Use this when you cannot use the single-apply workflow. |
 | **Import existing organization** | [`import/`](./examples/import/) | Import an already-existing MongoDB Atlas organization into your Terraform state. |
-| **Federation** | [`federated-child-org-idp/`](./examples/federated-child-org-idp/) | Create a linked-billing child organization and attach a pre-existing IdP through federated settings, including required import steps. |
+| **Federation (bootstrap)** | [`federation-workforce-idp-okta/`](./examples/federation-workforce-idp-okta/) | Bootstrap a federation-level Okta SAML workforce IdP (once per federation). |
+| **Federation (org)** | [`federated-workforce-org/`](./examples/federated-workforce-org/) | Configure org_config and role mappings on an existing org linked to federation settings. |
 
 ### Prerequisites
 

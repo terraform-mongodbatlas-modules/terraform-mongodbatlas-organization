@@ -1,7 +1,8 @@
 examples_readme:
   readme_template: docs/example_readme.md
   skip_examples:
-    - federated-child-org-idp
+    - federation-workforce-idp-okta
+    - federated-workforce-org
   code_snippet_files:
     additional: []
   template_vars:
@@ -32,7 +33,11 @@ tables:
       - folder_name: new-org-two-step
         feature: New Organization
         name: Create Organization with Policies (Two-Step)
-      - folder_name: federated-child-org-idp
+      - folder_name: federation-workforce-idp-okta
         feature: Federation
-        name: Create Child Organization and Link IdP
-        description: Creates a linked-billing child organization and attaches a pre-existing SAML IdP through federated settings, including required import steps.
+        name: Federation Workforce IdP (Okta)
+        description: Bootstraps a federation-level Okta SAML workforce IdP with phased apply and FMC handoff values.
+      - folder_name: federated-workforce-org
+        feature: Federation
+        name: Federated Workforce Org
+        description: Configures org_config and role mappings on an existing org already linked to federation settings.
