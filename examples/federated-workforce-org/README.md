@@ -13,16 +13,16 @@ Programmatic child-org creation is a separate workflow not covered by this examp
 ## Prerequisites
 
 1. [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.9
-2. Federation bootstrap complete; copy `workforce_idp_id` from [`federation-workforce-idp-okta`](../federation-workforce-idp-okta/) outputs (shared by all orgs in the federation)
+2. Federation bootstrap complete; copy `workforce_idp_id` (24-hex IdP ID from FMC **Identity Providers**) from [`federation-workforce-idp-okta`](../federation-workforce-idp-okta/) outputs or from the Atlas IdP tutorial you used (shared by all orgs in the federation)
 3. Access to the [Federation Management Console (FMC)](https://www.mongodb.com/docs/atlas/security/manage-federated-auth/):
    - Sign in to [Atlas](https://cloud.mongodb.com/) and select an organization that can open the federation (for example one already linked to it)
    - In the left sidebar, open **Identity & Access** → **Federation**
    - Under **Federated Authentication Settings**, click **Open Federation Management App** (FMC opens in a new browser tab)
-4. **Target organization** linked to the federation:
+4. **Target organization** linked to the federation and connected to the workforce IdP:
    - Link the organization to the federation using one of the following:
      - **Terraform**: Create the organization with `federation_settings_id` set (for example [`modules/create`](../../modules/create/) or `mongodbatlas_organization.federation_settings_id`). Use the resulting `org_id`.
-     - **FMC**: **Organizations** → **Link existing organization** → select the target organization → **Link** → connect the workforce IdP on the linked row (**Connect Identity Provider** or **Configure Access**)
-   - Set the 24-hex `org_id` in tfvars from the Terraform resource or Atlas **Organization Settings**. Terraform reads `federation_settings_id` from [`mongodbatlas_federated_settings`](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/data-sources/federated_settings) using that org ID. The data source `id` matches the FMC **Federation ID** for the federation the organization is linked to
+     - **FMC**: **Organizations** → **Link existing organization** → select the target organization → **Link**
+   - Connect the workforce IdP to the organization (required whether you linked via Terraform or FMC): FMC **Organizations** → click the linked row → **Connect Identity Provider**
 5. Org Owner API key for the target org (default `mongodbatlas` provider)
 
 ## Commands
@@ -30,6 +30,7 @@ Programmatic child-org creation is a separate workflow not covered by this examp
 ```sh
 cd examples/federated-workforce-org
 cp terraform.tfvars.example terraform.tfvars
+# Set the 24-hex `org_id` and `workforce_idp_id` in terraform.tfvars and configure your `role_mappings`
 terraform init
 terraform apply
 ```
