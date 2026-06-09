@@ -2,12 +2,14 @@
 
 Bootstraps a federation-level Okta SAML workforce IdP: Okta app, users, groups, and Atlas workforce IdP import. Run once per federation. Hand off `federation_settings_id` and `workforce_idp_id` to [`federated-workforce-org`](../federated-workforce-org/).
 
+Together with the org example, this end state lets workforce users sign in to Atlas through SAML single sign-on (SSO). Okta manages users and groups; Atlas maps IdP groups to organization roles.
+
 This is a **lab example**. Several steps relax security controls so you can complete SAML federation quickly in a throwaway Okta Integrator org and a dedicated **lab Atlas org**. Do not copy these patterns into production without hardening.
 
 ## Lab shortcuts (not for production)
 
 - **Password-only sign-in (MFA skipped)**: `okta_mfa.tf` scopes password-only MFA enrollment, global session (`mfa_required = false`), and 1FA app sign-on to `atlas_org_owners_group` only. Other Okta users keep your org defaults.
-- **Synthetic test user**: Optional `create_alice_user` provisions a lab user with a `random` provider password. Retrieve with `terraform output -raw alice_password`.
+- **Synthetic test user**: Optional `create_alice_user` provisions a lab user with a `random` provider password. Retrieve `alice_email` and `alice_password` with `terraform output`. Federated Atlas login works only after [`federated-workforce-org`](../federated-workforce-org/) role mappings are applied.
 - **SAML placeholders**: Step 1 applies `okta_app_saml` with `http://localhost` and `urn:idp:default` until FMC returns real ACS and audience values in Step 2.
 - **Atlas SSO debug**: `sso_debug_enabled = true` on the imported workforce IdP aids FMC troubleshooting; disable in production.
 - **ForceAuthn disabled**: `honor_force_authn = false` on the Okta SAML app reduces friction during login tests.
@@ -63,10 +65,16 @@ Uncomment and set `atlas_acs_url` and `atlas_audience` in tfvars from the FMC me
 ```sh
 export TF_VAR_create_alice_user=true
 terraform apply
+terraform output -raw alice_email
 terraform output -raw alice_password
 ```
 
 Creates the lab user, `atlas_org_owners_group`, app assignment, and the password-only policies in `okta_mfa.tf`.
+
+- **`alice_email`**: Federated login username at Atlas (default `alice@${federated_domain}`; must match the verified domain from Step 4).
+- **`alice_password`**: Okta password for the lab user (Okta sign-in only; not an Atlas local password).
+
+Save both outputs for the login test after [`federated-workforce-org`](../federated-workforce-org/) is complete (see **Test federated login** below).
 
 ### Step 4 — Add domain, DNS TXT, verify, associate with IdP, and activate (manual)
 
@@ -156,6 +164,27 @@ Copy bootstrap outputs into [`federated-workforce-org`](../federated-workforce-o
 - `federation_settings_id` (`terraform output -raw federation_settings_id`)
 - `workforce_idp_id`
 - `org_id` (same lab Atlas org as this example)
+
+## Test federated login
+
+Run this only after Steps 1–6 here **and** a successful `terraform apply` in [`federated-workforce-org`](../federated-workforce-org/).
+
+1. In `federated-workforce-org` tfvars, map the lab user's Okta group (`atlas_org_owners_group`, default `atlas-org-owners`) to Atlas org roles. Example:
+
+```hcl
+role_mappings = {
+  org_owners = {
+    external_group_name = "atlas-org-owners"
+    org_roles           = ["ORG_OWNER"]
+  }
+}
+```
+
+2. Open [Atlas](https://cloud.mongodb.com/) in a private browser window.
+3. Enter `terraform output -raw alice_email` from this example as the username.
+4. Complete Okta sign-in with `terraform output -raw alice_password`.
+
+Atlas routes the email domain to your workforce IdP, then grants org access from the role mapping in `federated-workforce-org`.
 
 ## Feedback or Help
 

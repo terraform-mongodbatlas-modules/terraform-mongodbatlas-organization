@@ -30,7 +30,13 @@ output "saml_phase" {
   value       = local.saml_phase1 ? 1 : 2
 }
 
+output "alice_email" {
+  description = "Federated login email for the lab Okta user (SAML NameID)."
+  value       = var.create_alice_user ? coalesce(var.alice_email, "alice@${var.federated_domain}") : null
+}
+
 output "alice_password" {
-  value     = var.create_alice_user ? random_password.alice[0].result : null
-  sensitive = true
+  description = "Okta password for alice_email. Use only after federated-workforce-org role mappings are applied."
+  value       = var.create_alice_user ? random_password.alice[0].result : null
+  sensitive   = true
 }
