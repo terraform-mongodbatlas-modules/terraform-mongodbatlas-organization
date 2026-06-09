@@ -2,7 +2,7 @@
 
 Bootstraps a federation-level Okta SAML workforce IdP: Okta app, users, groups, and Atlas workforce IdP import. Run once per federation. Hand off `federation_settings_id` and `workforce_idp_id` to [`federated-workforce-org`](../federated-workforce-org/).
 
-This is a **lab example**. Several steps relax security controls so you can complete SAML federation quickly in a throwaway Okta Integrator org. Do not copy these patterns into production without hardening.
+This is a **lab example**. Several steps relax security controls so you can complete SAML federation quickly in a throwaway Okta Integrator org and a dedicated **lab Atlas org**. Do not copy these patterns into production without hardening.
 
 ## Lab shortcuts (not for production)
 
@@ -21,12 +21,12 @@ This is a **lab example**. Several steps relax security controls so you can comp
    - **Sign up**: [Okta developer signup](https://developer.okta.com/signup/) → **Workforce Identity** → **Integrator Free Plan**.
    - **Activate**: Open the verification email and complete org activation. Note your org URL (for example `integrator-7930367.okta.com`) and set `okta_org_name` in tfvars to the subdomain (`integrator-7930367`).
    - **API token**: Okta admin console → **Security** → **API** → **Tokens** → **Create token**. Store as `OKTA_API_TOKEN`, `TF_VAR_okta_api_token`, or in gitignored `terraform.tfvars` (`okta_api_token`). Tokens cannot be created via Terraform.
-3. Atlas **Organization Owner** credentials for an org that will join the federation
-4. Access to the [Federation Management Console (FMC)](https://www.mongodb.com/docs/atlas/security/manage-federated-auth/) in Atlas:
-   - Sign in to [Atlas](https://cloud.mongodb.com/) and select your organization from the **Organizations** menu in the top navigation bar
+3. **Lab Atlas org** with **Organization Owner** credentials (create a dedicated org for federation testing; do not use production). Note the 24-hex `org_id` from Atlas **Organization Settings** for Step 6.
+4. Access to the [Federation Management Console (FMC)](https://www.mongodb.com/docs/atlas/security/manage-federated-auth/) for the lab Atlas org:
+   - Sign in to [Atlas](https://cloud.mongodb.com/) and select the lab Atlas org from the **Organizations** menu in the top navigation bar
    - In the left sidebar, open **Identity & Access** → **Federation**
    - Under **Federated Authentication Settings**, click **Open Federation Management App** (FMC opens in a new browser tab)
-   - In FMC, use the left navigation: **Identity Providers** (create IdP, domains, org connect), **Domains** (TXT verification), **Organizations** (connect org to IdP)
+   - In FMC, use the left navigation: **Identity Providers** (create IdP, associate domains), **Domains** (TXT verification), **Organizations** (connect lab Atlas org to IdP)
 5. DNS control for `federated_domain`
 
 ## Apply order
@@ -41,9 +41,9 @@ terraform apply   # Okta SAML app with placeholder ACS/audience
 terraform output -raw okta_idp_certificate > okta.pem
 ```
 
-Leave `atlas_acs_url` and `atlas_audience` empty in tfvars for this step.
+Leave `atlas_acs_url` and `atlas_audience` at their defaults for this step (the commented placeholders in `terraform.tfvars.example`).
 
-In FMC (see Prerequisites), open **Identity Providers** → **Setup Identity Provider** (or **Add Identity Provider** if one already exists). Select **SAML** for Atlas UI access, then:
+In FMC (see Prerequisites), open **Identity Providers** → **Setup Identity Provider** (or **Add Identity Provider** if one already exists). Select **Workforce Identity Federation**, then **SAML** for Atlas UI access, then:
 
 | FMC field | Value |
 | --- | --- |
@@ -56,7 +56,7 @@ Click **Next**, copy **Assertion Consumer Service URL** and **Audience URI**, th
 
 ### Step 2 — Wire Okta SAML to Atlas metadata
 
-Set `atlas_acs_url` and `atlas_audience` in tfvars, then `terraform apply`.
+Uncomment and set `atlas_acs_url` and `atlas_audience` in tfvars from the FMC metadata, then `terraform apply`.
 
 ### Step 3 — Users (optional)
 
@@ -68,7 +68,7 @@ terraform output -raw alice_password
 
 Creates the lab user, `atlas_org_owners_group`, app assignment, and the password-only policies in `okta_mfa.tf`.
 
-### Step 4 — Domain TXT (manual)
+### Step 4 — Add domain, DNS TXT, verify, associate with IdP, and activate (manual)
 
 FMC → Domains → Add Domain → `federated_domain` → DNS Record. Copy the 32-character token (without the `mongodb-site-verification=` prefix).
 
@@ -92,27 +92,31 @@ resource "aws_route53_record" "atlas_domain_verify" {
 terraform apply
 ```
 
-Confirm propagation, then verify in FMC:
+Confirm propagation, then click **verify** in FMC:
 
 ```sh
 dig TXT +short "$FEDERATED_DOMAIN"
 ```
 
-FMC → Verify → Identity Providers → Associated Domains → IdP **ACTIVE**.
+FMC → **Identity Providers** → select the **Workforce Identity Federation** SAML IdP from Step 1 → **Associate Domains** → select the verified `federated_domain` → **Confirm**.
+
+On the same IdP row, open **Manage** → **Activate Identity Provider**. Copy the **IdP ID** by clicking the symbol.
 
 Use your registrar or another DNS stack if you are not on Route 53; the TXT value format is the same.
 
-### Step 5 — Connect org in FMC
+### Step 5 — Connect lab Atlas org in FMC
 
-In FMC, open **Organizations** → select the lab org → **Apply Identity Provider**. Note `federation_settings_id` and 24-hex `workforce_idp_id` (not 20-hex `okta_idp_id`).
+In FMC, open **Organizations** → select the lab Atlas org → **Connect Identity Provider**.
 
 ### Step 6 — Import Atlas IdP
 
 ```hcl
 enable_atlas_federation = true
-federation_settings_id  = "..."
-workforce_idp_id        = "..."
+org_id                  = "..." # lab Atlas org from Prerequisites
+workforce_idp_id        = "..." # IdP UUID from Step 4
 ```
+
+Terraform reads `federation_settings_id` from [`mongodbatlas_federated_settings`](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/data-sources/federated_settings) using `org_id`.
 
 ```sh
 terraform apply
@@ -120,12 +124,38 @@ terraform apply
 
 Import ID: `{federation_settings_id}-{workforce_idp_id}`.
 
+Expected plan summary:
+
+- **Import**: `mongodbatlas_federated_settings_identity_provider.okta["okta"]` from `{federation_settings_id}-{workforce_idp_id}`
+- **Update in-place**: Terraform replaces FMC placeholder SAML values and the FMC configuration name with values from this module:
+  - `issuer_uri`: `urn:idp:default` → Okta entity URL
+  - `sso_url`: `http://localhost` → Okta SSO URL
+  - `name`: FMC label (for example `okta`) → `atlas_idp_name` (default `Okta Lab`)
+- **Plan**: `1 to import, 0 to add, 1 to change, 0 to destroy`
+- **Outputs**: `federation_settings_id` and `workforce_idp_id` populate after apply
+
+Example (values will differ):
+
+```text
+# mongodbatlas_federated_settings_identity_provider.okta["okta"] will be updated in-place
+# (imported from "6a26cec072c5699a2a7594ac-6a27b2b4634efca55f876735")
+~ resource "mongodbatlas_federated_settings_identity_provider" "okta" {
+    ~ issuer_uri = "urn:idp:default" -> "http://www.okta.com/exk..."
+    ~ name       = "okta" -> "Okta Lab"
+    ~ sso_url    = "http://localhost" -> "https://integrator-7930367.okta.com/app/.../sso/saml"
+      status     = "ACTIVE"
+  }
+
+Plan: 1 to import, 0 to add, 1 to change, 0 to destroy.
+```
+
 ## Handoff
 
 Copy bootstrap outputs into [`federated-workforce-org`](../federated-workforce-org/) tfvars:
 
-- `federation_settings_id`
+- `federation_settings_id` (`terraform output -raw federation_settings_id`)
 - `workforce_idp_id`
+- `org_id` (same lab Atlas org as this example)
 
 ## Feedback or Help
 

@@ -1,10 +1,11 @@
 output "federation_settings_id" {
-  value = var.federation_settings_id
+  description = "Federation settings ID for federated-workforce-org handoff (from mongodbatlas_federated_settings)."
+  value       = var.enable_atlas_federation ? data.mongodbatlas_federated_settings.lab[0].id : null
 }
 
 output "workforce_idp_id" {
   description = "24-hex idp_id for federated-workforce-org handoff."
-  value       = var.enable_atlas_federation ? mongodbatlas_federated_settings_identity_provider.okta[0].idp_id : null
+  value       = var.enable_atlas_federation ? mongodbatlas_federated_settings_identity_provider.okta["okta"].idp_id : null
 }
 
 output "okta_idp_certificate" {

@@ -36,7 +36,7 @@ tables:
       - folder_name: federation-workforce-idp-okta
         feature: Federation
         name: Federation Workforce IdP (Okta)
-        description: Bootstraps a federation-level Okta SAML workforce IdP with phased apply and FMC handoff values.
+        description: Bootstraps a federation-level Okta SAML workforce IdP with phased apply and Federation Management Console (FMC) handoff values.
       - folder_name: federated-workforce-org
         feature: Federation
         name: Federated Workforce Org

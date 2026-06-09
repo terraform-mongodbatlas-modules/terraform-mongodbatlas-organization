@@ -1,12 +1,15 @@
 okta_org_name    = "integrator-7930367"
 federated_domain = "test-federated.example.com"
+# okta_api_token = "..." # or export OKTA_API_TOKEN / TF_VAR_okta_api_token
 
-# Step 1: leave atlas_acs_url and atlas_audience empty.
-# Step 2: set both from FMC IdP metadata download.
+# Step 1: leave atlas_acs_url and atlas_audience empty (defaults).
+# Step 2: set both from Federation Management Console (FMC) IdP metadata download.
+# atlas_acs_url  = "https://..."
+# atlas_audience = "https://www.okta.com/saml2/..."
 
 # create_alice_user = true
 
 # Step 6: after FMC bootstrap + terraform import
 # enable_atlas_federation = true
-# federation_settings_id  = "..."
+# org_id                  = "..."
 # workforce_idp_id        = "..."

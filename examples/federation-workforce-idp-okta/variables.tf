@@ -45,6 +45,12 @@ variable "atlas_org_owners_group" {
   default     = "atlas-org-owners"
 }
 
+variable "org_id" {
+  description = "24-hex lab Atlas org ID. Terraform looks up federation_settings_id from this org when enable_atlas_federation is true."
+  type        = string
+  default     = ""
+}
+
 variable "enable_atlas_federation" {
   description = "Manage Atlas workforce IdP after FMC bootstrap and terraform import."
   type        = bool
@@ -52,16 +58,10 @@ variable "enable_atlas_federation" {
 
   validation {
     condition = !var.enable_atlas_federation || (
-      length(var.federation_settings_id) > 0 && length(var.workforce_idp_id) > 0
+      length(var.org_id) > 0 && length(var.workforce_idp_id) > 0
     )
-    error_message = "federation_settings_id and workforce_idp_id are required when enable_atlas_federation is true."
+    error_message = "org_id and workforce_idp_id are required when enable_atlas_federation is true."
   }
-}
-
-variable "federation_settings_id" {
-  description = "Federation ID from FMC. Required when enable_atlas_federation is true."
-  type        = string
-  default     = ""
 }
 
 variable "workforce_idp_id" {

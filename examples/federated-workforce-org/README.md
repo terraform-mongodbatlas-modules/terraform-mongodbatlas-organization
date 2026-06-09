@@ -1,8 +1,12 @@
 # Federated Workforce Org
 
-Configures workforce federation on an **existing** org already connected to the federation in FMC: `org_config` import and IdP group role mappings. Complete [`federation-workforce-idp-okta`](../federation-workforce-idp-okta/) first.
+Configures workforce federation on an **existing** org already connected to the federation in the Federation Management Console (FMC): `org_config` import and IdP group role mappings.
 
-Programmatic child-org creation is a separate workflow ([HELP-86136](https://jira.mongodb.org/browse/HELP-86136)).
+Complete federation-level IdP bootstrap first:
+- **Okta lab example**: [`federation-workforce-idp-okta`](../federation-workforce-idp-okta/)
+- **Atlas IdP tutorials**: [Microsoft Entra ID](https://www.mongodb.com/docs/atlas/security/federated-auth-azure-ad/), [Google Workspace](https://www.mongodb.com/docs/atlas/security/federated-auth-google-ws/), [Okta](https://www.mongodb.com/docs/atlas/security/federated-auth-okta/), [PingOne](https://www.mongodb.com/docs/atlas/security/federated-auth-ping-one/)
+
+Programmatic child-org creation is a separate workflow not covered by this example.
 
 ## Prerequisites
 
