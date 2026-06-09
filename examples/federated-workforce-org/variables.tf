@@ -1,20 +1,10 @@
 variable "org_id" {
   type        = string
-  description = "Existing Atlas org ID connected to the federation in FMC."
+  description = "Existing Atlas org ID connected to the federation in FMC. Terraform looks up federation_settings_id from this org."
 
   validation {
     condition     = length(var.org_id) > 0
     error_message = "org_id must not be empty."
-  }
-}
-
-variable "federation_settings_id" {
-  type        = string
-  description = "Federation settings ID from federation-workforce-idp-okta bootstrap."
-
-  validation {
-    condition     = length(var.federation_settings_id) > 0
-    error_message = "federation_settings_id must not be empty."
   }
 }
 
@@ -36,9 +26,31 @@ variable "post_auth_role_grants" {
 
 variable "role_mappings" {
   description = <<-EOT
-    IdP group to Atlas roles. See https://www.mongodb.com/docs/atlas/security/manage-role-mapping/
-    org_roles: organization roles on var.org_id.
-    project_roles: optional map of existing project_id to project roles.
+    IdP group to Atlas roles. One mongodbatlas_federated_settings_org_role_mapping per map entry.
+    See https://www.mongodb.com/docs/atlas/security/manage-role-mapping/
+
+    org_roles: Organization roles granted on var.org_id (for example ORG_OWNER, ORG_READ_ONLY).
+    project_roles: Optional map of existing Atlas project_id to project roles (for example GROUP_OWNER).
+      Use FMC or the Projects API to find project_id; this example does not create projects.
+
+    Example:
+    role_mappings = {
+      org_owners = {
+        external_group_name = "atlas-org-owners"
+        org_roles           = ["ORG_OWNER"]
+      }
+      org_readers = {
+        external_group_name = "atlas-org-readers"
+        org_roles           = ["ORG_READ_ONLY"]
+      }
+      dev_project_owners = {
+        external_group_name = "atlas-dev-owners"
+        org_roles           = ["ORG_MEMBER"]
+        project_roles = {
+          "YOUR_EXISTING_PROJECT_ID" = ["GROUP_OWNER"]
+        }
+      }
+    }
   EOT
   type = map(object({
     external_group_name = string

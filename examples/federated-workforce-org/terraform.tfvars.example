@@ -1,6 +1,5 @@
-org_id                 = "YOUR_ORG_ID"
-federation_settings_id = "YOUR_FEDERATION_SETTINGS_ID"
-workforce_idp_id       = "YOUR_24_HEX_IDP_ID"
+org_id           = "YOUR_ORG_ID"
+workforce_idp_id = "YOUR_24_HEX_IDP_ID"
 
 role_mappings = {
   org_admins = {

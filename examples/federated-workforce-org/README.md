@@ -11,8 +11,8 @@ Programmatic child-org creation is a separate workflow not covered by this examp
 ## Prerequisites
 
 1. [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.9
-2. Bootstrap complete; copy `federation_settings_id` and `workforce_idp_id` from bootstrap outputs
-3. Target `org_id` exists and is connected to the federation in FMC
+2. Bootstrap complete; copy `workforce_idp_id` from [`federation-workforce-idp-okta`](../federation-workforce-idp-okta/) outputs
+3. Target `org_id` (same lab Atlas org) exists and is connected to the federation in FMC. Terraform reads `federation_settings_id` from [`mongodbatlas_federated_settings`](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/data-sources/federated_settings) using `org_id`.
 4. Org Owner API key for the target org (default `mongodbatlas` provider)
 
 ## Commands
@@ -28,7 +28,7 @@ Plan fails at the `linked` data source if `org_id` is not in the federation.
 
 `mongodbatlas_federated_settings_org_config` has no create API; the inline `import` block is required.
 
-Import ID: `{federation_settings_id}-{org_id}`.
+Import ID: `{federation_settings_id}-{org_id}` (Terraform resolves `federation_settings_id` from `org_id`).
 
 ## Role mappings
 
