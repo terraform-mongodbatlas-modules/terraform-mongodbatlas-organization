@@ -30,12 +30,10 @@ Programmatic child-org creation is a separate workflow not covered by this examp
 ```sh
 cd examples/federated-workforce-org
 cp terraform.tfvars.example terraform.tfvars
-# Set the 24-hex `org_id` and `workforce_idp_id` in terraform.tfvars and configure your `role_mappings`
+# Set the 24-hex `org_id` and `workforce_idp_id` in terraform.tfvars. Configure your `role_mappings`, align the `external_group_name` with your IdP groups
 terraform init
 terraform apply
 ```
-
-Plan fails at the `linked` data source if `org_id` is not in the federation.
 
 `mongodbatlas_federated_settings_org_config` has no create API; the inline `import` block is required.
 
@@ -49,7 +47,7 @@ Expected plan summary (default tfvars with one `role_mappings` entry shown; valu
 - **Plan**: `1 to import, N to add, 1 to change, 0 to destroy` where `N` is the number of `role_mappings` keys
 - **Outputs**: `federation_settings_id` and `domain_allow_list` populate after apply
 
-Example (single `org_admins` mapping):
+Example (single `org_owners` mapping; default tfvars after [`federation-workforce-idp-okta`](../federation-workforce-idp-okta/) handoff):
 
 ```text
 # mongodbatlas_federated_settings_org_config.this will be updated in-place
@@ -60,9 +58,9 @@ Example (single `org_admins` mapping):
       ]
   }
 
-# mongodbatlas_federated_settings_org_role_mapping.this["org_admins"] will be created
+# mongodbatlas_federated_settings_org_role_mapping.this["org_owners"] will be created
 + resource "mongodbatlas_federated_settings_org_role_mapping" "this" {
-    + external_group_name = "atlas-org-admins" # can differ from your external group name
+    + external_group_name = "atlas-org-owners"
     + role_assignments {
         + roles = ["ORG_OWNER"]
       }
