@@ -27,7 +27,7 @@ Before running this example, complete the federation-level IdP bootstrap (run on
 
 ## Commands
 
-Configure your variables in [`terraform.tfvars.example`](examples/federated-workforce-org/terraform.tfvars.example) and run the following commands to import and apply org federation settings:
+Configure your variables in [`terraform.tfvars.example`](./terraform.tfvars.example) and run the following commands to import and apply org federation settings:
 
 ```sh
 cd examples/federated-workforce-org
