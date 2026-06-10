@@ -23,6 +23,9 @@ on:
         default: false
 # === OK_EDIT: path-sync header ===
 
+permissions:
+  contents: read
+
 env:
   MONGODB_ATLAS_ORG_ID: ${{ secrets.MONGODB_ATLAS_ORG_ID_PRE_RELEASE }}
   MONGODB_ATLAS_CLIENT_ID: ${{ secrets.MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE }}
