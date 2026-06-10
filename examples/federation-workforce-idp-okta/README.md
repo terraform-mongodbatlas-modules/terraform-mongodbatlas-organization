@@ -21,9 +21,9 @@ This is a **lab example**. Several steps relax security controls so you can comp
 1. [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.9
 2. [Okta Integrator](https://developer.okta.com/docs/reference/org-defaults/) org and API token:
    - **Sign up**: [Okta developer signup](https://developer.okta.com/signup/) → **Workforce Identity** → **Integrator Free Plan**.
-   - **Activate**: Open the verification email and complete org activation. Note your org URL (for example `integrator-7930367.okta.com`) and set `okta_org_name` in tfvars to the subdomain (`integrator-7930367`).
-   - **API token**: Okta admin console → **Security** → **API** → **Tokens** → **Create token**. Store as `OKTA_API_TOKEN`, `TF_VAR_okta_api_token`, or in gitignored `terraform.tfvars` (`okta_api_token`). Tokens can't be created via Terraform.
-3. **Lab Atlas org** with **Organization Owner** credentials (create a dedicated org for federation testing. Do not use production). Note the 24-hex `org_id` from Atlas **Organization Settings** for Step 6.
+   - **Activate**: Open the verification email and complete org activation. Note your org URL (for example `integrator-7930367.okta.com`) and set `okta_org_name` in [`terraform.tfvars.example`](./terraform.tfvars.example) to the subdomain (`integrator-7930367`).
+   - **API token**: Okta admin console → **Security** → **API** → **Tokens** → **Create token**. Store as `OKTA_API_TOKEN`, `TF_VAR_okta_api_token`, or in gitignored `terraform.tfvars` (`okta_api_token`). You can't create API tokens via Terraform.
+3. **Lab Atlas org** with **Organization Owner** credentials (create a dedicated org for federation testing. Do not use production). Note the 24-hex `org_id` from Atlas **Organization Settings** for Step 5.
 4. Access to the [Federation Management Console (FMC)](https://www.mongodb.com/docs/atlas/security/manage-federated-auth/) for the lab Atlas org:
    - Sign in to [Atlas](https://cloud.mongodb.com/) and select the lab Atlas org from the **Organizations** menu in the top navigation bar
    - In the left sidebar, open **Identity & Access** → **Federation**
@@ -35,6 +35,8 @@ This is a **lab example**. Several steps relax security controls so you can comp
 
 ### Step 1 — Create Okta app and register certificate in FMC
 
+Initialize the module and create the Okta SAML app with placeholder ACS and audience values, then export the IdP certificate for FMC:
+
 ```sh
 cd examples/federation-workforce-idp-okta
 cp terraform.tfvars.example terraform.tfvars
@@ -43,9 +45,9 @@ terraform apply   # Okta SAML app with placeholder ACS/audience
 terraform output -raw okta_idp_certificate > okta.pem
 ```
 
-Leave `atlas_acs_url` and `atlas_audience` at their defaults for this step (the commented placeholders in `terraform.tfvars.example`).
+Leave `atlas_acs_url` and `atlas_audience` at their defaults for this step (the commented placeholders in [`terraform.tfvars.example`](examples/federation-workforce-idp-okta/terraform.tfvars.example)).
 
-In FMC (see Prerequisites), open **Identity Providers** → **Setup Identity Provider** (or **Add Identity Provider** if one already exists). Select **Workforce Identity Federation**, then **SAML** for Atlas UI access, then:
+In FMC (see [Prerequisites](#prerequisites)), open **Identity Providers** → **Setup Identity Provider** (or **Add Identity Provider** if one already exists). Select **Workforce Identity Federation**, then **SAML** for Atlas UI access, then:
 
 | FMC field | Value |
 | --- | --- |
@@ -58,7 +60,7 @@ Click **Next**, copy **Assertion Consumer Service URL** and **Audience URI**, th
 
 ### Step 2 — Wire Okta SAML to Atlas metadata
 
-Uncomment and set `atlas_acs_url` and `atlas_audience` in tfvars from the FMC metadata, then `terraform apply`.
+Uncomment and set `atlas_acs_url` and `atlas_audience` in [`terraform.tfvars.example`](./terraform.tfvars.example) from the FMC metadata, then `terraform apply`.
 
 ### Step 3 — Users (optional)
 
@@ -96,6 +98,8 @@ resource "aws_route53_record" "atlas_domain_verify" {
 }
 ```
 
+Apply the stack to create the DNS TXT record:
+
 ```sh
 terraform apply
 ```
@@ -118,6 +122,8 @@ In FMC, open **Organizations** → select the lab Atlas org → **Connect Identi
 
 ### Step 6 — Import Atlas IdP
 
+Set the following values in [`terraform.tfvars.example`](examples/federation-workforce-idp-okta/terraform.tfvars.example) using the org ID from [Prerequisites](#prerequisites) and the IdP ID from Step 4:
+
 ```hcl
 enable_atlas_federation = true
 org_id                  = "..." # lab Atlas org from Prerequisites
@@ -125,6 +131,8 @@ workforce_idp_id        = "..." # 24-hex IdP ID from Step 4
 ```
 
 Terraform reads `federation_settings_id` from [`mongodbatlas_federated_settings`](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/data-sources/federated_settings) using `org_id`.
+
+Apply to import the Atlas workforce IdP:
 
 ```sh
 terraform apply
@@ -159,13 +167,13 @@ Plan: 1 to import, 0 to add, 1 to change, 0 to destroy.
 
 ## Handoff
 
-Copy `workforce_idp_id` into [`federated-workforce-org`](../federated-workforce-org/) tfvars for each organization that joins the federation (`terraform output -raw workforce_idp_id`). Set `org_id` to the organization you are configuring in that example; it does not have to be the organization used during bootstrap.
+Copy `workforce_idp_id` into [`federated-workforce-org/terraform.tfvars.example`](../federated-workforce-org/terraform.tfvars.example) for each organization that joins the federation (`terraform output -raw workforce_idp_id`). Set `org_id` to the organization you are configuring in that example; it does not have to be the organization used during bootstrap.
 
 ## Test federated login
 
-Run this only after Steps 1–6 here **and** a successful `terraform apply` in [`federated-workforce-org`](../federated-workforce-org/).
+Run this test only after going through the steps 1–6 detailed in the [Appy Order](#apply-order) section **and** a successful `terraform apply` in [`federated-workforce-org`](../federated-workforce-org/).
 
-1. In `federated-workforce-org` tfvars, map the lab user's Okta group (`atlas_org_owners_group`, default `atlas-org-owners`) to Atlas org roles. Example:
+1. In [`federated-workforce-org/terraform.tfvars.example`](examples/federated-workforce-org/terraform.tfvars.example), map the lab user's Okta group (`atlas_org_owners_group`, default `atlas-org-owners`) to Atlas org roles. Example:
 
 ```hcl
 role_mappings = {
@@ -178,7 +186,7 @@ role_mappings = {
 
 2. Open [Atlas](https://cloud.mongodb.com/) in a private browser window.
 3. Enter `terraform output -raw alice_email` from this example as the username.
-4. Complete Okta sign-in with `terraform output -raw alice_password`.
+4. Complete the Okta sign-in with `terraform output -raw alice_password`.
 
 Atlas routes the email domain to your workforce IdP, then grants org access from the role mapping in `federated-workforce-org`.
 
