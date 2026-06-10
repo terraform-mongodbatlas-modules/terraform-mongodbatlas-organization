@@ -2,7 +2,7 @@
 
 Bootstraps a federation-level Okta SAML workforce IdP: Okta app, users, groups, and Atlas workforce IdP import. Run once per federation. Hand off `workforce_idp_id` to [`federated-workforce-org`](../federated-workforce-org/) for each organization that joins the federation.
 
-Together with the org example, this end state lets workforce users sign in to Atlas through SAML single sign-on (SSO). Okta manages users and groups; Atlas maps IdP groups to organization roles.
+Together with the org example, this end state lets workforce users sign in to Atlas through SAML single sign-on (SSO). Okta manages users and groups, and Atlas maps IdP groups to organization roles.
 
 This is a **lab example**. Several steps relax security controls so you can complete SAML federation quickly in a throwaway Okta Integrator org and a dedicated **lab Atlas org**. Do not copy these patterns into production without hardening.
 
@@ -22,8 +22,8 @@ This is a **lab example**. Several steps relax security controls so you can comp
 2. [Okta Integrator](https://developer.okta.com/docs/reference/org-defaults/) org and API token:
    - **Sign up**: [Okta developer signup](https://developer.okta.com/signup/) → **Workforce Identity** → **Integrator Free Plan**.
    - **Activate**: Open the verification email and complete org activation. Note your org URL (for example `integrator-7930367.okta.com`) and set `okta_org_name` in tfvars to the subdomain (`integrator-7930367`).
-   - **API token**: Okta admin console → **Security** → **API** → **Tokens** → **Create token**. Store as `OKTA_API_TOKEN`, `TF_VAR_okta_api_token`, or in gitignored `terraform.tfvars` (`okta_api_token`). Tokens cannot be created via Terraform.
-3. **Lab Atlas org** with **Organization Owner** credentials (create a dedicated org for federation testing; do not use production). Note the 24-hex `org_id` from Atlas **Organization Settings** for Step 6.
+   - **API token**: Okta admin console → **Security** → **API** → **Tokens** → **Create token**. Store as `OKTA_API_TOKEN`, `TF_VAR_okta_api_token`, or in gitignored `terraform.tfvars` (`okta_api_token`). Tokens can't be created via Terraform.
+3. **Lab Atlas org** with **Organization Owner** credentials (create a dedicated org for federation testing. Do not use production). Note the 24-hex `org_id` from Atlas **Organization Settings** for Step 6.
 4. Access to the [Federation Management Console (FMC)](https://www.mongodb.com/docs/atlas/security/manage-federated-auth/) for the lab Atlas org:
    - Sign in to [Atlas](https://cloud.mongodb.com/) and select the lab Atlas org from the **Organizations** menu in the top navigation bar
    - In the left sidebar, open **Identity & Access** → **Federation**
@@ -69,7 +69,7 @@ terraform output -raw alice_email
 terraform output -raw alice_password
 ```
 
-Creates the lab user, `atlas_org_owners_group`, app assignment, and the password-only policies in `okta_mfa.tf`.
+Creates the lab user and its `atlas_org_owners_group` membership. `atlas_org_owners_group`, app assignment, and the password-only policies in `okta_mfa.tf` are created regardless of `create_alice_user`.
 
 - **`alice_email`**: Federated login username at Atlas (default `alice@${federated_domain}`; must match the verified domain from Step 4).
 - **`alice_password`**: Okta password for the lab user (Okta sign-in only; not an Atlas local password).
@@ -103,7 +103,7 @@ terraform apply
 Confirm propagation, then click **verify** in FMC:
 
 ```sh
-dig TXT +short "$FEDERATED_DOMAIN"
+dig TXT +short "your-federated-domain.example.com"  # replace with your federated_domain value
 ```
 
 FMC → **Identity Providers** → select the **Workforce Identity Federation** SAML IdP from Step 1 → **Associate Domains** → select the verified `federated_domain` → **Confirm**.
@@ -121,7 +121,7 @@ In FMC, open **Organizations** → select the lab Atlas org → **Connect Identi
 ```hcl
 enable_atlas_federation = true
 org_id                  = "..." # lab Atlas org from Prerequisites
-workforce_idp_id        = "..." # IdP UUID from Step 4
+workforce_idp_id        = "..." # 24-hex IdP ID from Step 4
 ```
 
 Terraform reads `federation_settings_id` from [`mongodbatlas_federated_settings`](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/data-sources/federated_settings) using `org_id`.
@@ -184,4 +184,4 @@ Atlas routes the email domain to your workforce IdP, then grants org access from
 
 ## Feedback or Help
 
-- If you have any feedback or trouble please open a Github Issue
+- If you have any feedback or trouble, please open a GitHub Issue.

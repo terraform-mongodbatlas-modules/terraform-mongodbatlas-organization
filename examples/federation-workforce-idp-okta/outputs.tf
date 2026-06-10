@@ -18,11 +18,13 @@ output "okta_idp_certificate" {
 }
 
 output "okta_idp_issuer" {
-  value = okta_app_saml.atlas_lab.entity_url
+  description = "Okta entity URL (Issuer URI) for FMC IdP configuration."
+  value       = okta_app_saml.atlas_lab.entity_url
 }
 
 output "okta_idp_sso_url" {
-  value = okta_app_saml.atlas_lab.http_post_binding
+  description = "Okta HTTP POST binding URL (SSO URL) for FMC IdP configuration."
+  value       = okta_app_saml.atlas_lab.http_post_binding
 }
 
 output "saml_phase" {

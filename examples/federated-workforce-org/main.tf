@@ -1,3 +1,5 @@
+provider "mongodbatlas" {}
+
 data "mongodbatlas_federated_settings" "this" {
   org_id = var.org_id
 }

@@ -12,8 +12,8 @@ Programmatic child-org creation is a separate workflow not covered by this examp
 
 ## Prerequisites
 
-1. [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.9
-2. Federation bootstrap complete; copy `workforce_idp_id` (24-hex IdP ID from FMC **Identity Providers**) from [`federation-workforce-idp-okta`](../federation-workforce-idp-okta/) outputs or from the Atlas IdP tutorial you used (shared by all orgs in the federation)
+1. [Terraform](https://developer.hashicorp.com/terraform/install) (see [versions.tf](./versions.tf) for the minimum version)
+2. Federation bootstrap complete. Copy `workforce_idp_id` (24-hex IdP ID from FMC **Identity Providers**) from [`federation-workforce-idp-okta`](../federation-workforce-idp-okta/) outputs or from the Atlas IdP tutorial you used (shared by all orgs in the federation)
 3. Access to the [Federation Management Console (FMC)](https://www.mongodb.com/docs/atlas/security/manage-federated-auth/):
    - Sign in to [Atlas](https://cloud.mongodb.com/) and select an organization that can open the federation (for example one already linked to it)
    - In the left sidebar, open **Identity & Access** → **Federation**
@@ -30,7 +30,7 @@ Programmatic child-org creation is a separate workflow not covered by this examp
 ```sh
 cd examples/federated-workforce-org
 cp terraform.tfvars.example terraform.tfvars
-# Set the 24-hex `org_id` and `workforce_idp_id` in terraform.tfvars. Configure your `role_mappings`, align the `external_group_name` with your IdP groups
+# Set the 24-hex `org_id` and `workforce_idp_id` in terraform.tfvars. Configure your `role_mappings`. Align the `external_group_name` with your IdP groups
 terraform init
 terraform apply
 ```
@@ -39,7 +39,7 @@ terraform apply
 
 Import ID: `{federation_settings_id}-{org_id}` (Terraform resolves `federation_settings_id` from `org_id`).
 
-Expected plan summary (default tfvars with one `role_mappings` entry shown; values will differ):
+Expected plan summary (default tfvars with one `role_mappings` entry shown, values will differ):
 
 - **Import**: `mongodbatlas_federated_settings_org_config.this` from `{federation_settings_id}-{org_id}`
 - **Update in-place**: Terraform sets `post_auth_role_grants` (default `["ORG_MEMBER"]`) on the imported org config
@@ -73,4 +73,4 @@ Default tfvars apply org-level mappings only. Uncomment `project_roles` to map a
 
 ## Feedback or Help
 
-- If you have any feedback or trouble please open a Github Issue
+- If you have any feedback or trouble, please open a GitHub Issue.
