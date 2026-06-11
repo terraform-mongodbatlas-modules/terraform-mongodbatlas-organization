@@ -1,14 +1,14 @@
 # Federated Workforce Org
 
-Configures workforce federation on an **existing** organization: `org_config` import and IdP group role mappings after the org is linked to a federation in the Federation Management Console (FMC).
+Configures workforce federation on an **existing** organization: `org_config` import and IdP group role mappings after the organization is linked to a federation in the [Federation Management Console (FMC)](https://www.mongodb.com/docs/atlas/security/federated-authentication/#federation-management-console).
 
 Multiple Atlas organizations can share one federation. Run the federation-level IdP bootstrap once per federation ([`federation-workforce-idp-okta`](../federation-workforce-idp-okta/) or an Atlas IdP tutorial below). Every organization that joins that federation can run this example with its own `org_id` and Org Owner credentials; it does not have to be the organization that performed the bootstrap.
 
-Complete federation-level IdP bootstrap first (once per federation):
+Before running this example, complete the federation-level IdP bootstrap (run once per federation):
 - **Okta lab example**: [`federation-workforce-idp-okta`](../federation-workforce-idp-okta/)
 - **Atlas IdP tutorials**: [Microsoft Entra ID](https://www.mongodb.com/docs/atlas/security/federated-auth-azure-ad/), [Google Workspace](https://www.mongodb.com/docs/atlas/security/federated-auth-google-ws/), [Okta](https://www.mongodb.com/docs/atlas/security/federated-auth-okta/), [PingOne](https://www.mongodb.com/docs/atlas/security/federated-auth-ping-one/)
 
-Programmatic child-org creation is a separate workflow not covered by this example.
+**Note:** Programmatic child-organization creation is a separate workflow not covered by this example.
 
 ## Prerequisites
 
@@ -23,9 +23,11 @@ Programmatic child-org creation is a separate workflow not covered by this examp
      - **Terraform**: Create the organization with `federation_settings_id` set (for example [`modules/create`](../../modules/create/) or `mongodbatlas_organization.federation_settings_id`). Use the resulting `org_id`.
      - **FMC**: **Organizations** → **Link existing organization** → select the target organization → **Link**
    - Connect the workforce IdP to the organization (required whether you linked via Terraform or FMC): FMC **Organizations** → click the linked row → **Connect Identity Provider**
-5. Org Owner API key for the target org (default `mongodbatlas` provider)
+5. Org Owner API key for the target organization (default `mongodbatlas` provider)
 
 ## Commands
+
+Configure your variables in [`terraform.tfvars.example`](./terraform.tfvars.example) and run the following commands to import and apply org federation settings:
 
 ```sh
 cd examples/federated-workforce-org
@@ -42,7 +44,7 @@ Import ID: `{federation_settings_id}-{org_id}` (Terraform resolves `federation_s
 Expected plan summary (default tfvars with one `role_mappings` entry shown, values will differ):
 
 - **Import**: `mongodbatlas_federated_settings_org_config.this` from `{federation_settings_id}-{org_id}`
-- **Update in-place**: Terraform sets `post_auth_role_grants` (default `["ORG_MEMBER"]`) on the imported org config
+- **Update in-place**: Terraform sets `post_auth_role_grants` (default `["ORG_MEMBER"]`) on the imported organization config
 - **Create**: One `mongodbatlas_federated_settings_org_role_mapping` per `role_mappings` entry
 - **Plan**: `1 to import, N to add, 1 to change, 0 to destroy` where `N` is the number of `role_mappings` keys
 - **Outputs**: `federation_settings_id` and `domain_allow_list` populate after apply
