@@ -23,7 +23,7 @@ This is a **lab example**. Several steps relax security controls so you can comp
    - **Sign up**: [Okta developer signup](https://developer.okta.com/signup/) → **Workforce Identity** → **Integrator Free Plan**.
    - **Activate**: Open the verification email and complete org activation. Note your org URL (for example `integrator-7930367.okta.com`) and set `okta_org_name` in [`terraform.tfvars.example`](./terraform.tfvars.example) to the subdomain (`integrator-7930367`).
    - **API token**: Okta admin console → **Security** → **API** → **Tokens** → **Create token**. Store as `OKTA_API_TOKEN`, `TF_VAR_okta_api_token`, or in gitignored `terraform.tfvars` (`okta_api_token`). You can't create API tokens via Terraform.
-3. **Lab Atlas org** with **Organization Owner** credentials (create a dedicated org for federation testing. Do not use production). Note the 24-hex `org_id` from Atlas **Organization Settings** for Step 5.
+3. **Lab Atlas org** with **Organization Owner** credentials (create a dedicated org for federation testing. Do not use production). Note the 24-hex `org_id` from Atlas **Organization Settings** for Step 6.
 4. Access to the [Federation Management Console (FMC)](https://www.mongodb.com/docs/atlas/security/manage-federated-auth/) for the lab Atlas org:
    - Sign in to [Atlas](https://cloud.mongodb.com/) and select the lab Atlas org from the **Organizations** menu in the top navigation bar
    - In the left sidebar, open **Identity & Access** → **Federation**
