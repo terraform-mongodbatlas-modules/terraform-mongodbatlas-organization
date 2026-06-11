@@ -45,7 +45,7 @@ terraform apply   # Okta SAML app with placeholder ACS/audience
 terraform output -raw okta_idp_certificate > okta.pem
 ```
 
-Leave `atlas_acs_url` and `atlas_audience` at their defaults for this step (the commented placeholders in [`terraform.tfvars.example`](./terraform.tfvars.example)).
+Leave `atlas_acs_url` and `atlas_audience` at their defaults for this step (the commented placeholders in `terraform.tfvars`).
 
 In FMC (see [Prerequisites](#prerequisites)), open **Identity Providers** → **Setup Identity Provider** (or **Add Identity Provider** if one already exists). Select **Workforce Identity Federation**, then **SAML** for Atlas UI access, then:
 
@@ -60,7 +60,7 @@ Click **Next**, copy **Assertion Consumer Service URL** and **Audience URI**, th
 
 ### Step 2 — Wire Okta SAML to Atlas metadata
 
-Uncomment and set `atlas_acs_url` and `atlas_audience` in [`terraform.tfvars.example`](./terraform.tfvars.example) from the FMC metadata, then `terraform apply`.
+Uncomment and set `atlas_acs_url` and `atlas_audience` in `terraform.tfvars` from the FMC metadata, then `terraform apply`.
 
 ### Step 3 — Users (optional)
 
@@ -122,7 +122,7 @@ In FMC, open **Organizations** → select the lab Atlas org → **Connect Identi
 
 ### Step 6 — Import Atlas IdP
 
-Set the following values in [`terraform.tfvars.example`](./terraform.tfvars.example) using the `org_id` from [Prerequisites](#prerequisites) and the IdP ID from Step 4:
+Set the following values in `terraform.tfvars` using the `org_id` from [Prerequisites](#prerequisites) and the IdP ID from Step 4:
 
 ```hcl
 enable_atlas_federation = true
@@ -173,7 +173,7 @@ Copy `workforce_idp_id` into [`federated-workforce-org/terraform.tfvars.example`
 
 Run this test only after going through the steps 1–6 detailed in the [Apply order](#apply-order) section **and** a successful `terraform apply` in [`federated-workforce-org`](../federated-workforce-org/).
 
-1. In [`federated-workforce-org/terraform.tfvars.example`](../federated-workforce-org/terraform.tfvars.example), map the lab user's Okta group (`atlas_org_owners_group`, default `atlas-org-owners`) to Atlas org roles. Example:
+1. In `federated-workforce-org/terraform.tfvars`, map the lab user's Okta group (`atlas_org_owners_group`, default `atlas-org-owners`) to Atlas org roles. Example:
 
 ```hcl
 role_mappings = {
