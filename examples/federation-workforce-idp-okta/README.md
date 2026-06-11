@@ -122,7 +122,7 @@ In FMC, open **Organizations** → select the lab Atlas org → **Connect Identi
 
 ### Step 6 — Import Atlas IdP
 
-Set the following values in [`terraform.tfvars.example`](./terraform.tfvars.example) using the org ID from [Prerequisites](#prerequisites) and the IdP ID from Step 4:
+Set the following values in [`terraform.tfvars.example`](./terraform.tfvars.example) using the `org_id` from [Prerequisites](#prerequisites) and the IdP ID from Step 4:
 
 ```hcl
 enable_atlas_federation = true
