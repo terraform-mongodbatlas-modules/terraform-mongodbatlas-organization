@@ -129,7 +129,7 @@ Default: `null`
 
 ### <a name="input_maintenance_settings"></a> [maintenance\_settings](#input\_maintenance\_settings)
 
-Description: Organization maintenance settings. When set, manages the wave assignment mode for the organization.
+Description: Organization maintenance settings. When set, manages the wave assignment mode for the organization. Accepted values for wave\_assignment\_mode: "MANUAL", "ENV\_TAG\_MAPPING".
 
 Type:
 

@@ -6,9 +6,6 @@ examples:
     - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.cluster_tier_limits[0]
     - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.require_maintenance_window[0]
     - address: module.atlas_org.module.resource_policy[0].mongodbatlas_resource_policy.restrict_vpc_peering_mods[0]
-  - name: maintenance-settings
-    var_groups: [existing-org]
-    plan_regressions:
     - address: module.atlas_org.mongodbatlas_org_maintenance_settings.this[0]
 
 var_groups:

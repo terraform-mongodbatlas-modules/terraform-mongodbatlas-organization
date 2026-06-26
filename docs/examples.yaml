@@ -24,9 +24,6 @@ tables:
       - folder_name: existing-org
         feature: Existing Organization
         name: Manage Policies on an Existing Organization
-      - folder_name: maintenance-settings
-        feature: Existing Organization
-        name: Configure Maintenance Settings on an Existing Organization
       - folder_name: import
         feature: Import
         name: Import an Existing Organization into Terraform

@@ -5,6 +5,10 @@ module "atlas_org" {
 
   existing_org_id = var.org_id
 
+  maintenance_settings = {
+    wave_assignment_mode = "ENV_TAG_MAPPING"
+  }
+
   resource_policies = {
     block_wildcard_ip          = true
     require_maintenance_window = true

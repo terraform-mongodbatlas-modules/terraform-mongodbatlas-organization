@@ -4,7 +4,7 @@ variable "existing_org_id" {
 }
 
 variable "maintenance_settings" {
-  description = "Organization maintenance settings. When set, manages the wave assignment mode for the organization."
+  description = "Organization maintenance settings. When set, manages the wave assignment mode for the organization. Accepted values for wave_assignment_mode: \"MANUAL\", \"ENV_TAG_MAPPING\"."
   type = object({
     wave_assignment_mode = optional(string)
   })
