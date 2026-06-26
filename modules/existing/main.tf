@@ -1,3 +1,10 @@
+resource "mongodbatlas_org_maintenance_settings" "this" {
+  count = var.maintenance_settings != null ? 1 : 0
+
+  org_id               = var.existing_org_id
+  wave_assignment_mode = var.maintenance_settings.wave_assignment_mode
+}
+
 module "resource_policy" {
   source = "../resource_policy"
   count  = var.resource_policies != null ? 1 : 0

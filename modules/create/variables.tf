@@ -50,6 +50,14 @@ variable "skip_default_alerts_settings" {
   default     = null
 }
 
+variable "maintenance_settings" {
+  description = "Organization maintenance settings. When set, manages the wave assignment mode for the organization."
+  type = object({
+    wave_assignment_mode = optional(string)
+  })
+  default = null
+}
+
 variable "resource_policies" {
   description = "Resource policy configuration. When set, the resource_policy submodule is enabled. All policies are opt-in: set individual policies to enforce them."
   type = object({
