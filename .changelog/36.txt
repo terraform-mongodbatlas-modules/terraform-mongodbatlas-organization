@@ -1,3 +1,9 @@
 ```release-note:enhancement
-modules/create,modules/existing: Adds maintenance_settings support to manage organization-level wave assignment mode
+submodule/create: Adds maintenance_settings support to manage organization-level wave assignment mode
+```
+```release-note:enhancement
+submodule/existing: Adds maintenance_settings support to manage organization-level wave assignment mode
+```
+```release-note:enhancement
+example/maintenance_settings: Adds example for configuring organization maintenance settings
 ```
