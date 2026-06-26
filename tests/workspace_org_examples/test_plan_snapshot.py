@@ -12,6 +12,7 @@ TEST_CASES = [
     ('existing-org', 'module_atlas_org_module_resource_policy[0]_mongodbatlas_resource_policy_cluster_tier_limits[0]', True),
     ('existing-org', 'module_atlas_org_module_resource_policy[0]_mongodbatlas_resource_policy_require_maintenance_window[0]', True),
     ('existing-org', 'module_atlas_org_module_resource_policy[0]_mongodbatlas_resource_policy_restrict_vpc_peering_mods[0]', True),
+    ('maintenance-settings', 'module_atlas_org_mongodbatlas_org_maintenance_settings_this[0]', False),
 ]
 
 
