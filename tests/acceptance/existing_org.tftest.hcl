@@ -81,3 +81,27 @@ run "all_resource_policies" {
     error_message = "tls_ciphers policy ID should not be null."
   }
 }
+
+run "maintenance_settings" {
+  command = apply
+
+  module {
+    source = "./modules/existing"
+  }
+
+  variables {
+    maintenance_settings = {
+      wave_assignment_mode = "MANUAL"
+    }
+  }
+
+  assert {
+    condition     = output.org_id == var.org_id
+    error_message = "org_id output must match the input org_id."
+  }
+
+  assert {
+    condition     = mongodbatlas_org_maintenance_settings.this[0].wave_assignment_mode == "MANUAL"
+    error_message = "wave_assignment_mode should be MANUAL."
+  }
+}
