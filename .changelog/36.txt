@@ -1,0 +1,6 @@
+```release-note:enhancement
+submodule/create: Adds `maintenance_settings` variable to manage organization-level wave assignment mode
+```
+```release-note:enhancement
+submodule/existing: Adds `maintenance_settings` variable to manage organization-level wave assignment mode
+```

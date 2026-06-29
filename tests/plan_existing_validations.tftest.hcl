@@ -105,3 +105,40 @@ run "policies_set_but_all_disabled" {
     error_message = "tls_ciphers policy ID should be null when not set."
   }
 }
+
+run "manage_org_with_maintenance_settings" {
+  command = plan
+
+  module {
+    source = "./modules/existing"
+  }
+
+  variables {
+    maintenance_settings = {
+      wave_assignment_mode = "ENV_TAG_MAPPING"
+    }
+  }
+
+  assert {
+    condition     = length(mongodbatlas_org_maintenance_settings.this) == 1
+    error_message = "org_maintenance_settings resource should be created when maintenance_settings is set."
+  }
+
+  assert {
+    condition     = mongodbatlas_org_maintenance_settings.this[0].wave_assignment_mode == "ENV_TAG_MAPPING"
+    error_message = "wave_assignment_mode should be ENV_TAG_MAPPING."
+  }
+}
+
+run "manage_org_without_maintenance_settings" {
+  command = plan
+
+  module {
+    source = "./modules/existing"
+  }
+
+  assert {
+    condition     = length(mongodbatlas_org_maintenance_settings.this) == 0
+    error_message = "org_maintenance_settings resource should not be created when maintenance_settings is not set."
+  }
+}

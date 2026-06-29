@@ -71,12 +71,15 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
+- <a name="provider_mongodbatlas"></a> [mongodbatlas](#provider\_mongodbatlas) (~> 2.7)
+
 - <a name="provider_mongodbatlas.org_creator"></a> [mongodbatlas.org\_creator](#provider\_mongodbatlas.org\_creator) (~> 2.7)
 
 ## Resources
 
 The following resources are used by this module:
 
+- [mongodbatlas_org_maintenance_settings.this](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/resources/org_maintenance_settings) (resource)
 - [mongodbatlas_organization.this](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/resources/organization) (resource)
 
 <!-- BEGIN_TF_INPUTS_RAW -->
@@ -121,6 +124,20 @@ Default: `null`
 Description: Federation ID to link the new organization to. Cannot be updated after creation.
 
 Type: `string`
+
+Default: `null`
+
+### <a name="input_maintenance_settings"></a> [maintenance\_settings](#input\_maintenance\_settings)
+
+Description: Organization maintenance settings. When set, manages the wave assignment mode for the organization. Accepted values for wave\_assignment\_mode: "MANUAL", "ENV\_TAG\_MAPPING".
+
+Type:
+
+```hcl
+object({
+    wave_assignment_mode = optional(string)
+  })
+```
 
 Default: `null`
 

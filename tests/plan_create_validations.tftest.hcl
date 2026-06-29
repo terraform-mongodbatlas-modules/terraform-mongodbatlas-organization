@@ -256,3 +256,57 @@ run "plan_with_only_name_for_import" {
     error_message = "resource_policy_ids should include cluster_tier_limits when import-mode resource_policies is set."
   }
 }
+
+run "create_org_with_maintenance_settings" {
+  command = plan
+
+  module {
+    source = "./modules/create"
+  }
+
+  providers = {
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
+  }
+
+  variables {
+    name        = "test-org-maintenance"
+    credentials = { type = "API_KEY", description = "org key" }
+    maintenance_settings = {
+      wave_assignment_mode = "MANUAL"
+    }
+  }
+
+  assert {
+    condition     = length(mongodbatlas_org_maintenance_settings.this) == 1
+    error_message = "org_maintenance_settings resource should be created when maintenance_settings is set."
+  }
+
+  assert {
+    condition     = mongodbatlas_org_maintenance_settings.this[0].wave_assignment_mode == "MANUAL"
+    error_message = "wave_assignment_mode should be MANUAL."
+  }
+}
+
+run "create_org_without_maintenance_settings" {
+  command = plan
+
+  module {
+    source = "./modules/create"
+  }
+
+  providers = {
+    mongodbatlas             = mongodbatlas
+    mongodbatlas.org_creator = mongodbatlas
+  }
+
+  variables {
+    name        = "test-org-no-maintenance"
+    credentials = { type = "API_KEY", description = "org key" }
+  }
+
+  assert {
+    condition     = length(mongodbatlas_org_maintenance_settings.this) == 0
+    error_message = "org_maintenance_settings resource should not be created when maintenance_settings is not set."
+  }
+}
