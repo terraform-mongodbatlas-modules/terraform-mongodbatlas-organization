@@ -35,10 +35,10 @@ permissions:
   contents: read
 
 env:
-  MONGODB_ATLAS_ORG_ID: ${{ secrets.MONGODB_ATLAS_ORG_ID_PRE_RELEASE }}
-  MONGODB_ATLAS_CLIENT_ID: ${{ secrets.MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE }}
-  MONGODB_ATLAS_CLIENT_SECRET: ${{ secrets.MONGODB_ATLAS_CLIENT_SECRET_PRE_RELEASE }}
-  MONGODB_ATLAS_BASE_URL: ${{ secrets.MONGODB_ATLAS_BASE_URL }}
+  MONGODB_ATLAS_ORG_ID: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_ORG_ID_PRE_RELEASE' || 'MONGODB_ATLAS_ORG_ID_PRE_RELEASE_QA'] }}
+  MONGODB_ATLAS_CLIENT_ID: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE' || 'MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE_QA'] }}
+  MONGODB_ATLAS_CLIENT_SECRET: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_CLIENT_SECRET_PRE_RELEASE' || 'MONGODB_ATLAS_CLIENT_SECRET_PRE_RELEASE_QA'] }}
+  MONGODB_ATLAS_BASE_URL: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_BASE_URL' || 'MONGODB_ATLAS_BASE_URL_QA'] }}
 
 jobs:
   # === DO_NOT_EDIT: path-sync job-tftest ===
