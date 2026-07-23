@@ -115,3 +115,19 @@ jobs:
               ]
             }
   # === OK_EDIT: path-sync job-slack ===
+  # === DO_NOT_EDIT: path-sync job-py-tests ===
+  py-tests:
+    name: Python Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: ./.github/actions/setup
+        with:
+          just: 'true'
+          uv: 'true'
+          terraform: 'true'
+          go: 'true'
+          go-version-file: 'tools/changelog/check-changelog-entry-file/go.mod'
+      - name: Run Python tests
+        run: just py-test
+  # === OK_EDIT: path-sync job-py-tests ===
