@@ -100,7 +100,7 @@ module "atlas_org" {
 
 All examples require:
 
-1. [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.9
+1. [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.10
 2. A [MongoDB Atlas Account](https://www.mongodb.com/products/integrations/hashicorp-terraform)
 3. Configured [authentication](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs#authentication) via environment variables or provider configuration
 

@@ -3,7 +3,7 @@
 
 ## Prerequisites
 
-1. Install [Terraform](https://developer.hashicorp.com/terraform/install) (>= 1.9).
+1. Install [Terraform](https://developer.hashicorp.com/terraform/install) (>= 1.10).
 2. Sign up for a [MongoDB Atlas Account](https://www.mongodb.com/products/integrations/hashicorp-terraform).
 3. Configure [authentication](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs#authentication) via environment variables or provider configuration.
 

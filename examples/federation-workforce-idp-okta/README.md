@@ -18,7 +18,7 @@ This is a **lab example**. Several steps relax security controls so you can comp
 
 ## Prerequisites
 
-1. [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.9
+1. [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.10
 2. [Okta Integrator](https://developer.okta.com/docs/reference/org-defaults/) org and API token:
    - **Sign up**: [Okta developer signup](https://developer.okta.com/signup/) → **Workforce Identity** → **Integrator Free Plan**.
    - **Activate**: Open the verification email and complete org activation. Note your org URL (for example `integrator-7930367.okta.com`) and set `okta_org_name` in [`terraform.tfvars.example`](./terraform.tfvars.example) to the subdomain (`integrator-7930367`).
