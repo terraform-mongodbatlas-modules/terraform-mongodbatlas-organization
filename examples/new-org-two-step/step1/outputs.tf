@@ -5,12 +5,12 @@ output "org_id" {
 
 output "public_key" {
   description = "Public key of the PAK created with the organization. Use in step2 provider config."
-  value       = module.atlas_org.public_key
+  value       = module.atlas_org.org_managed_credential.public_key
   sensitive   = true
 }
 
 output "private_key" {
   description = "Private key of the PAK created with the organization. Use in step2 provider config."
-  value       = module.atlas_org.private_key
+  value       = module.atlas_org.org_managed_credential.private_key
   sensitive   = true
 }

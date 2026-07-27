@@ -3,28 +3,22 @@ output "org_id" {
   value       = mongodbatlas_organization.this.org_id
 }
 
-output "public_key" {
-  description = "Public key of the programmatic API key created with the organization."
-  value       = mongodbatlas_organization.this.public_key
+output "org_managed_credential" {
+  description = <<-EOT
+    Credentials created with the organization resource (bootstrap only).
+    Use these to wire the first provider / CI secret for the new org.
+    Do not treat them as the long-lived rotatable credential, use a dedicated
+    rotation workflow (service_account_rotation / external secret store) for steady-state.
+    Fields follow `credentials.type`: `API_KEY` populates `public_key`/`private_key`,
+    `SERVICE_ACCOUNT` populates `client_id`/`client_secret` (other fields are null).
+  EOT
   sensitive   = true
-}
-
-output "private_key" {
-  description = "Private key of the programmatic API key created with the organization."
-  value       = mongodbatlas_organization.this.private_key
-  sensitive   = true
-}
-
-output "client_id" {
-  description = "Client ID of the service account created with the organization. Only populated when credentials.type is \"SERVICE_ACCOUNT\"."
-  value       = try(mongodbatlas_organization.this.service_account[0].client_id, null)
-  sensitive   = true
-}
-
-output "client_secret" {
-  description = "Client secret of the service account created with the organization. Only populated when credentials.type is \"SERVICE_ACCOUNT\"."
-  value       = try(mongodbatlas_organization.this.service_account[0].secrets[0].secret, null)
-  sensitive   = true
+  value = {
+    public_key    = mongodbatlas_organization.this.public_key
+    private_key   = mongodbatlas_organization.this.private_key
+    client_id     = try(mongodbatlas_organization.this.service_account[0].client_id, null)
+    client_secret = try(mongodbatlas_organization.this.service_account[0].secrets[0].secret, null)
+  }
 }
 
 output "resource_policy_ids" {

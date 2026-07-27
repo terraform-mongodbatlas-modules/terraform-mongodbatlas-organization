@@ -13,7 +13,7 @@ The following providers are required:
 
 The submodule:
 1. Creates a new MongoDB Atlas organization using the `mongodbatlas.org_creator` aliased provider.
-2. Exposes credentials generated during organization creation as [outputs](./outputs.tf) (`client_id`, `client_secret`, `public_key`, `private_key`).
+2. Exposes bootstrap credentials as the sensitive `org_managed_credential` [output](./outputs.tf) (use for first provider / CI wiring only).
 3. (Optional) Creates resource policies to enforce organization-level constraints.
 
 You must define two `mongodbatlas` providers and pass them to the module via the `providers` block:
@@ -23,8 +23,8 @@ You must define two `mongodbatlas` providers and pass them to the module via the
 ```hcl
 provider "mongodbatlas" {
   # Credentials for the new organization (target org).
-  client_id     = module.atlas_org.client_id
-  client_secret = module.atlas_org.client_secret
+  client_id     = module.atlas_org.org_managed_credential.client_id
+  client_secret = module.atlas_org.org_managed_credential.client_secret
 }
 
 provider "mongodbatlas" {
@@ -185,25 +185,18 @@ Default: `null`
 
 The following outputs are exported:
 
-### <a name="output_client_id"></a> [client\_id](#output\_client\_id)
-
-Description: Client ID of the service account created with the organization. Only populated when credentials.type is "SERVICE\_ACCOUNT".
-
-### <a name="output_client_secret"></a> [client\_secret](#output\_client\_secret)
-
-Description: Client secret of the service account created with the organization. Only populated when credentials.type is "SERVICE\_ACCOUNT".
-
 ### <a name="output_org_id"></a> [org\_id](#output\_org\_id)
 
 Description: The ID of the created organization.
 
-### <a name="output_private_key"></a> [private\_key](#output\_private\_key)
+### <a name="output_org_managed_credential"></a> [org\_managed\_credential](#output\_org\_managed\_credential)
 
-Description: Private key of the programmatic API key created with the organization.
-
-### <a name="output_public_key"></a> [public\_key](#output\_public\_key)
-
-Description: Public key of the programmatic API key created with the organization.
+Description: Credentials created with the organization resource (bootstrap only).  
+Use these to wire the first provider / CI secret for the new org.  
+Do not treat them as the long-lived rotatable credential, use a dedicated  
+rotation workflow (service\_account\_rotation / external secret store) for steady-state.  
+Fields follow `credentials.type`: `API_KEY` populates `public_key`/`private_key`,
+`SERVICE_ACCOUNT` populates `client_id`/`client_secret` (other fields are null).
 
 ### <a name="output_resource_policy_ids"></a> [resource\_policy\_ids](#output\_resource\_policy\_ids)
 

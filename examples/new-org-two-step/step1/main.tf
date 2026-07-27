@@ -1,5 +1,5 @@
 # Step 1: Create the organization using paying org credentials.
-# After apply, use the public_key and private_key outputs to configure step2.
+# After apply, use org_managed_credential fields (via step1 public_key/private_key outputs) for step2.
 
 provider "mongodbatlas" {}
 
