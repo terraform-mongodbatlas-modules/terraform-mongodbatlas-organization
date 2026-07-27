@@ -35,10 +35,11 @@ permissions:
   contents: read
 
 env:
+  MONGODB_ATLAS_PUBLIC_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_KEY }}
+  MONGODB_ATLAS_PRIVATE_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_KEY }}
   MONGODB_ATLAS_ORG_ID: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_ORG_ID_PRE_RELEASE' || 'MONGODB_ATLAS_ORG_ID_PRE_RELEASE_QA'] }}
-  MONGODB_ATLAS_CLIENT_ID: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE' || 'MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE_QA'] }}
-  MONGODB_ATLAS_CLIENT_SECRET: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_CLIENT_SECRET_PRE_RELEASE' || 'MONGODB_ATLAS_CLIENT_SECRET_PRE_RELEASE_QA'] }}
   MONGODB_ATLAS_BASE_URL: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_BASE_URL' || 'MONGODB_ATLAS_BASE_URL_QA'] }}
+  MONGODB_ATLAS_ORG_OWNER_ID: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_ORG_OWNER_ID_PRE_RELEASE' || 'MONGODB_ATLAS_ORG_OWNER_ID_PRE_RELEASE_QA'] }}
 
 jobs:
   # === DO_NOT_EDIT: path-sync job-tftest ===
@@ -63,6 +64,7 @@ jobs:
           provider-ref: ${{ inputs.provider_ref }}
       - run: just tftest-all
   # === OK_EDIT: path-sync job-tftest ===
+      - run: just acc-test-org
 
   apply-and-destroy:
     name: Apply & Destroy Examples

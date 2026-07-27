@@ -96,3 +96,17 @@ run "apply_policies_on_new_org" {
     error_message = "block_wildcard_ip policy ID should not be null."
   }
 }
+
+# Teardown is LIFO: this run destroys first and sleeps, then earlier runs delete.
+# This is done to avoid a 500 error when destroying the organization: `ORG_INVOICE_LOCKED_ON_DELETE`.
+run "wait_before_teardown" {
+  command = apply
+
+  module {
+    source = "./tests/acceptance/modules/sleep"
+  }
+
+  variables {
+    destroy_duration = "30s"
+  }
+}
