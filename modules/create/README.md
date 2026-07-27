@@ -194,7 +194,7 @@ Description: The ID of the created organization.
 Description: Credentials created with the organization resource (bootstrap only).  
 Use these to wire the first provider / CI secret for the new org.  
 Do not treat them as the long-lived rotatable credential, use a dedicated  
-rotation workflow (service\_account\_rotation / external secret store) for steady-state.  
+rotation workflow or external secret store for steady-state.  
 Fields follow `credentials.type`: `API_KEY` populates `public_key`/`private_key`,
 `SERVICE_ACCOUNT` populates `client_id`/`client_secret` (other fields are null).
 
