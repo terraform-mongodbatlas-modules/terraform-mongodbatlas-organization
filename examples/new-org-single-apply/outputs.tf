@@ -5,13 +5,13 @@ output "org_id" {
 
 output "client_id" {
   description = "Client ID of the service account created with the organization."
-  value       = module.atlas_org.client_id
+  value       = module.atlas_org.org_managed_credential.client_id
   sensitive   = true
 }
 
 output "client_secret" {
   description = "Client secret of the service account created with the organization."
-  value       = module.atlas_org.client_secret
+  value       = module.atlas_org.org_managed_credential.client_secret
   sensitive   = true
 }
 

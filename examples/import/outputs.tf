@@ -1,6 +1,6 @@
-# Note: The create module also outputs public_key and private_key, but these
-# are only populated when creating a new organization. When importing, use
-# pre-existing credentials to authenticate.
+# Note: The create module also outputs org_managed_credential (public_key / private_key
+# and SA fields), but those are only populated when creating a new organization.
+# When importing, use pre-existing credentials to authenticate.
 
 output "org_id" {
   description = "The imported organization ID."

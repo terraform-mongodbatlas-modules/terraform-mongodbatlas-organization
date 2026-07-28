@@ -16,8 +16,8 @@ provider "mongodbatlas" {
 provider "mongodbatlas" {
   alias         = "new_org"
   base_url      = var.base_url
-  client_id     = run.create_org_with_sa.client_id
-  client_secret = run.create_org_with_sa.client_secret
+  client_id     = run.create_org_with_sa.org_managed_credential.client_id
+  client_secret = run.create_org_with_sa.org_managed_credential.client_secret
 }
 
 variable "org_id" {
@@ -58,13 +58,13 @@ run "create_org_with_sa" {
   }
 
   assert {
-    condition     = output.client_id != null && length(output.client_id) > 0
-    error_message = "client_id should not be null or empty for SERVICE_ACCOUNT credentials."
+    condition     = output.org_managed_credential.client_id != null && length(output.org_managed_credential.client_id) > 0
+    error_message = "org_managed_credential.client_id should not be null or empty for SERVICE_ACCOUNT credentials."
   }
 
   assert {
-    condition     = output.client_secret != null && length(output.client_secret) > 0
-    error_message = "client_secret should not be null or empty for SERVICE_ACCOUNT credentials."
+    condition     = output.org_managed_credential.client_secret != null && length(output.org_managed_credential.client_secret) > 0
+    error_message = "org_managed_credential.client_secret should not be null or empty for SERVICE_ACCOUNT credentials."
   }
 }
 

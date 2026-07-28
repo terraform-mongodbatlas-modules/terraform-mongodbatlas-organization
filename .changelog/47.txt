@@ -1,0 +1,3 @@
+```release-note:breaking-change
+output/org_managed_credential: Renames `public_key`, `private_key`, `client_id`, and `client_secret` to a single sensitive object output `org_managed_credential` with those four fields. Use only for bootstrap; update references from `module.<name>.public_key` to `module.<name>.org_managed_credential.public_key` (and likewise for the other three fields).
+```

@@ -29,8 +29,8 @@ run "create_org_sa_outputs" {
   # client_id is populated by the provider's service_account block.
   # mock_provider returns "" (zero value) which is != null.
   assert {
-    condition     = output.client_id != null
-    error_message = "client_id should not be null when credentials.type is SERVICE_ACCOUNT."
+    condition     = output.org_managed_credential.client_id != null
+    error_message = "org_managed_credential.client_id should not be null when credentials.type is SERVICE_ACCOUNT."
   }
 }
 
@@ -71,13 +71,13 @@ run "create_org_with_policies" {
   }
 
   assert {
-    condition     = output.public_key != null
-    error_message = "public_key should not be null when credentials.type is API_KEY."
+    condition     = output.org_managed_credential.public_key != null
+    error_message = "org_managed_credential.public_key should not be null when credentials.type is API_KEY."
   }
 
   assert {
-    condition     = output.private_key != null
-    error_message = "private_key should not be null when credentials.type is API_KEY."
+    condition     = output.org_managed_credential.private_key != null
+    error_message = "org_managed_credential.private_key should not be null when credentials.type is API_KEY."
   }
 }
 

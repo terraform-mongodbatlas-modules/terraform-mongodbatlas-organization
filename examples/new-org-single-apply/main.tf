@@ -5,10 +5,10 @@
 # org creation to manage resource policies in the same apply.
 
 provider "mongodbatlas" {
-  # New org credentials -- references module outputs.
+  # New org credentials from module outputs.
   # Terraform resolves these after the organization resource is created.
-  client_id     = module.atlas_org.client_id
-  client_secret = module.atlas_org.client_secret
+  client_id     = module.atlas_org.org_managed_credential.client_id
+  client_secret = module.atlas_org.org_managed_credential.client_secret
 }
 
 provider "mongodbatlas" {

@@ -1,8 +1,7 @@
-# Step 2: Apply resource policies using the new org's credentials.
-# Configure the provider with the public_key and private_key from step1 outputs.
+# Step 2: Apply resource policies using the new org's bootstrap credentials from step1.
 
 provider "mongodbatlas" {
-  # Use the new org credentials from step1:
+  # Use the org-managed bootstrap credentials from step1:
   #   public_key  = "<public_key from step1>"
   #   private_key = "<private_key from step1>"
   # Or set MONGODB_ATLAS_PUBLIC_KEY / MONGODB_ATLAS_PRIVATE_KEY env vars.
