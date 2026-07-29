@@ -8,7 +8,7 @@ terraform {
     }
     mongodbatlas = {
       source  = "mongodb/mongodbatlas"
-      version = "~> 2.11.0"
+      version = "~> 2.15"
     }
     random = {
       source  = "hashicorp/random"
