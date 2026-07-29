@@ -262,7 +262,9 @@ apply-examples-org *args:
 destroy-examples-org *args:
     just destroy-examples --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
 
-# Acceptance tests against real Atlas infrastructure (not run in CI).
+# Acceptance tests against real Atlas infrastructure.
+# Not discovered by `just tftest-all`; run locally with this recipe.
+# Also invoked by the Pre-Release Tests workflow.
 acc-test-org org_id=env_var("MONGODB_ATLAS_ORG_ID") org_owner_id=env_var("MONGODB_ATLAS_ORG_OWNER_ID") base_url=env_var_or_default("MONGODB_ATLAS_BASE_URL", "https://cloud-dev.mongodb.com/"):
     terraform init -test-directory=tests/acceptance
     terraform test -test-directory=tests/acceptance -var 'org_id={{org_id}}' -var 'org_owner_id={{org_owner_id}}' -var 'base_url={{base_url}}'

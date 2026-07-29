@@ -1,8 +1,10 @@
 # Acceptance tests — creates and destroys a real Atlas organization.
-# Not auto-discovered by CI; run manually with: just acc-test-org
+# Not discovered by `just tftest-all` / default `terraform test`.
+# Run locally with: just acc-test-org
+# Also run by the Pre-Release Tests workflow via the same recipe.
 # Requires MONGODB_ATLAS_CLIENT_ID, MONGODB_ATLAS_CLIENT_SECRET, and
-# MONGODB_ATLAS_ORG_OWNER_ID env vars. The authenticated service account
-# must belong to a paying organization.
+# MONGODB_ATLAS_ORG_OWNER_ID env vars (or PAK when exercising that auth path).
+# The authenticated principal must belong to a paying organization.
 
 provider "mongodbatlas" {}
 
@@ -94,5 +96,19 @@ run "apply_policies_on_new_org" {
   assert {
     condition     = output.resource_policy_ids["block_wildcard_ip"] != null
     error_message = "block_wildcard_ip policy ID should not be null."
+  }
+}
+
+# Teardown is LIFO: this run destroys first and sleeps, then earlier runs delete.
+# This is done to avoid a 500 error when destroying the organization: `ORG_INVOICE_LOCKED_ON_DELETE`.
+run "wait_before_teardown" {
+  command = apply
+
+  module {
+    source = "./tests/acceptance/modules/sleep"
+  }
+
+  variables {
+    destroy_duration = "30s"
   }
 }

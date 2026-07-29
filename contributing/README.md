@@ -11,7 +11,9 @@ This directory contains guides for contributors to the terraform-mongodbatlas-cl
 
 ## Pre-Release Checklist
 
-Before releasing, run the acceptance tests that create and destroy real Atlas resources. Requires `MONGODB_ATLAS_CLIENT_ID` and `MONGODB_ATLAS_CLIENT_SECRET` env vars. The org creation test also requires `MONGODB_ATLAS_ORG_OWNER_ID` and a paying organization. Not run in CI.
+Before releasing, run the acceptance tests that create and destroy real Atlas resources. These live under `tests/acceptance/` and are not discovered by `just tftest-all`; use `just acc-test-org` locally. The Pre-Release Tests workflow runs the same recipe.
+
+Requires Atlas credentials (`MONGODB_ATLAS_CLIENT_ID` / `MONGODB_ATLAS_CLIENT_SECRET` by default, or PAK when testing that path). The org creation test also requires `MONGODB_ATLAS_ORG_OWNER_ID` and a paying organization.
 
 ```bash
 just acc-test-org                          # uses MONGODB_ATLAS_ORG_ID and MONGODB_ATLAS_ORG_OWNER_ID env vars

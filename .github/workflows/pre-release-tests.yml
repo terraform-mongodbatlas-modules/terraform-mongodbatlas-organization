@@ -1,7 +1,7 @@
 # path-sync copy -n sdlc
 # === DO_NOT_EDIT: path-sync header ===
 name: Pre-Release Tests
-run-name: "Pre-Release: env=${{ inputs.atlas_cloud_env == 'dev' && 'dev' || 'qa' }}, examples=${{ inputs.include_examples }}, provider=${{ inputs.provider_ref }}${{ inputs.skip_tftest && ', skip_tftest' || '' }}"
+run-name: "Pre-Release: env=${{ inputs.atlas_cloud_env == 'dev' && 'dev' || 'qa' }}, auth=${{ inputs.use_pak && 'pak' || 'sa' }}, examples=${{ inputs.include_examples }}, provider=${{ inputs.provider_ref }}${{ inputs.skip_tftest && ', skip_tftest' || '' }}"
 
 on:
   workflow_dispatch:
@@ -30,15 +30,24 @@ on:
         type: boolean
         default: false
 # === OK_EDIT: path-sync header ===
+      use_pak:
+        description: 'Run tests using Programmatic API Keys instead of Service Account'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 env:
+  # SA by default; set use_pak to exercise Programmatic API Keys. Clear the unused pair.
+  MONGODB_ATLAS_PUBLIC_KEY: ${{ inputs.use_pak == true && secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_PUBLIC_KEY_PRE_RELEASE' || 'MONGODB_ATLAS_PUBLIC_KEY_PRE_RELEASE_QA'] || '' }}
+  MONGODB_ATLAS_PRIVATE_KEY: ${{ inputs.use_pak == true && secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_PRIVATE_KEY_PRE_RELEASE' || 'MONGODB_ATLAS_PRIVATE_KEY_PRE_RELEASE_QA'] || '' }}
+  MONGODB_ATLAS_CLIENT_ID: ${{ inputs.use_pak != true && secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE' || 'MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE_QA'] || '' }}
+  MONGODB_ATLAS_CLIENT_SECRET: ${{ inputs.use_pak != true && secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_CLIENT_SECRET_PRE_RELEASE' || 'MONGODB_ATLAS_CLIENT_SECRET_PRE_RELEASE_QA'] || '' }}
   MONGODB_ATLAS_ORG_ID: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_ORG_ID_PRE_RELEASE' || 'MONGODB_ATLAS_ORG_ID_PRE_RELEASE_QA'] }}
-  MONGODB_ATLAS_CLIENT_ID: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE' || 'MONGODB_ATLAS_CLIENT_ID_PRE_RELEASE_QA'] }}
-  MONGODB_ATLAS_CLIENT_SECRET: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_CLIENT_SECRET_PRE_RELEASE' || 'MONGODB_ATLAS_CLIENT_SECRET_PRE_RELEASE_QA'] }}
   MONGODB_ATLAS_BASE_URL: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_BASE_URL' || 'MONGODB_ATLAS_BASE_URL_QA'] }}
+  MONGODB_ATLAS_ORG_OWNER_ID: ${{ secrets[inputs.atlas_cloud_env == 'dev' && 'MONGODB_ATLAS_ORG_OWNER_ID_PRE_RELEASE' || 'MONGODB_ATLAS_ORG_OWNER_ID_PRE_RELEASE_QA'] }}
 
 jobs:
   # === DO_NOT_EDIT: path-sync job-tftest ===
@@ -63,6 +72,7 @@ jobs:
           provider-ref: ${{ inputs.provider_ref }}
       - run: just tftest-all
   # === OK_EDIT: path-sync job-tftest ===
+      - run: just acc-test-org
 
   apply-and-destroy:
     name: Apply & Destroy Examples
