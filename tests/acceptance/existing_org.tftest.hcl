@@ -1,6 +1,9 @@
 # Acceptance tests — applies real resources against an Atlas organization.
-# Not auto-discovered by CI; run manually with: just acc-test-org
-# Requires MONGODB_ATLAS_CLIENT_ID and MONGODB_ATLAS_CLIENT_SECRET env vars.
+# Not discovered by `just tftest-all` / default `terraform test`.
+# Run locally with: just acc-test-org
+# Also run by the Pre-Release Tests workflow via the same recipe.
+# Requires MONGODB_ATLAS_CLIENT_ID and MONGODB_ATLAS_CLIENT_SECRET env vars
+# (or PAK when exercising that auth path).
 
 variable "org_id" {
   type = string

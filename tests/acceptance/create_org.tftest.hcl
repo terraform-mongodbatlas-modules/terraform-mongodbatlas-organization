@@ -1,8 +1,10 @@
 # Acceptance tests — creates and destroys a real Atlas organization.
-# Not auto-discovered by CI; run manually with: just acc-test-org
+# Not discovered by `just tftest-all` / default `terraform test`.
+# Run locally with: just acc-test-org
+# Also run by the Pre-Release Tests workflow via the same recipe.
 # Requires MONGODB_ATLAS_CLIENT_ID, MONGODB_ATLAS_CLIENT_SECRET, and
-# MONGODB_ATLAS_ORG_OWNER_ID env vars. The authenticated service account
-# must belong to a paying organization.
+# MONGODB_ATLAS_ORG_OWNER_ID env vars (or PAK when exercising that auth path).
+# The authenticated principal must belong to a paying organization.
 
 provider "mongodbatlas" {}
 
