@@ -65,13 +65,13 @@ The following requirements are needed by this module:
 
 - <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.10)
 
-- <a name="requirement_mongodbatlas"></a> [mongodbatlas](#requirement\_mongodbatlas) (~> 2.7)
+- <a name="requirement_mongodbatlas"></a> [mongodbatlas](#requirement\_mongodbatlas) (~> 2.15)
 
 ## Providers
 
 The following providers are used by this module:
 
-- <a name="provider_mongodbatlas.org_creator"></a> [mongodbatlas.org\_creator](#provider\_mongodbatlas.org\_creator) (~> 2.7)
+- <a name="provider_mongodbatlas.org_creator"></a> [mongodbatlas.org\_creator](#provider\_mongodbatlas.org\_creator) (~> 2.15)
 
 ## Resources
 
