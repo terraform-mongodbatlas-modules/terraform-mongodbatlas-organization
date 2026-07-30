@@ -6,6 +6,7 @@ BREAKING CHANGES:
 
 NOTES:
 
+* provider/mongodbatlas: Requires minimum version 2.15 to avoid a Service Account issue in the paying org when creating a new org ([#50](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/pull/50))
 * terraform: Requires minimum version 1.10 to align with the MongoDB Atlas provider compatibility matrix ([#44](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/pull/44))
 
 ENHANCEMENTS:
