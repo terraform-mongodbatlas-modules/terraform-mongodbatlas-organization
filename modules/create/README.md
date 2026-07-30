@@ -13,7 +13,7 @@ The following providers are required:
 
 The submodule:
 1. Creates a new MongoDB Atlas organization using the `mongodbatlas.org_creator` aliased provider.
-2. Exposes bootstrap credentials as the sensitive `org_managed_credential` [output](./outputs.tf) (use for first provider / CI wiring only).
+2. Exposes bootstrap credentials as the sensitive `org_managed_credential` [output](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v0.2.0/modules/create/outputs.tf) (use for first provider / CI wiring only).
 3. (Optional) Creates resource policies to enforce organization-level constraints.
 
 You must define two `mongodbatlas` providers and pass them to the module via the `providers` block:
@@ -33,7 +33,8 @@ provider "mongodbatlas" {
 }
 
 module "atlas_org" {
-  source = "mongodb/organization/mongodbatlas//modules/create"
+  source  = "terraform-mongodbatlas-modules/organization/mongodbatlas//modules/create"
+  version = "0.2.0"
 
   providers = {
     mongodbatlas             = mongodbatlas
