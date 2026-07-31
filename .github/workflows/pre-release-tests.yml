@@ -1,7 +1,7 @@
 # path-sync copy -n sdlc
 # === DO_NOT_EDIT: path-sync header ===
 name: Pre-Release Tests
-run-name: "Pre-Release: env=${{ inputs.atlas_cloud_env == 'dev' && 'dev' || 'qa' }}, auth=${{ inputs.use_pak && 'pak' || 'sa' }}, examples=${{ inputs.include_examples }}, provider=${{ inputs.provider_ref }}${{ inputs.skip_tftest && ', skip_tftest' || '' }}"
+run-name: "Pre-Release: env=${{ inputs.atlas_cloud_env == 'dev' && 'dev' || 'qa' }}, examples=${{ inputs.include_examples }}, provider=${{ inputs.provider_ref }}${{ inputs.skip_tftest && ', skip_tftest' || '' }}"
 
 on:
   workflow_dispatch:
