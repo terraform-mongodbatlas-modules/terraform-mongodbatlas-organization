@@ -1,5 +1,9 @@
 ## (Unreleased)
 
+BUG FIXES:
+
+* module: Shortens plan snapshot paths so Windows can clone the module without exceeding the path length limit ([#60](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/pull/60))
+
 ## 0.2.0 (July 30, 2026)
 
 BREAKING CHANGES:
