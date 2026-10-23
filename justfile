@@ -258,13 +258,13 @@ dev-vars-org:
     {{py}} dev.dev_vars org
 
 plan-snapshot-test-org *args:
-    just plan-snapshot-test --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
+    just plan-snapshot-test --var-file {{justfile_directory()}}/tests/ws_org/dev.tfvars {{args}}
 
 apply-examples-org *args:
-    just apply-examples --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
+    just apply-examples --var-file {{justfile_directory()}}/tests/ws_org/dev.tfvars {{args}}
 
 destroy-examples-org *args:
-    just destroy-examples --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
+    just destroy-examples --var-file {{justfile_directory()}}/tests/ws_org/dev.tfvars {{args}}
 
 # Acceptance tests against real Atlas infrastructure.
 # Not discovered by `just tftest-all`; run locally with this recipe.
