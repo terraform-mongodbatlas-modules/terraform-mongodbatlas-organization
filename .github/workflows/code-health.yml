@@ -150,7 +150,11 @@ jobs:
       - name: Run Python tests
         run: just py-test
   # === OK_EDIT: path-sync job-py-tests ===
-  # === DO_NOT_EDIT: path-sync job-windows-init ===
+  # Org-owned (skipped as job-windows-init in sdlc.src.yaml).
+  # Root-level `terraform validate` loads tests/*.tftest.hcl, which target
+  # modules/create and require the mongodbatlas.org_creator provider alias.
+  # validate does not apply the test `providers` mapping, so declare the alias
+  # here, matching the `just pre-commit` workaround.
   windows-init:
     name: Windows Module Init
     runs-on: windows-latest
@@ -162,5 +166,7 @@ jobs:
       - name: Terraform init
         run: terraform init
       - name: Terraform validate
-        run: terraform validate
-  # === OK_EDIT: path-sync job-windows-init ===
+        shell: bash
+        run: |
+          echo 'provider "mongodbatlas" { alias = "org_creator" }' > modules/create/ci_providers.tf
+          terraform validate
