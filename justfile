@@ -103,8 +103,8 @@ gen-examples *args:
 gen-submodule-readme *args:
     {{py}} docs.submodule_readme {{args}}
 
-md-link tag_version *args:
-    {{py}} docs.md_link_absolute {{tag_version}} {{args}}
+md-registry-compat tag_version *args:
+    {{py}} docs.md_registry_compat {{tag_version}} {{args}}
 
 tf-registry-source:
     @{{py}} release.tf_registry_source
@@ -137,8 +137,8 @@ docs-release version:
     @echo "Submodule README.md updated successfully"
     just gen-readme
     @echo "Root README.md updated successfully"
-    just md-link {{version}}
-    @echo "Markdown links converted to absolute URLs"
+    just md-registry-compat {{version}}
+    @echo "Markdown converted for the Registry (absolute links, callout admonitions)"
     just fmt
 
 release-notes new_version old_version="":
@@ -258,13 +258,13 @@ dev-vars-org:
     {{py}} dev.dev_vars org
 
 plan-snapshot-test-org *args:
-    just plan-snapshot-test --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
+    just plan-snapshot-test --var-file {{justfile_directory()}}/tests/ws_org/dev.tfvars {{args}}
 
 apply-examples-org *args:
-    just apply-examples --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
+    just apply-examples --var-file {{justfile_directory()}}/tests/ws_org/dev.tfvars {{args}}
 
 destroy-examples-org *args:
-    just destroy-examples --var-file {{justfile_directory()}}/tests/workspace_org_examples/dev.tfvars {{args}}
+    just destroy-examples --var-file {{justfile_directory()}}/tests/ws_org/dev.tfvars {{args}}
 
 # Acceptance tests against real Atlas infrastructure.
 # Not discovered by `just tftest-all`; run locally with this recipe.
