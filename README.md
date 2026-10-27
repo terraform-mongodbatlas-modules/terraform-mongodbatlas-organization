@@ -1,9 +1,8 @@
-# MongoDB Atlas Organization Terraform Module (Public Preview)
+# MongoDB Atlas Organization Terraform Module
 
 This Terraform module provides two submodules for managing MongoDB Atlas organizations and their [resource policies](https://www.mongodb.com/docs/atlas/atlas-resource-policies/).
 
-- [Public Preview Note](#public-preview-note)
-- [Disclaimer](#disclaimer)
+- [Module Commitment](#module-commitment)
 - [Overview](#overview)
 - [Usage](#usage)
 - [Examples](#examples)
@@ -13,13 +12,11 @@ This Terraform module provides two submodules for managing MongoDB Atlas organiz
 - [FAQ](#faq)
 - [License](#license)
 
-## Public Preview Note
+## Module Commitment
 
-The MongoDB Atlas Organization Module (Public Preview) simplifies organization management and embeds MongoDB's best practices as intelligent defaults. This preview validates that these patterns meet the needs of most workloads without constant maintenance or rework. We welcome your feedback and contributions during this preview phase. MongoDB formally supports this module from its v1 release onwards.
+MongoDB formally supports this module, including bug fixes, security patches, and backward-compatible enhancements. The v1 release carries a two-year stability commitment: no breaking changes through October 2028 (at the earliest).
 
-## Disclaimer
-
-One of this project's primary objectives is to provide durable modules that support non-breaking migration and upgrade paths. The v0 release (public preview) of the MongoDB Atlas Organization Module focuses on gathering feedback and refining the design. Upgrades from v0 to v1 may not be seamless.
+The module tracks MongoDB Atlas provider releases and adopts each new provider major after a stabilization period following general availability. Before adopting, we test the new provider major against the latest supported minor version of the module. Adopting a provider major does not rename or remove module variables or change defaults. You can move to a new provider major on your current module minor version without changing your configuration.
 
 ## Overview
 
@@ -132,6 +129,10 @@ Store your Terraform state file securely, as it may contain sensitive informatio
 If importing existing MongoDB Atlas organizations, use the [`import` example](./examples/import/) to bring them into your Terraform state. See [Terraform import](https://developer.hashicorp.com/terraform/cli/import) for general guidance.
 
 ## FAQ
+
+### Where can I find what changed in each release?
+
+See [CHANGELOG.md](CHANGELOG.md) in this repository. It lists user-facing changes, including breaking changes and migration notes, per release.
 
 ### Why two submodules instead of a single root module?
 
