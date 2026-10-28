@@ -22,8 +22,8 @@ The module tracks MongoDB Atlas provider releases and adopts each new provider m
 
 This module can be used in **two different ways**, depending on whether you need to create a new MongoDB Atlas organization or manage one that already exists:
 
-- **[`create`](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v1.0.0/modules/create)**: Provisions a new organization and optionally applies resource policies.
-- **[`existing`](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v1.0.0/modules/existing)**: Manages resource policies for an organization that already exists.
+- **[`create`](./modules/create/)**: Provisions a new organization and optionally applies resource policies.
+- **[`existing`](./modules/existing/)**: Manages resource policies for an organization that already exists.
 
 ### Key Differences
 
@@ -86,12 +86,12 @@ module "atlas_org" {
 
 | Use Case | Example | Description |
 |----------|---------|-------------|
-| **Manage resource policies for an already existing organization** | [`existing-org/`](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v1.0.0/examples/existing-org) | Applies resource policies to an organization that already exists in MongoDB Atlas. |
-| **Create new organization (single apply)** | [`new-org-single-apply/`](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v1.0.0/examples/new-org-single-apply) | Creates a new organization and apply policies in a single `terraform apply` command. |
-| **Create new organization (two-step)** | [`new-org-two-step/`](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v1.0.0/examples/new-org-two-step) | Creates a new organization and apply policies in separate steps. Note: Use this when you cannot use the single-apply workflow. |
-| **Import existing organization** | [`import/`](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v1.0.0/examples/import) | Import an already-existing MongoDB Atlas organization into your Terraform state. |
-| **Bootstrap workforce federation IdP (once per federation)** | [`federation-workforce-idp-okta/`](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v1.0.0/examples/federation-workforce-idp-okta) | Bootstrap a federation-level Okta SAML workforce IdP (once per federation). |
-| **Configure workforce federation on an existing organization** | [`federated-workforce-org/`](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v1.0.0/examples/federated-workforce-org) | Configure `org_config` and role mappings on an existing org linked to federation settings. |
+| **Manage resource policies for an already existing organization** | [`existing-org/`](./examples/existing-org/) | Applies resource policies to an organization that already exists in MongoDB Atlas. |
+| **Create new organization (single apply)** | [`new-org-single-apply/`](./examples/new-org-single-apply/) | Creates a new organization and apply policies in a single `terraform apply` command. |
+| **Create new organization (two-step)** | [`new-org-two-step/`](./examples/new-org-two-step/) | Creates a new organization and apply policies in separate steps. Note: Use this when you cannot use the single-apply workflow. |
+| **Import existing organization** | [`import/`](./examples/import/) | Import an already-existing MongoDB Atlas organization into your Terraform state. |
+| **Bootstrap workforce federation IdP (once per federation)** | [`federation-workforce-idp-okta/`](./examples/federation-workforce-idp-okta/) | Bootstrap a federation-level Okta SAML workforce IdP (once per federation). |
+| **Configure workforce federation on an existing organization** | [`federated-workforce-org/`](./examples/federated-workforce-org/) | Configure `org_config` and role mappings on an existing org linked to federation settings. |
 
 ### Prerequisites
 
@@ -126,13 +126,13 @@ Some operations require Organization Owner privileges. See [MongoDB Atlas organi
 Store your Terraform state file securely, as it may contain sensitive information about your MongoDB Atlas organization configuration. See [Terraform sensitive data in state](https://developer.hashicorp.com/terraform/language/state/sensitive-data).
 
 ### Importing Existing Resources
-If importing existing MongoDB Atlas organizations, use the [`import` example](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v1.0.0/examples/import) to bring them into your Terraform state. See [Terraform import](https://developer.hashicorp.com/terraform/cli/import) for general guidance.
+If importing existing MongoDB Atlas organizations, use the [`import` example](./examples/import/) to bring them into your Terraform state. See [Terraform import](https://developer.hashicorp.com/terraform/cli/import) for general guidance.
 
 ## FAQ
 
 ### Where can I find what changed in each release?
 
-See [CHANGELOG.md](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v1.0.0/CHANGELOG.md) in this repository. It lists user-facing changes, including breaking changes and migration notes, per release.
+See [CHANGELOG.md](CHANGELOG.md) in this repository. It lists user-facing changes, including breaking changes and migration notes, per release.
 
 ### Why two submodules instead of a single root module?
 
@@ -149,7 +149,7 @@ By splitting into two submodules, users managing an existing organization (`exis
 
 ## License
 
-See [LICENSE](https://github.com/terraform-mongodbatlas-modules/terraform-mongodbatlas-organization/blob/v1.0.0/LICENSE) for full details.
+See [LICENSE](./LICENSE) for full details.
 
 <!-- BEGIN_TF_DOCS -->
 <!-- BEGIN_TF_INPUTS_RAW -->
